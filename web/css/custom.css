@@ -1,0 +1,101 @@
+.topbar{
+    list-style-type: none;
+
+}
+.topbar li {
+    float:left;
+    margin-right: 13px;
+    font-size: 12px;
+    margin-top: 3px;
+    color: #666666;
+}
+.topbar li a{
+    text-decoration: none;
+    color: #666666;
+}
+.topbar li :hover{
+    color: #2aabd2;
+}
+
+#container {
+    background-color:#eee;
+}
+#fullpage{
+    background-image: url('../img/background.jpg');
+}
+#topthree{
+
+    height: 23px;
+} 
+#mid_nav{
+   
+    margin-top: 1px;
+    margin-bottom: 2px;
+    background-color: #ffffff;
+}
+#mid_nav ul{
+    list-style-type: none;   
+    margin-left: 90px;
+
+
+}
+#mid_nav li {
+    float: left;
+    margin-bottom: 2px;
+
+}
+#mid_nav li a{
+    text-decoration: none;
+    color: #080808;   
+    margin-right: 50px;
+    text-align: center;
+
+}
+#mid_nav li a:hover{
+    color: #269abc;
+}
+#category ul{
+    list-style-type: none;
+    
+}
+#category li{
+    margin-bottom: 30px;
+    margin-top: 20px;
+    margin-left: 40px;
+    font-size: 19px;
+    font-family: monospace;
+    
+    
+}
+#category li:hover{
+    color: #269abc;
+}
+.signup{
+    background-image: url('../img/signupback.jpg');
+}
+.form div{
+    margin-bottom: 10px;
+}
+.signin{
+    background-image: url('../img/signupback.jpg');
+}
+#footer{
+    background-color: #404140;
+}
+#footer ul{
+    list-style-type: none;
+}
+#low h5{
+    margin-left: 40px;
+}
+#footer{
+    color:#cccccc;
+}
+#footer h5,h4{
+    color: white;
+    font-family: Menlo,Monaco,Consolas,"Courier New",monospace;
+}
+#footer a{
+    
+    color:#cccccc;
+}
