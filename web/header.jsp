@@ -14,7 +14,7 @@
     <body>
         <div class="row" id="topthree">
             <div class="col-md-8"><marquee style="font-family: cursive; color: #1b6d85">you can see the latest news here. Stick with us for new discounts and lots of valuable gifts</marquee></div>
-            <div class="col-md-4 col-xs-8">
+            <div class="col-md-4 col-xs-12">
                 <ul class="topbar navbar-right">
                     <li><span class="glyphicon glyphicon-plane"></span><a href="#"> Shipping & Return</a></li>
 
