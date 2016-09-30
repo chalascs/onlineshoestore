@@ -60,13 +60,13 @@
 
 
 .signup{
-    background-image: url('../img/signupback.jpg');
+    background-image: url('../img/signupback2.jpg');
 }
 .form div{
     margin-bottom: 10px;
 }
 .signin{
-    background-image: url('../img/signupback.jpg');
+    background-image: url('../img/signupback2.jpg');
 }
 #footer{
     background-color: #404140;
@@ -98,5 +98,5 @@
 
 }
 #addproduct{
-    background-image: url('../img/signupback.jpg');
+    background-image: url('../img/signupback2.jpg');
 }
