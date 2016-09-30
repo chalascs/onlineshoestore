@@ -28,7 +28,7 @@
     height: 23px;
 } 
 #mid_nav{
-   
+
     margin-top: 1px;
     margin-bottom: 2px;
     background-color: #ffffff;
@@ -54,22 +54,11 @@
 #mid_nav li a:hover{
     color: #269abc;
 }
-#category ul{
-    list-style-type: none;
-    
-}
-#category li{
-    margin-bottom: 30px;
-    margin-top: 20px;
-    margin-left: 40px;
-    font-size: 19px;
-    font-family: monospace;
-    
-    
-}
-#category li:hover{
-    color: #269abc;
-}
+
+
+
+
+
 .signup{
     background-image: url('../img/signupback.jpg');
 }
@@ -96,6 +85,18 @@
     font-family: Menlo,Monaco,Consolas,"Courier New",monospace;
 }
 #footer a{
-    
+
     color:#cccccc;
+}
+
+.panel-body { padding:0px; }
+.panel-body table tr td { padding-left: 15px }
+.panel-body .table {margin-bottom: 0px; }
+
+.panel-group .panel {
+    border-radius: 5px;
+
+}
+#addproduct{
+    background-image: url('../img/signupback.jpg');
 }

@@ -20,13 +20,13 @@
                 <div class="col-sm-12"><h4 style="color: whitesmoke; font-family: cursive">Online Shoe Mart is the most suitable place for any human being to buy there shoes in one place. We produce you a very fast delivery and most secured products for your every penny.</h4></div>
             </div>
 
-            <div class="col-md-5" style="margin-top: 100px; border: 1px solid #666666; margin-bottom: 10px;" >
+            <div class="col-md-5" style="margin-top: 100px; border: 1px solid #666666; margin-bottom: 10px; padding-bottom: 10px;" >
                 <form class="form">
                     <div>
                         <h2>Sign In</h2>
                         <hr>
-                        <div class="col-md-8"><input type="text" class="form-control"></div>
-                        <div class="col-md-8"><input type="password" class="form-control"></div>
+                        <div class="col-md-8"><input type="text" class="form-control" placeholder="User Name"></div>
+                        <div class="col-md-8"><input type="password" class="form-control" placeholder="Password"></div>
                         <div class="checkbox col-md-6">
                             <label><input type="checkbox" name="remember">Remember Me</label>
                         </div>
