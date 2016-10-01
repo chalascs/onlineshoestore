@@ -35,12 +35,43 @@
             <div class="row" style="margin-top: 10px;">
                 <div class="col-md-12"><center><span class="h2" style="color: white;">Add Products to sell</span></center></div>
             </div>
-                <div class="row" style="margin-top: 30px;">
+            <div class="row" style="margin-top: 30px;">
                 <div class="col-md-6"></div>
                 <div class="col-md-6">
                     <form class="form">
+                        <div class="col-md-8"><input type="text" class="form-control" placeholder="Product ID"></div>
                         <div class="col-md-8"><input type="text" class="form-control" placeholder="Product Name"></div>
                         <div class="col-md-8"><input type="text" class="form-control" placeholder="Enter Price"></div>
+                        <div class="col-md-8">
+                            <label class="">Select your targeted population</label>
+                            <div class="row">
+                            <div class="col-md-5">
+                                <div class="radio"><label><input type="radio" name="optradio" value="women">Women</label></div>
+                                <div class=" radio"><label><input type="radio" name="optradio" value="men">Men</label></div>
+                            </div>
+                            <div class="col-md-6 ">
+                                <div class=" radio"><label><input type="radio" name="optradio" value="girls">Girls</label></div>
+                                <div class=" radio"><label><input type="radio" name="optradio" value="boys">Boys</label></div>
+                            </div>
+                            </div>
+                        </div>
+                        
+                        <div class="form-group col-md-8">
+                            <label for="gender">Which type is your product?</label>
+                            <select class="form-control" id="gender">
+                                <option>Boots</option>
+                                <option>Lace-ups</option>
+                                <option>Clogs & Mules</option>
+                                <option>Running shoes</option>
+                                <option>Sandals</option>
+                                <option>Slip-ons</option>
+                                <option>Slippers</option>
+                                <option>Sneakers</option>
+                            </select>
+                        </div>
+                        <div class="col-md-8"><textarea class="form-control" placeholder="Product Discription (This will show below the product)"></textarea></div>
+                        <div class="col-md-8"><input type="text" class="form-control" placeholder="Discount(%)"></div>
+                        
                     </form>
                 </div>
             </div>
