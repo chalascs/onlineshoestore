@@ -33,29 +33,30 @@
                 </div>
             </div>
             <div class="row" style="margin-top: 10px;">
-                <div class="col-md-12"><center><span class="h2" style="color: white;">Add Products to sell</span></center></div>
+                <div class="col-md-12"><center><label class="h2 text-uppercase" style="color: white">Add Products to sell</label></center></div>
             </div>
             <div class="row" style="margin-top: 30px;">
-                <div class="col-md-6"></div>
+
                 <div class="col-md-6">
-                    <form class="form">
+
+                    <form class="form text-capitalize">
                         <div class="col-md-8"><input type="text" class="form-control" placeholder="Product ID"></div>
                         <div class="col-md-8"><input type="text" class="form-control" placeholder="Product Name"></div>
                         <div class="col-md-8"><input type="text" class="form-control" placeholder="Enter Price"></div>
                         <div class="col-md-8">
                             <label class="">Select your targeted population</label>
                             <div class="row">
-                            <div class="col-md-5">
-                                <div class="radio"><label><input type="radio" name="optradio" value="women">Women</label></div>
-                                <div class=" radio"><label><input type="radio" name="optradio" value="men">Men</label></div>
-                            </div>
-                            <div class="col-md-6 ">
-                                <div class=" radio"><label><input type="radio" name="optradio" value="girls">Girls</label></div>
-                                <div class=" radio"><label><input type="radio" name="optradio" value="boys">Boys</label></div>
-                            </div>
+                                <div class="col-md-5">
+                                    <div class="radio"><label><input type="radio" name="optradio" value="women">Women</label></div>
+                                    <div class=" radio"><label><input type="radio" name="optradio" value="men">Men</label></div>
+                                </div>
+                                <div class="col-md-6 ">
+                                    <div class=" radio"><label><input type="radio" name="optradio" value="girls">Girls</label></div>
+                                    <div class=" radio"><label><input type="radio" name="optradio" value="boys">Boys</label></div>
+                                </div>
                             </div>
                         </div>
-                        
+
                         <div class="form-group col-md-8">
                             <label for="gender">Which type is your product?</label>
                             <select class="form-control" id="gender">
@@ -71,11 +72,39 @@
                         </div>
                         <div class="col-md-8"><textarea class="form-control" placeholder="Product Discription (This will show below the product)"></textarea></div>
                         <div class="col-md-8"><input type="text" class="form-control" placeholder="Discount(%)"></div>
-                        
-                    </form>
-                </div>
-            </div>
 
+                    
+                </div>
+
+
+                <div class="col-md-6">
+                    <div class="col-md-8 row">
+                        <label>Sizes & Quantity</label>
+                        <div class="row">
+                            <div class="col-md-4">
+                                <input type="text" class="form-control" placeholder="Size">
+                            </div>
+                            <div class="col-md-4">
+                                <input type="text" class="form-control" placeholder="QTY">
+                            </div>
+                            
+                            <div class="col-md-4">
+                                <input type="button" class="btn btn-danger" value="Apply">
+                            </div>
+                        </div>
+                        <div class="col-md-8">
+                            <table class="table table-responsive table-striped ">
+                                
+                            </table>
+                        </div>
+
+
+                    </div>
+
+                </div>
+                </form>
+            </div>
+            <hr>
         </div>
         <div class="col-md-1"></div>
 
