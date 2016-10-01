@@ -73,7 +73,7 @@
                         <div class="col-md-8"><textarea class="form-control" placeholder="Product Discription (This will show below the product)"></textarea></div>
                         <div class="col-md-8"><input type="text" class="form-control" placeholder="Discount(%)"></div>
 
-                    
+
                 </div>
 
 
@@ -87,15 +87,29 @@
                             <div class="col-md-4">
                                 <input type="text" class="form-control" placeholder="QTY">
                             </div>
-                            
+
                             <div class="col-md-4">
-                                <input type="button" class="btn btn-danger" value="Apply">
+                                <input type="button" class="btn btn-danger" value="Apply" onclick="addtable()">
                             </div>
                         </div>
-                        <div class="col-md-8">
-                            <table class="table table-responsive table-striped ">
-                                
-                            </table>
+                        <script>
+                            function addtable() {
+                                var xhttp = new XMLHttpRequest();
+                                xhttp.onreadystatechange = function () {
+                                    if (xhttp.readyState == 4 && xhttp.status == 200) {
+                                        document.getElementById("size").innerHTML = xhttp.responseText;
+                                    }
+                                };
+                                xhttp.open("POST", "addtotable", true);
+                                xhttp.send();
+                            }
+                        </script>
+
+                        <div class="row" style="margin-top: 10px;">
+                            <div class="col-md-8 table table-responsive" id="size">
+
+                            </div>
+
                         </div>
 
 
