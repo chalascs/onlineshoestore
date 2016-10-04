@@ -1,0 +1,21 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated Oct 5, 2016 1:19:24 AM by Hibernate Tools 3.6.0 -->
+<hibernate-mapping>
+    <class name="DB.Login" table="login" catalog="shoestore">
+        <id name="logid" type="java.lang.Integer">
+            <column name="logid" />
+            <generator class="identity" />
+        </id>
+        <many-to-one name="user" class="DB.User" fetch="select">
+            <column name="user_uid" not-null="true" />
+        </many-to-one>
+        <property name="email" type="string">
+            <column name="email" />
+        </property>
+        <property name="password" type="string">
+            <column name="password" />
+        </property>
+    </class>
+</hibernate-mapping>

@@ -24,18 +24,18 @@
                     <h2 style="margin-bottom: 40px; margin-left: 20px; font-family:initial; color: skyblue">Sign Up</h2>
                     <hr style="background-color:#666666;">
                     <form class="form">
-                        <div class="col-sm-6"><input type="text" class="form-control" placeholder="First Name"></div>
-                        <div class="col-sm-6"><input type="text" class="form-control" placeholder="Last Name"></div>
-                        <div class="col-sm-12"><input type="text" class="form-control" placeholder="Email"></div>
+                        <div class="col-sm-6"><input type="text" class="form-control" placeholder="First Name" name="fname"></div>
+                        <div class="col-sm-6"><input type="text" class="form-control" placeholder="Last Name" name="lname"></div>
+                        <div class="col-sm-12"><input type="text" class="form-control" placeholder="Email" name="email"></div>
                         <div class="col-sm-6"><input type="password" class="form-control" placeholder="Password"></div>
-                        <div class="col-sm-6"><input type="password" class="form-control" placeholder="Password Again"></div>
-                        <div class="col-sm-6"><input type="text" class="form-control" placeholder="Telephone Number"></div>
+                        <div class="col-sm-6"><input type="password" class="form-control" placeholder="Password Again" name="pword"></div>
+                        <div class="col-sm-6"><input type="text" class="form-control" placeholder="Telephone Number" name="tpnumber"></div>
                         <div class="col-sm-6">
                             <div class="form-group">
                                 <label for="sel1">Which are you? (select one):</label>
-                                <select class="form-control" id="sel1">
-                                    <option>I'm a buyer</option>
-                                    <option>I'm a seller</option>
+                                <select class="form-control" id="sel1" name="who">
+                                    <option value="0" >I'm a buyer</option>
+                                    <option value="1">I'm a seller</option>
                                 </select>
                             </div>
                         </div>

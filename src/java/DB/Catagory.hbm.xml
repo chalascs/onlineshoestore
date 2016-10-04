@@ -1,0 +1,21 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated Oct 5, 2016 1:19:24 AM by Hibernate Tools 3.6.0 -->
+<hibernate-mapping>
+    <class name="DB.Catagory" table="catagory" catalog="shoestore">
+        <id name="catagoryId" type="java.lang.Integer">
+            <column name="catagory_id" />
+            <generator class="identity" />
+        </id>
+        <property name="catagory" type="string">
+            <column name="catagory" />
+        </property>
+        <set name="stocks" table="stock" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="catagory_catagory_id" not-null="true" />
+            </key>
+            <one-to-many class="DB.Stock" />
+        </set>
+    </class>
+</hibernate-mapping>

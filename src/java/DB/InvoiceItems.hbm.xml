@@ -1,0 +1,18 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated Oct 5, 2016 1:19:24 AM by Hibernate Tools 3.6.0 -->
+<hibernate-mapping>
+    <class name="DB.InvoiceItems" table="invoice_items" catalog="shoestore">
+        <id name="invItemsId" type="int">
+            <column name="inv_items_id" />
+            <generator class="assigned" />
+        </id>
+        <many-to-one name="stock" class="DB.Stock" fetch="select">
+            <column name="stock_stid" />
+        </many-to-one>
+        <many-to-one name="invoice" class="DB.Invoice" fetch="select">
+            <column name="invoice_invoice_id" />
+        </many-to-one>
+    </class>
+</hibernate-mapping>
