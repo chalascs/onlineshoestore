@@ -5,8 +5,11 @@
  */
 package src;
 
+import SizePojo.Model;
+import com.sun.org.apache.xpath.internal.operations.Mod;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.ArrayList;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -34,17 +37,55 @@ public class addtotable extends HttpServlet {
         response.setContentType("text/html;charset=UTF-8");
         try (PrintWriter out = response.getWriter()) {
             /* TODO output your page here. You may use following sample code. */
-            out.println("<!DOCTYPE html>");
-            out.println("<html>");
-            out.println("<head>");
-            out.println("<title>Servlet addtotable</title>");            
-            out.println("</head>");
-            out.println("<body>");
-            out.println("<h1>Servlet addtotable at " + request.getContextPath() + "</h1>");
-            out.println("</body>");
-            out.println("</html>");
+            int size = Integer.parseInt(request.getParameter("size"));
+            int qty = Integer.parseInt(request.getParameter("qty"));
+
+            if(request.getSession().getAttribute("sizes")!=null){
+             ArrayList<Model> al = (ArrayList<Model>) request.getSession().getAttribute("sizes");
+             Model m = new Model(size, qty);
+             al.add(m);
+             ArrayList<Model> al1 = (ArrayList<Model>) request.getSession().getAttribute("sizes");
+
+                out.write("<table class=\"col-md-8 table table-responsive\">");
+                out.write("<tr>");
+                out.write("<th> Size <td>");
+                out.write("<th> QTY <td>");
+                out.write("</tr>");
+            for (Model mo : al1) {
+                out.write("<tr>");
+                out.write("<td>" + mo.getSize() + "<td>");
+                out.write("<td>" + mo.getQty() + "<td>");
+                out.write("</tr>");
+            }
+                out.write("</table>");
+            }else{
+            Model m = new Model(size, qty);
+            ArrayList<Model> ar = new ArrayList();
+            ar.add(m);
+
+            request.getSession().setAttribute("sizes", ar);
+            ArrayList<Model> al = (ArrayList<Model>) request.getSession().getAttribute("sizes");
+
+                out.write("<table class=\"col-md-8 table table-responsive\">");
+                out.write("<tr>");
+                out.write("<th> Size <td>");
+                out.write("<th> QTY <td>");
+                out.write("</tr>");
+            for (Model mo : al) {
+                out.write("<tr>");
+                out.write("<td>" + mo.getSize() + "<td>");
+                out.write("<td>" + mo.getQty() + "<td>");
+                out.write("</tr>");
+            }
+                out.write("</table>");
+            }
+            
+
+            
+
         }
     }
+    
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**

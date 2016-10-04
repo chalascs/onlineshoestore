@@ -82,10 +82,10 @@
                         <label>Sizes & Quantity</label>
                         <div class="row">
                             <div class="col-md-4">
-                                <input type="text" class="form-control" placeholder="Size">
+                                <input type="text" id="size" class="form-control" placeholder="Size" name="size">
                             </div>
                             <div class="col-md-4">
-                                <input type="text" class="form-control" placeholder="QTY">
+                                <input type="text" id="qty" class="form-control" placeholder="QTY" name="qty">
                             </div>
 
                             <div class="col-md-4">
@@ -95,19 +95,26 @@
                         <script>
                             function addtable() {
                                 var xhttp = new XMLHttpRequest();
+                                var size= document.getElementById("size").value;
+                                var qty=document.getElementById("qty").value;
                                 xhttp.onreadystatechange = function () {
                                     if (xhttp.readyState == 4 && xhttp.status == 200) {
-                                        document.getElementById("size").innerHTML = xhttp.responseText;
+                                        document.getElementById("tab").innerHTML = xhttp.responseText;
                                     }
                                 };
-                                xhttp.open("POST", "addtotable", true);
+                                if(size!==""&&qty!==""){
+                                    
+                                xhttp.open("GET", "addtotable?size="+size+"&qty="+qty, true);
                                 xhttp.send();
+                                }else{
+                                    alert("Please Enter");
+                                }
                             }
                         </script>
 
                         <div class="row" style="margin-top: 10px;">
-                            <div class="col-md-8 table table-responsive" id="size">
-
+                            <div id="tab" style="max-height:200px; overflow-y: auto;">
+                                
                             </div>
 
                         </div>
