@@ -98,7 +98,7 @@
                                 var size= document.getElementById("size").value;
                                 var qty=document.getElementById("qty").value;
                                 xhttp.onreadystatechange = function () {
-                                    if (xhttp.readyState == 4 && xhttp.status == 200) {
+                                    if (xhttp.readyState === 4 && xhttp.status === 200) {
                                         document.getElementById("tab").innerHTML = xhttp.responseText;
                                     }
                                 };
