@@ -1,5 +1,5 @@
 package DB;
-// Generated Oct 5, 2016 1:19:24 AM by Hibernate Tools 3.6.0
+// Generated Oct 5, 2016 3:08:36 PM by Hibernate Tools 3.6.0
 
 
 import java.util.HashSet;
@@ -12,13 +12,13 @@ public class UserType  implements java.io.Serializable {
 
 
      private Integer usid;
-     private Boolean userType;
+     private String userType;
      private Set users = new HashSet(0);
 
     public UserType() {
     }
 
-    public UserType(Boolean userType, Set users) {
+    public UserType(String userType, Set users) {
        this.userType = userType;
        this.users = users;
     }
@@ -30,11 +30,11 @@ public class UserType  implements java.io.Serializable {
     public void setUsid(Integer usid) {
         this.usid = usid;
     }
-    public Boolean getUserType() {
+    public String getUserType() {
         return this.userType;
     }
     
-    public void setUserType(Boolean userType) {
+    public void setUserType(String userType) {
         this.userType = userType;
     }
     public Set getUsers() {

@@ -3,16 +3,16 @@
 <hibernate-reverse-engineering>
   <schema-selection match-catalog="shoestore"/>
   <table-filter match-name="city"/>
-  <table-filter match-name="catagory"/>
+  <table-filter match-name="district"/>
+  <table-filter match-name="address"/>
+  <table-filter match-name="invoice"/>
+  <table-filter match-name="stock"/>
+  <table-filter match-name="user"/>
+  <table-filter match-name="login_detail"/>
   <table-filter match-name="province"/>
   <table-filter match-name="invoice_items"/>
-  <table-filter match-name="login"/>
-  <table-filter match-name="stock"/>
+  <table-filter match-name="catagory"/>
   <table-filter match-name="stock_has_cart"/>
-  <table-filter match-name="user"/>
-  <table-filter match-name="district"/>
-  <table-filter match-name="invoice"/>
   <table-filter match-name="cart"/>
   <table-filter match-name="user_type"/>
-  <table-filter match-name="address"/>
 </hibernate-reverse-engineering>

@@ -4,6 +4,10 @@
     Author     : Shanaka
 --%>
 
+<%@page import="DB.UserType"%>
+<%@page import="java.util.List"%>
+<%@page import="org.hibernate.Criteria"%>
+<%@page import="org.hibernate.Session"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
@@ -23,19 +27,25 @@
                 <div class="panel-body" style="border: 1px solid #666666; margin-top: 80px; margin-right: 10px;">
                     <h2 style="margin-bottom: 40px; margin-left: 20px; font-family:initial; color: skyblue">Sign Up</h2>
                     <hr style="background-color:#666666;">
-                    <form class="form">
+                    <form class="form" action="user" method="post">
                         <div class="col-sm-6"><input type="text" class="form-control" placeholder="First Name" name="fname"></div>
                         <div class="col-sm-6"><input type="text" class="form-control" placeholder="Last Name" name="lname"></div>
                         <div class="col-sm-12"><input type="text" class="form-control" placeholder="Email" name="email"></div>
-                        <div class="col-sm-6"><input type="password" class="form-control" placeholder="Password"></div>
-                        <div class="col-sm-6"><input type="password" class="form-control" placeholder="Password Again" name="pword"></div>
+                        <div class="col-sm-6"><input type="password" class="form-control" placeholder="Password" name="pword"></div>
+                        <div class="col-sm-6"><input type="password" class="form-control" placeholder="Password Again" name="retrypword"></div>
                         <div class="col-sm-6"><input type="text" class="form-control" placeholder="Telephone Number" name="tpnumber"></div>
                         <div class="col-sm-6">
                             <div class="form-group">
                                 <label for="sel1">Which are you? (select one):</label>
                                 <select class="form-control" id="sel1" name="who">
-                                    <option value="0" >I'm a buyer</option>
-                                    <option value="1">I'm a seller</option>
+                                    <% 
+                                        Session ses = connection.NewHibernateUtil.getSessionFactory().openSession();
+                                        Criteria cr = ses.createCriteria(DB.UserType.class);
+                                        List<DB.UserType> loadType = cr.list();
+                                        for(UserType ut : loadType){
+                                    %>
+                                    <option>I'm a <%=ut.getUserType()%></option>
+                                    <%}%>
                                 </select>
                             </div>
                         </div>

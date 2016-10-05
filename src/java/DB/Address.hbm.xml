@@ -1,13 +1,16 @@
 <?xml version="1.0"?>
 <!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
 "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
-<!-- Generated Oct 5, 2016 1:19:24 AM by Hibernate Tools 3.6.0 -->
+<!-- Generated Oct 5, 2016 3:08:36 PM by Hibernate Tools 3.6.0 -->
 <hibernate-mapping>
     <class name="DB.Address" table="address" catalog="shoestore">
         <id name="idaddress" type="java.lang.Integer">
             <column name="idaddress" />
             <generator class="identity" />
         </id>
+        <many-to-one name="user" class="DB.User" fetch="select">
+            <column name="user_uid" not-null="true" />
+        </many-to-one>
         <many-to-one name="city" class="DB.City" fetch="select">
             <column name="city_cityid" not-null="true" />
         </many-to-one>
@@ -23,11 +26,5 @@
         <property name="address2" type="string">
             <column name="address2" length="45" />
         </property>
-        <set name="users" table="user" inverse="true" lazy="true" fetch="select">
-            <key>
-                <column name="address_idaddress" not-null="true" />
-            </key>
-            <one-to-many class="DB.User" />
-        </set>
     </class>
 </hibernate-mapping>

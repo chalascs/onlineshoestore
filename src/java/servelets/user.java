@@ -3,25 +3,29 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package src;
+package servelets;
 
-import SizePojo.Model;
-import com.sun.org.apache.xpath.internal.operations.Mod;
+import DB.User;
+import DB.UserType;
+import connection.NewHibernateUtil;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.util.ArrayList;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import org.hibernate.Criteria;
+import org.hibernate.Session;
+import org.hibernate.Transaction;
+import org.hibernate.criterion.Restrictions;
 
 /**
  *
  * @author Shanaka
  */
-@WebServlet(name = "addtotable", urlPatterns = {"/addtotable"})
-public class addtotable extends HttpServlet {
+@WebServlet(name = "user", urlPatterns = {"/user"})
+public class user extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -36,56 +40,51 @@ public class addtotable extends HttpServlet {
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         try (PrintWriter out = response.getWriter()) {
-            /* TODO output your page here. You may use following sample code. */
-            int size = Integer.parseInt(request.getParameter("size"));
-            int qty = Integer.parseInt(request.getParameter("qty"));
+            String fname = request.getParameter("fname");
+            String lname = request.getParameter("lname");
+            String email = request.getParameter("email");
+            String pword = request.getParameter("pword");
+            String retrypw = request.getParameter("retrypword");
+            String utype = request.getParameter("who");
 
-            if(request.getSession().getAttribute("sizes")!=null){
-             ArrayList<Model> al = (ArrayList<Model>) request.getSession().getAttribute("sizes");
-             Model m = new Model(size, qty);
-             al.add(m);
-             ArrayList<Model> al1 = (ArrayList<Model>) request.getSession().getAttribute("sizes");
+            int tp = Integer.parseInt(request.getParameter("tpnumber"));
 
-                out.write("<table class=\"col-md-8 table table-responsive\">");
-                out.write("<tr>");
-                out.write("<th> Size <td>");
-                out.write("<th> QTY <td>");
-                out.write("</tr>");
-            for (Model mo : al1) {
-                out.write("<tr>");
-                out.write("<td>" + mo.getSize() + "<td>");
-                out.write("<td>" + mo.getQty() + "<td>");
-                out.write("</tr>");
+            try {
+                Session s = NewHibernateUtil.getSessionFactory().openSession();
+                if (pword.equals(retrypw)) {
+                    DB.User u = new User();
+                    u.setFname(fname);
+                    u.setLname(lname);
+                    u.setEmail(email);
+                    u.setTpnumber(tp);
+                    u.setPassword(pword);
+                    if (utype.equals("I'm a buyer")) {
+                        Criteria cr = s.createCriteria(DB.UserType.class);
+                        cr.add(Restrictions.eq("userType", "buyer"));
+                        UserType ut = (UserType) cr.uniqueResult();
+                        u.setUserType(ut);
+                    } else if (utype.equals("I'm a seller")) {
+                        Criteria cr1 = s.createCriteria(DB.UserType.class);
+                        cr1.add(Restrictions.eq("userType", "seller"));
+                        UserType ut = (UserType) cr1.uniqueResult();
+                        u.setUserType(ut);
+                    }
+                    u.setStatus(1);
+                    s.save(u);
+                    s.beginTransaction().commit();
+                    
+                    response.sendRedirect("login.jsp");
+
+                } else {
+                    response.sendRedirect("createAnAccount.jsp");
+                }
+
+            } catch (Exception e) {
+                e.printStackTrace();
             }
-                out.write("</table>");
-            }else{
-            Model m = new Model(size, qty);
-            ArrayList<Model> ar = new ArrayList();
-            ar.add(m);
-
-            request.getSession().setAttribute("sizes", ar);
-            ArrayList<Model> al = (ArrayList<Model>) request.getSession().getAttribute("sizes");
-
-                out.write("<table class=\"col-md-8 table table-responsive\">");
-                out.write("<tr>");
-                out.write("<th> Size <td>");
-                out.write("<th> QTY <td>");
-                out.write("</tr>");
-            for (Model mo : al) {
-                out.write("<tr>");
-                out.write("<td>" + mo.getSize() + "<td>");
-                out.write("<td>" + mo.getQty() + "<td>");
-                out.write("</tr>");
-            }
-                out.write("</table>");
-            }
-            
-
-            
 
         }
     }
-    
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**

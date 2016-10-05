@@ -1,5 +1,5 @@
 package DB;
-// Generated Oct 5, 2016 1:19:24 AM by Hibernate Tools 3.6.0
+// Generated Oct 5, 2016 3:08:36 PM by Hibernate Tools 3.6.0
 
 
 import java.util.HashSet;
@@ -12,33 +12,36 @@ public class User  implements java.io.Serializable {
 
 
      private Integer uid;
-     private Address address;
      private UserType userType;
      private String fname;
      private String lname;
      private Integer tpnumber;
      private Integer status;
+     private String email;
+     private String password;
      private Set carts = new HashSet(0);
-     private Set logins = new HashSet(0);
+     private Set loginDetails = new HashSet(0);
+     private Set addresses = new HashSet(0);
      private Set stocks = new HashSet(0);
 
     public User() {
     }
 
 	
-    public User(Address address, UserType userType) {
-        this.address = address;
+    public User(UserType userType) {
         this.userType = userType;
     }
-    public User(Address address, UserType userType, String fname, String lname, Integer tpnumber, Integer status, Set carts, Set logins, Set stocks) {
-       this.address = address;
+    public User(UserType userType, String fname, String lname, Integer tpnumber, Integer status, String email, String password, Set carts, Set loginDetails, Set addresses, Set stocks) {
        this.userType = userType;
        this.fname = fname;
        this.lname = lname;
        this.tpnumber = tpnumber;
        this.status = status;
+       this.email = email;
+       this.password = password;
        this.carts = carts;
-       this.logins = logins;
+       this.loginDetails = loginDetails;
+       this.addresses = addresses;
        this.stocks = stocks;
     }
    
@@ -48,13 +51,6 @@ public class User  implements java.io.Serializable {
     
     public void setUid(Integer uid) {
         this.uid = uid;
-    }
-    public Address getAddress() {
-        return this.address;
-    }
-    
-    public void setAddress(Address address) {
-        this.address = address;
     }
     public UserType getUserType() {
         return this.userType;
@@ -91,6 +87,20 @@ public class User  implements java.io.Serializable {
     public void setStatus(Integer status) {
         this.status = status;
     }
+    public String getEmail() {
+        return this.email;
+    }
+    
+    public void setEmail(String email) {
+        this.email = email;
+    }
+    public String getPassword() {
+        return this.password;
+    }
+    
+    public void setPassword(String password) {
+        this.password = password;
+    }
     public Set getCarts() {
         return this.carts;
     }
@@ -98,12 +108,19 @@ public class User  implements java.io.Serializable {
     public void setCarts(Set carts) {
         this.carts = carts;
     }
-    public Set getLogins() {
-        return this.logins;
+    public Set getLoginDetails() {
+        return this.loginDetails;
     }
     
-    public void setLogins(Set logins) {
-        this.logins = logins;
+    public void setLoginDetails(Set loginDetails) {
+        this.loginDetails = loginDetails;
+    }
+    public Set getAddresses() {
+        return this.addresses;
+    }
+    
+    public void setAddresses(Set addresses) {
+        this.addresses = addresses;
     }
     public Set getStocks() {
         return this.stocks;

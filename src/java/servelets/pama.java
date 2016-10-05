@@ -1,4 +1,4 @@
-package src;
+package servelets;
 
 /*
  * To change this license header, choose License Headers in Project Properties.
