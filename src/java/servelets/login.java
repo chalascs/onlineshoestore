@@ -3,13 +3,14 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
+
 package servelets;
 
 import DB.User;
-import DB.UserType;
 import connection.NewHibernateUtil;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.List;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -17,15 +18,13 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import org.hibernate.Criteria;
 import org.hibernate.Session;
-import org.hibernate.Transaction;
-import org.hibernate.criterion.Restrictions;
 
 /**
  *
  * @author Shanaka
  */
-@WebServlet(name = "user", urlPatterns = {"/user"})
-public class user extends HttpServlet {
+@WebServlet(name = "login", urlPatterns = {"/login"})
+public class login extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -40,51 +39,24 @@ public class user extends HttpServlet {
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         try (PrintWriter out = response.getWriter()) {
+         
             
-            
-            String fname = request.getParameter("fname");
-            String lname = request.getParameter("lname");
-            String email = request.getParameter("email");
-            String pword = request.getParameter("pword");
-            String retrypw = request.getParameter("retrypword");
-            String utype = request.getParameter("who");
-
-            int tp = Integer.parseInt(request.getParameter("tpnumber"));
-
-            try {
-                Session s = NewHibernateUtil.getSessionFactory().openSession();
-                if (pword.equals(retrypw)) {
-                    DB.User u = new User();
-                    u.setFname(fname);
-                    u.setLname(lname);
-                    u.setEmail(email);
-                    u.setTpnumber(tp);
-                    u.setPassword(pword);
-                    if (utype.equals("I'm a buyer")) {
-                        Criteria cr = s.createCriteria(DB.UserType.class);
-                        cr.add(Restrictions.eq("userType", "buyer"));
-                        UserType ut = (UserType) cr.uniqueResult();
-                        u.setUserType(ut);
-                    } else if (utype.equals("I'm a seller")) {
-                        Criteria cr1 = s.createCriteria(DB.UserType.class);
-                        cr1.add(Restrictions.eq("userType", "seller"));
-                        UserType ut = (UserType) cr1.uniqueResult();
-                        u.setUserType(ut);
-                    }
-                    u.setStatus(1);
-                    s.save(u);
-                    s.beginTransaction().commit();
-                    
-                    response.sendRedirect("login.jsp");
-
-                } else {
-                    response.sendRedirect("createAnAccount.jsp");
+           String uname = request.getParameter("uname");
+           String pass = request.getParameter("pass");
+           
+            Session s = NewHibernateUtil.getSessionFactory().openSession();       
+            Criteria cr = s.createCriteria(DB.User.class);
+            List<DB.User> loaUsers = cr.list();
+            for(User u : loaUsers){
+                
+                if(uname.equals(u.getEmail()) && pass.equals(u.getPassword())){
+                    request.getSession().setAttribute("user", u.getFname());
+                    response.sendRedirect("index.jsp");
                 }
-
-            } catch (Exception e) {
-                e.printStackTrace();
+            
             }
-
+            
+            
         }
     }
 

@@ -40,52 +40,71 @@ public class addtotable extends HttpServlet {
             int size = Integer.parseInt(request.getParameter("size"));
             int qty = Integer.parseInt(request.getParameter("qty"));
 
-            if(request.getSession().getAttribute("sizes")!=null){
-             ArrayList<Model> al = (ArrayList<Model>) request.getSession().getAttribute("sizes");
-             Model m = new Model(size, qty);
-             al.add(m);
-             ArrayList<Model> al1 = (ArrayList<Model>) request.getSession().getAttribute("sizes");
+            if (request.getParameter("size") != null || request.getParameter("qty") != null) {
 
-                out.write("<table class=\"col-md-8 table table-responsive\">");
-                out.write("<tr>");
-                out.write("<th> Size <td>");
-                out.write("<th> QTY <td>");
-                out.write("</tr>");
-            for (Model mo : al1) {
-                out.write("<tr>");
-                out.write("<td>" + mo.getSize() + "<td>");
-                out.write("<td>" + mo.getQty() + "<td>");
-                out.write("</tr>");
-            }
-                out.write("</table>");
+                if (request.getSession().getAttribute("sizes") != null) {
+                    ArrayList<Model> al = (ArrayList<Model>) request.getSession().getAttribute("sizes");
+                    Model m = new Model(size, qty);
+                    al.add(m);
+                    ArrayList<Model> al1 = (ArrayList<Model>) request.getSession().getAttribute("sizes");
+
+                    out.write("<table class=\"col-md-8 table table-responsive\">");
+                    out.write("<tr>");
+                    out.write("<th> Size <td>");
+                    out.write("<th> QTY <td>");
+                    out.write("</tr>");
+                    for (Model mo : al1) {
+                        out.write("<tr>");
+                        out.write("<td>" + mo.getSize() + "<td>");
+                        out.write("<td>" + mo.getQty() + "<td>");
+                        out.write("</tr>");
+                    }
+                    out.write("</table>");
+                } else {
+                    Model m = new Model(size, qty);
+                    ArrayList<Model> ar = new ArrayList();
+                    ar.add(m);
+
+                    request.getSession().setAttribute("sizes", ar);
+                    ArrayList<Model> al = (ArrayList<Model>) request.getSession().getAttribute("sizes");
+
+                    out.write("<table class=\"col-md-8 table table-responsive\">");
+                    out.write("<tr>");
+                    out.write("<th> Size <td>");
+                    out.write("<th> QTY <td>");
+                    out.write("</tr>");
+                    for (Model mo : al) {
+                        out.write("<tr>");
+                        out.write("<td>" + mo.getSize() + "<td>");
+                        out.write("<td>" + mo.getQty() + "<td>");
+                        out.write("</tr>");
+                    }
+                    out.write("</table>");
+                }
+
             }else{
-            Model m = new Model(size, qty);
-            ArrayList<Model> ar = new ArrayList();
-            ar.add(m);
+                Model m = new Model(size, qty);
+                    ArrayList<Model> ar = new ArrayList();
+                    ar.add(m);
 
-            request.getSession().setAttribute("sizes", ar);
-            ArrayList<Model> al = (ArrayList<Model>) request.getSession().getAttribute("sizes");
+                    request.getSession().setAttribute("sizes", ar);
+                    ArrayList<Model> al = (ArrayList<Model>) request.getSession().getAttribute("sizes");
 
-                out.write("<table class=\"col-md-8 table table-responsive\">");
-                out.write("<tr>");
-                out.write("<th> Size <td>");
-                out.write("<th> QTY <td>");
-                out.write("</tr>");
-            for (Model mo : al) {
-                out.write("<tr>");
-                out.write("<td>" + mo.getSize() + "<td>");
-                out.write("<td>" + mo.getQty() + "<td>");
-                out.write("</tr>");
+                    out.write("<table class=\"col-md-8 table table-responsive\">");
+                    out.write("<tr>");
+                    out.write("<th> Size <td>");
+                    out.write("<th> QTY <td>");
+                    out.write("</tr>");
+                    for (Model mo : al) {
+                        out.write("<tr>");
+                        out.write("<td>" + mo.getSize() + "<td>");
+                        out.write("<td>" + mo.getQty() + "<td>");
+                        out.write("</tr>");
+                    }
+                    out.write("</table>");
             }
-                out.write("</table>");
-            }
-            
-
-            
-
         }
     }
-    
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**

@@ -4,6 +4,10 @@
     Author     : Shanaka
 --%>
 
+<%@page import="DB.UserType"%>
+<%@page import="java.util.List"%>
+<%@page import="org.hibernate.Criteria"%>
+<%@page import="org.hibernate.Session"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
@@ -18,7 +22,7 @@
                 <ul class="topbar navbar-right">
                     <li><span class="glyphicon glyphicon-plane"></span><a href="#"> Shipping & Return</a></li>
 
-
+                   
                     <%
                         if (request.getSession().getAttribute("user") == null) {
 
@@ -27,10 +31,27 @@
                     <li><span class="glyphicon glyphicon-fire"></span><a href="createAnAccount.jsp"> Create an Account</a></li>
                     <li><span class="glyphicon glyphicon-user"></span><a href="login.jsp"> Login</a></li>
                     
-                    <% } else { %>
+                    <% } else{ %>
 
                     <li><span class="glyphicon glyphicon-user"></span><a href="#"> <%=request.getSession().getAttribute("user").toString()%></a></li>
-                    <li><span class="glyphicon glyphicon-fire"></span><a href="addproducts.jsp"> Add Products</a></li>
+                    
+                       <%  
+                    
+                        Session s = connection.NewHibernateUtil.getSessionFactory().openSession();
+                        Criteria cr = s.createCriteria(DB.UserType.class);
+                        List<DB.UserType> loaType = cr.list();
+                        for(UserType ut : loaType){
+                        
+                            if("seller".equals(ut.getUserType())){ %>
+                                
+                             <li><span class="glyphicon glyphicon-fire"></span><a href="addproducts.jsp"> Add Products</a></li>
+                            
+                            <%}
+                        }%>
+                        
+                      
+                    
+                   
 
                     <%}%>
             </div>

@@ -24,7 +24,7 @@
     </head>
 
 
-    <body id="addproduct">
+    <body id="addproduct" onload="addtable()">
         <div class="col-md-1"></div>
         <div class="col-md-10">
             <div class="row">
@@ -95,26 +95,28 @@
                         <script>
                             function addtable() {
                                 var xhttp = new XMLHttpRequest();
-                                var size= document.getElementById("size").value;
-                                var qty=document.getElementById("qty").value;
-                                xhttp.onreadystatechange = function () {
+                                var size = document.getElementById("size").value;
+                                var qty = document.getElementById("qty").value;
+                                xhttp.onreadystatechange = function() {
                                     if (xhttp.readyState === 4 && xhttp.status === 200) {
                                         document.getElementById("tab").innerHTML = xhttp.responseText;
                                     }
                                 };
-                                if(size!==""&&qty!==""){
-                                    
-                                xhttp.open("GET", "addtotable?size="+size+"&qty="+qty, true);
-                                xhttp.send();
-                                }else{
-                                    alert("Please Enter");
+                                if (size !== "" && qty !== "") {
+
+                                    xhttp.open("GET", "addtotable?size=" + size + "&qty=" + qty, true);
+                                    xhttp.send();
+                                } else {
+                                    xhttp.open("GET", "addtotable", true);
+                                    xhttp.send();
+                                    //  alert("Please Enter");
                                 }
                             }
                         </script>
 
                         <div class="row" style="margin-top: 10px;">
                             <div id="tab" style="max-height:200px; overflow-y: auto;">
-                                
+
                             </div>
 
                         </div>

@@ -21,12 +21,12 @@
             </div>
 
             <div class="col-md-5" style="margin-top: 100px; border: 1px solid #666666; margin-bottom: 10px; padding-bottom: 10px;" >
-                <form class="form">
+                <form class="form" action="login" method="post">
                     <div>
                         <h2>Sign In</h2>
                         <hr>
-                        <div class="col-md-8"><input type="text" class="form-control" placeholder="User Name"></div>
-                        <div class="col-md-8"><input type="password" class="form-control" placeholder="Password"></div>
+                        <div class="col-md-8"><input type="text" class="form-control" placeholder="User Name" name="uname"></div>
+                        <div class="col-md-8"><input type="password" class="form-control" placeholder="Password" name="pass"></div>
                         <div class="checkbox col-md-6">
                             <label><input type="checkbox" name="remember">Remember Me</label>
                         </div>
