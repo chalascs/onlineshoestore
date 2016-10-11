@@ -37,71 +37,95 @@ public class addtotable extends HttpServlet {
         response.setContentType("text/html;charset=UTF-8");
         try (PrintWriter out = response.getWriter()) {
             /* TODO output your page here. You may use following sample code. */
-            int size = Integer.parseInt(request.getParameter("size"));
-            int qty = Integer.parseInt(request.getParameter("qty"));
+            String reqSize = request.getParameter("size");
+            String reqQty = request.getParameter("qty");
+            String type = request.getParameter("type");
+            String removeSize = request.getParameter("removeSize");
 
-            if (request.getParameter("size") != null || request.getParameter("qty") != null) {
+            if (type.equals("AddItem")) {
+                boolean bb = true;
+                if (!reqSize.equals("") && !reqQty.equals("")) {
+                    int size = Integer.parseInt(request.getParameter("size"));
+                    int qty = Integer.parseInt(request.getParameter("qty"));
 
+                    if (request.getSession().getAttribute("sizes") != null) {
+                        ArrayList<Model> al = (ArrayList<Model>) request.getSession().getAttribute("sizes");
+                        for (Model model : al) {
+                            if (model.getSize() == size) {
+                                Model m = new Model(size, model.getQty() + qty);
+                                al.add(m);
+                                al.remove(model);
+                                bb = false;
+                            }
+                        }
+                        if (bb) {
+                            Model m = new Model(size, qty);
+                            al.add(m);
+                        }
+                        ArrayList<Model> al1 = (ArrayList<Model>) request.getSession().getAttribute("sizes");
+
+                        out.write("<table class=\"col-md-8 table table-responsive\">");
+                        out.write("<tr>");
+                        out.write("<th> Size <td>");
+                        out.write("<th> QTY <td>");
+                        out.write("<th> Action </th>");
+                        out.write("</tr>");
+                        for (Model mo : al1) {
+                            out.write("<tr>");
+                            out.write("<td>" + mo.getSize() + "<td>");
+                            out.write("<td>" + mo.getQty() + "<td>");
+                            out.write("<td><input type=\"button\" class=\"btn btn-danger btn-xs\" value=\"Remove\" onclick=\"abc('" + al1.indexOf(mo) + "')\"/></td>");
+                            out.write("</tr>");
+                        }
+                        out.write("</table>");
+                    } else {
+                        Model m = new Model(size, qty);
+                        ArrayList<Model> ar = new ArrayList();
+                        ar.add(m);
+
+                        request.getSession().setAttribute("sizes", ar);
+                        ArrayList<Model> al = (ArrayList<Model>) request.getSession().getAttribute("sizes");
+
+                        out.write("<table class=\"col-md-8 table table-responsive\">");
+                        out.write("<tr>");
+                        out.write("<th> Size <td>");
+                        out.write("<th> QTY <td>");
+                        out.write("<th> Action </th>");
+                        out.write("</tr>");
+                        for (Model mo : al) {
+                            out.write("<tr>");
+                            out.write("<td>" + mo.getSize() + "<td>");
+                            out.write("<td>" + mo.getQty() + "<td>");
+                            out.write("<td><input type=\"button\" class=\"btn btn-danger btn-xs\" value=\"Remove\" onclick=\"abc('" + al.indexOf(mo) + "')\"/></td>");
+                            out.write("</tr>");
+                        }
+                        out.write("</table>");
+                    }
+
+                }
+            } else if (type.equals("removeItem")) {
+                System.out.println("remove-" + removeSize);
                 if (request.getSession().getAttribute("sizes") != null) {
                     ArrayList<Model> al = (ArrayList<Model>) request.getSession().getAttribute("sizes");
-                    Model m = new Model(size, qty);
-                    al.add(m);
-                    ArrayList<Model> al1 = (ArrayList<Model>) request.getSession().getAttribute("sizes");
+                    al.remove(Integer.parseInt(removeSize));
 
-                    out.write("<table class=\"col-md-8 table table-responsive\">");
-                    out.write("<tr>");
-                    out.write("<th> Size <td>");
-                    out.write("<th> QTY <td>");
-                    out.write("</tr>");
-                    for (Model mo : al1) {
-                        out.write("<tr>");
-                        out.write("<td>" + mo.getSize() + "<td>");
-                        out.write("<td>" + mo.getQty() + "<td>");
-                        out.write("</tr>");
-                    }
-                    out.write("</table>");
-                } else {
-                    Model m = new Model(size, qty);
-                    ArrayList<Model> ar = new ArrayList();
-                    ar.add(m);
-
-                    request.getSession().setAttribute("sizes", ar);
-                    ArrayList<Model> al = (ArrayList<Model>) request.getSession().getAttribute("sizes");
-
-                    out.write("<table class=\"col-md-8 table table-responsive\">");
-                    out.write("<tr>");
-                    out.write("<th> Size <td>");
-                    out.write("<th> QTY <td>");
-                    out.write("</tr>");
-                    for (Model mo : al) {
-                        out.write("<tr>");
-                        out.write("<td>" + mo.getSize() + "<td>");
-                        out.write("<td>" + mo.getQty() + "<td>");
-                        out.write("</tr>");
-                    }
-                    out.write("</table>");
                 }
+                ArrayList<Model> al1 = (ArrayList<Model>) request.getSession().getAttribute("sizes");
 
-            }else{
-                Model m = new Model(size, qty);
-                    ArrayList<Model> ar = new ArrayList();
-                    ar.add(m);
-
-                    request.getSession().setAttribute("sizes", ar);
-                    ArrayList<Model> al = (ArrayList<Model>) request.getSession().getAttribute("sizes");
-
-                    out.write("<table class=\"col-md-8 table table-responsive\">");
+                out.write("<table class=\"col-md-8 table table-responsive\">");
+                out.write("<tr>");
+                out.write("<th> Size <td>");
+                out.write("<th> QTY <td>");
+                out.write("<th> Action </th>");
+                out.write("</tr>");
+                for (Model mo : al1) {
                     out.write("<tr>");
-                    out.write("<th> Size <td>");
-                    out.write("<th> QTY <td>");
+                    out.write("<td>" + mo.getSize() + "<td>");
+                    out.write("<td>" + mo.getQty() + "<td>");
+                    out.write("<td><input type=\"button\" class=\"btn btn-danger btn-xs\" value=\"Remove\" onclick=\"abc('" + al1.indexOf(mo) + "')\"/></td>");
                     out.write("</tr>");
-                    for (Model mo : al) {
-                        out.write("<tr>");
-                        out.write("<td>" + mo.getSize() + "<td>");
-                        out.write("<td>" + mo.getQty() + "<td>");
-                        out.write("</tr>");
-                    }
-                    out.write("</table>");
+                }
+                out.write("</table>");
             }
         }
     }

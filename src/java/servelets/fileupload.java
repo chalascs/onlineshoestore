@@ -3,10 +3,10 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
+
 package servelets;
 
-import DB.User;
-import connection.NewHibernateUtil;
+import java.io.File;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.List;
@@ -15,16 +15,17 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import org.hibernate.Criteria;
-import org.hibernate.Session;
-import org.hibernate.criterion.Restrictions;
+import org.apache.commons.fileupload.FileItem;
+import org.apache.commons.fileupload.FileItemFactory;
+import org.apache.commons.fileupload.disk.DiskFileItemFactory;
+import org.apache.commons.fileupload.servlet.ServletFileUpload;
 
 /**
  *
  * @author Shanaka
  */
-@WebServlet(name = "login", urlPatterns = {"/login"})
-public class login extends HttpServlet {
+@WebServlet(name = "fileupload", urlPatterns = {"/fileupload"})
+public class fileupload extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -39,33 +40,33 @@ public class login extends HttpServlet {
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         try (PrintWriter out = response.getWriter()) {
+            /* TODO output your page here. You may use following sample code. */
+            boolean ismultiple = ServletFileUpload.isMultipartContent(request);
 
-            String Type = request.getParameter("type");
-            String uname = request.getParameter("uname");
-            String pass = request.getParameter("pass");
+            if (ismultiple) {
 
-            Session s = NewHibernateUtil.getSessionFactory().openSession();
-            if(Type.equals("Login")){
-            Criteria cr = s.createCriteria(DB.User.class);
-            cr.add(Restrictions.and(Restrictions.eq("email", uname), Restrictions.eq("password", pass)));
-            User us = (User) cr.uniqueResult();
-            if (us != null) {
-                request.getSession().setAttribute("user", us);
-                response.sendRedirect("index.jsp");
+                FileItemFactory fif = new DiskFileItemFactory();
+                ServletFileUpload upload = new ServletFileUpload(fif);
+
+                try {
+
+                    List<FileItem> fit = upload.parseRequest(request);
+                    for (FileItem f : fit) {
+
+                        if (!f.isFormField()) {
+                            String n = new File(f.getName()).getName();
+                            System.out.println(f.getSize());
+                 //           String path = "C:\\Users\\Shanaka\\Documents\\shoestoreupload\\" + System.currentTimeMillis() + "_" + n;
+                            f.write(new File("C:\\Users\\Shanaka\\Documents\\shoestoreupload\\" + System.currentTimeMillis() + "_" + n));
+//                            request.getSession().setAttribute("ImagePath", path);
+                         response.sendRedirect("addproducts.jsp");
+                        }
+                    }
+
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
             }
-            }else if(Type.equals("Logout")){
-                request.getSession().invalidate();
-                response.sendRedirect("index.jsp");
-            }
-//            List<DB.User> loaUsers = cr.list();
-//            for(User u : loaUsers){
-//                
-//                if(uname.equals(u.getEmail()) && pass.equals(u.getPassword())){
-//                    request.getSession().setAttribute("user", u.getFname());
-//                    response.sendRedirect("index.jsp");
-//                }
-//            
-//            }
 
         }
     }

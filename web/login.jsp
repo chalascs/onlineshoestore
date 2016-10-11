@@ -30,7 +30,7 @@
                         <div class="checkbox col-md-6">
                             <label><input type="checkbox" name="remember">Remember Me</label>
                         </div>
-                        <div class="col-md-5"><input type="submit" value="Login" class="btn btn-success"></div>
+                        <div class="col-md-5"><input type="submit" value="Login" name="type" class="btn btn-success"></div>
 
                     </div>
                 </form>

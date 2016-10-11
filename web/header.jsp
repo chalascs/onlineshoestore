@@ -22,7 +22,7 @@
                 <ul class="topbar navbar-right">
                     <li><span class="glyphicon glyphicon-plane"></span><a href="#"> Shipping & Return</a></li>
 
-                   
+
                     <%
                         if (request.getSession().getAttribute("user") == null) {
 
@@ -30,30 +30,23 @@
 
                     <li><span class="glyphicon glyphicon-fire"></span><a href="createAnAccount.jsp"> Create an Account</a></li>
                     <li><span class="glyphicon glyphicon-user"></span><a href="login.jsp"> Login</a></li>
-                    
-                    <% } else{ %>
 
-                    <li><span class="glyphicon glyphicon-user"></span><a href="#"> <%=request.getSession().getAttribute("user").toString()%></a></li>
-                    
-                       <%  
-                    
-                        Session s = connection.NewHibernateUtil.getSessionFactory().openSession();
-                        Criteria cr = s.createCriteria(DB.UserType.class);
-                        List<DB.UserType> loaType = cr.list();
-                        for(UserType ut : loaType){
-                        
-                            if("seller".equals(ut.getUserType())){ %>
-                                
-                             <li><span class="glyphicon glyphicon-fire"></span><a href="addproducts.jsp"> Add Products</a></li>
-                            
-                            <%}
-                        }%>
-                        
-                      
-                    
-                   
+                    <% } else {
+                        DB.User userObj = (DB.User) request.getSession().getAttribute("user");
+                    %>
 
-                    <%}%>
+                    <li><span class="glyphicon glyphicon-user"></span><a href="#"> <%=userObj.getFname()%></a></li>
+
+                    <%
+
+                        if (userObj.getUserType().getUserType().equals("seller")) { %>
+
+                    <li><span class="glyphicon glyphicon-fire"></span><a href="addproducts.jsp"> Add Products</a></li>
+
+                    <%}
+                    %>
+                    <li><span class="glyphicon glyphicon-fire"></span><a href="login?type=Logout"> Logout</a></li>
+                            <%}%>
             </div>
         </div>
         <div class="row">
