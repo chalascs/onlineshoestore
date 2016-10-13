@@ -4,6 +4,8 @@
     Author     : Shanaka
 --%>
 
+<%@page import="DB.Catagory"%>
+<%@page import="connection.NewHibernateUtil"%>
 <%@page import="java.util.ArrayList"%>
 <%@page import="SizePojo.Model"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
@@ -224,14 +226,22 @@
                     <div class="form-group col-md-8">
                         <label for="gender">Which type is your product?</label>
                         <select class="form-control" id="cattype">
-                            <option>Boots</option>
-                            <option>Lace-ups</option>
-                            <option>Clogs & Mules</option>
-                            <option>Running shoes</option>
-                            <option>Sandals</option>
-                            <option>Slip-ons</option>
-                            <option>Slippers</option>
-                            <option>Sneakers</option>
+                            <%
+                                Session ses = NewHibernateUtil.getSessionFactory().openSession();
+                                Criteria cr = ses.createCriteria(DB.Catagory.class);
+                                List<Catagory> cat = cr.list();
+                                for (Catagory crt : cat) {
+                            %>
+
+                            <option><%=crt.getCatagory() %></option>
+                            <%}%>
+                            <!--                            <option>Lace-ups</option>
+                                                        <option>Clogs & Mules</option>
+                                                        <option>Running shoes</option>
+                                                        <option>Sandals</option>
+                                                        <option>Slip-ons</option>
+                                                        <option>Slippers</option>
+                                                        <option>Sneakers</option>-->
                         </select>
                     </div>
                     <div class="col-md-8"><textarea class="form-control" placeholder="Product Discription (This will show below the product)" id="discription"></textarea></div>
@@ -330,7 +340,7 @@
 
 
         </div>
-       
+
     </div>
     <div class="col-md-1"></div>
 

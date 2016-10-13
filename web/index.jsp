@@ -53,29 +53,26 @@
                     </div>
                 </div>
 
-                <%
-                    Session ses = NewHibernateUtil.getSessionFactory().openSession();
-                    Criteria cr = ses.createCriteria(DB.Stock.class);
-                    List<DB.Stock> li = cr.list();
-                    for (DB.Stock stock : li) {
-                %>
 
                 <div class="row" style="margin-top: 80px;">
+                    <%
+                        Session ses = NewHibernateUtil.getSessionFactory().openSession();
+                        Criteria cr = ses.createCriteria(DB.Stock.class);
+                        List<DB.Stock> li = cr.list();
+                        for (DB.Stock stock : li) {
+                    %>
                     <div class="col-sm-6 col-md-3" style="text-align: center">
                         <div class="thumbnail">
                             <img src="<%=stock.getImage()%>" alt="shoes">
                             <div class="caption">
                                 <h3><%=stock.getProductName()%></h3>
                                 <p><%=stock.getDiscription()%></p>
-                                <p><a href="#" class="btn btn-success" role="button">Buy Now</a></p>
+                                <p><a href="<%=stock.getImage() %>" class="btn btn-success" role="button">Buy Now</a></p>
                             </div>
                         </div>
                     </div>  
                     <%}%>
                 </div>
-
-
-
             </div>
             <div class="col-md-1"></div>         
         </div>
