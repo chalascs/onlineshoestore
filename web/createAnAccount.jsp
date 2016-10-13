@@ -28,13 +28,13 @@
                     <h2 style="margin-bottom: 40px; margin-left: 20px; font-family:initial; color: skyblue">Sign Up</h2>
                     <hr style="background-color:#666666;">
                     <form class="form" action="user" method="post" id="regForm" onsubmit="return sub()">
-                        <div class="col-sm-6"><input type="text" id="fname" class="form-control" placeholder="First Name" name="fname"></div>
-                        <div class="col-sm-6"><input type="text" id="lname" class="form-control" placeholder="Last Name" name="lname"></div>
-                        <div class="col-sm-12"><input type="email" id="email" class="form-control" placeholder="Email" name="email"></div>
-                        <div class="col-sm-6"><input type="password" id="pass1" class="form-control" placeholder="Password" name="pword"></div>
-                        <div class="col-sm-6"><input type="password" id="pass2" class="form-control" placeholder="Password Again" name="retrypword"  id="inputSuccess"></div>
+                        <div class="col-sm-6"><input type="text" id="fname" class="form-control" placeholder="First Name" name="fname" required></div>
+                        <div class="col-sm-6"><input type="text" id="lname" class="form-control" placeholder="Last Name" name="lname" required></div>
+                        <div class="col-sm-12"><input type="email" id="email" class="form-control" placeholder="Email" name="email" required></div>
+                        <div class="col-sm-6"><input type="password" id="pass1" class="form-control" placeholder="Password" name="pword" required></div>
+                        <div class="col-sm-6"><input type="password" id="pass2" class="form-control" placeholder="Password Again" name="retrypword"  id="inputSuccess" required></div>
 
-                        <div class="col-sm-6"><input type="number" class="form-control" placeholder="Telephone Number" name="tpnumber"></div>
+                        <div class="col-sm-6"><input type="number" class="form-control" placeholder="Telephone Number" name="tpnumber" required></div>
                         <div class="col-sm-6">
                             <div class="form-group">
                                 <label for="sel1">Which are you? (select one):</label>

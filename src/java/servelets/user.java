@@ -40,7 +40,7 @@ public class user extends HttpServlet {
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         try (PrintWriter out = response.getWriter()) {
-            
+            System.out.println("awa");
             
             String fname = request.getParameter("fname");
             String lname = request.getParameter("lname");

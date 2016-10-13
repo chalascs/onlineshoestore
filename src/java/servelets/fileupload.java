@@ -56,10 +56,10 @@ public class fileupload extends HttpServlet {
                         if (!f.isFormField()) {
                             String n = new File(f.getName()).getName();
                             System.out.println(f.getSize());
-                 //           String path = "C:\\Users\\Shanaka\\Documents\\shoestoreupload\\" + System.currentTimeMillis() + "_" + n;
-                            f.write(new File("C:\\Users\\Shanaka\\Documents\\shoestoreupload\\" + System.currentTimeMillis() + "_" + n));
-//                            request.getSession().setAttribute("ImagePath", path);
-                         response.sendRedirect("addproducts.jsp");
+                            String pathh = "C:/Users/Shanaka/Documents/shoestoreupload/"+ System.currentTimeMillis() + "_" + n;
+                            f.write(new File(pathh));
+                            request.getSession().setAttribute("imgPath", pathh);
+                            response.sendRedirect("index.jsp");
                         }
                     }
 

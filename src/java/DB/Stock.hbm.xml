@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
 "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
-<!-- Generated Oct 5, 2016 3:08:36 PM by Hibernate Tools 3.6.0 -->
+<!-- Generated Oct 14, 2016 12:43:12 AM by Hibernate Tools 3.6.0 -->
 <hibernate-mapping>
     <class name="DB.Stock" table="stock" catalog="shoestore">
         <id name="stid" type="java.lang.Integer">
@@ -17,8 +17,8 @@
         <property name="productName" type="string">
             <column name="product_name" />
         </property>
-        <property name="qty" type="java.lang.Integer">
-            <column name="qty" />
+        <property name="price" type="java.lang.Double">
+            <column name="price" precision="22" scale="0" />
         </property>
         <property name="discount" type="java.lang.Double">
             <column name="discount" precision="22" scale="0" />
@@ -28,6 +28,9 @@
         </property>
         <property name="status" type="java.lang.Integer">
             <column name="status" />
+        </property>
+        <property name="targetpop" type="string">
+            <column name="targetpop" />
         </property>
         <property name="code" type="string">
             <column name="code" />
@@ -43,6 +46,12 @@
                 <column name="stock_stid" />
             </key>
             <one-to-many class="DB.InvoiceItems" />
+        </set>
+        <set name="sizes" table="size" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="stock_stid" not-null="true" />
+            </key>
+            <one-to-many class="DB.Size" />
         </set>
         <set name="stockHasCarts" table="stock_has_cart" inverse="true" lazy="true" fetch="select">
             <key>

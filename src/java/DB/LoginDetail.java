@@ -1,5 +1,5 @@
 package DB;
-// Generated Oct 5, 2016 3:08:36 PM by Hibernate Tools 3.6.0
+// Generated Oct 14, 2016 12:43:12 AM by Hibernate Tools 3.6.0
 
 
 

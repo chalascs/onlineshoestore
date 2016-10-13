@@ -21,7 +21,7 @@
     background-color:#eee;
 }
 #fullpage{
-    background-image: url('../img/background.jpg');
+   // background-image: url('../img/background.jpg');
 }
 #topthree{
 
@@ -118,4 +118,7 @@
     background: white;
     cursor: inherit;
     display: block;
+}
+.balackcolor{
+    color: #080808;
 }

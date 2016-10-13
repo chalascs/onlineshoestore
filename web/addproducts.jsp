@@ -14,18 +14,11 @@
         <title>Add products</title>
         <link rel="stylesheet" href="css/bootstrap.min_1.css">
         <link rel="stylesheet" href="css/custom.css">
-        <script src="js/jquery.js" type="text/javascript"></script>
+        <script src="js/jquery-3.1.0.min.js" type="text/javascript"></script>
         <script src="js/jquery.form.js" type="text/javascript"></script>
         <script src="js/progressBarScript.js" type="text/javascript"></script>
+        <script src="js/bootstrap.min.js"></script>
 
-        <style>
-            .topbar li a{
-                color: white;
-            }
-            .topbar li{
-                color: whitesmoke;
-            }
-        </style>
         <style type="text/css">
             #progressBox{
                 width: 500px;
@@ -53,6 +46,12 @@
                 margin-top: 10px;
                 cursor: pointer;
             }
+            .topbar li {
+                color: white;
+            }
+            .topbar li a{
+                color: white;
+            }
 
         </style>
 
@@ -66,24 +65,15 @@
                 var a = document.getElementById("selectFile").files;
                 for (var i = 0; i < a.length; i++) {
                     alert(a[i].name + " , " + ((a[i].size / 1024) / 1024) / 1024);
-
                 }
-
             }
-
             function readURL(input) {
-
                 getFileName();
-
                 var c = 0;
-
                 for (var i = 0; i < input.files.length; i++) {
-
                     if (input.files[i] !== null) {
-
                         var reader = new FileReader();
                         reader.onload = function(e) {
-
                             var elem = document.createElement("img");
                             elem.setAttribute("id", c);
                             elem.setAttribute("class", "myimgs");
@@ -91,24 +81,16 @@
                             elem.setAttribute("height", "100");
                             elem.setAttribute("width", "100");
                             elem.setAttribute("onclick", 'deleteimage(' + c + ')');
-
                             document.getElementById("myimg").appendChild(elem);
                             c++;
-                        };
+                        }
                         reader.readAsDataURL(input.files[i]);
-
                     }
                 }
-
             }
-
             function deleteimage(x) {
-
                 $("#" + x).remove();
-
             }
-
-
         </script>
         <!--add to table fuction-->
         <script>
@@ -117,6 +99,7 @@
                 var xhttp = new XMLHttpRequest();
                 var size = document.getElementById("size").value;
                 var qty = document.getElementById("qty").value;
+                var ty;
                 xhttp.onreadystatechange = function() {
                     if (xhttp.readyState === 4 && xhttp.status === 200) {
                         document.getElementById("tab").innerHTML = xhttp.responseText;
@@ -126,9 +109,19 @@
                 };
                 if (size !== "" && qty !== "") {
 
-                    xhttp.open("GET", "addtotable?size=" + size + "&qty=" + qty + "&type=AddItem", true);
-                    xhttp.send();
+                    if (size > 22 && size < 44) {
+
+                        ty = "";
+                        xhttp.open("GET", "addtotable?size=" + size + "&qty=" + qty + "&type=AddItem", true);
+                        xhttp.send();
+
+                    } else {
+                        ty = "Please Enter A Size Between 23 - 43";
+
+                    }
+                    document.getElementById("demo").innerHTML = ty;
                 }
+
             }
 
             function removeSize() {
@@ -158,10 +151,42 @@
                 xhttp.send();
             }
 
+            // add to table validations... .. .
+            function sendData() {
+
+                var xhttp = new XMLHttpRequest();
+                var id = document.getElementById("id").value;
+                var pname = document.getElementById("pname").value;
+                var price = document.getElementById("price").value;
+                var target = document.getElementById("target").value;
+                var cattype = document.getElementById("cattype").value;
+                var discription = document.getElementById("discription").value;
+                var discount = document.getElementById("discount").value;
+                var code = document.getElementById("code").value;
+                var Type = "AddToStock";
+                xhttp.onreadystatechange = function() {
+                    if (xhttp.readyState === 4 && xhttp.status === 200) {
+                        document.getElementById("tab").innerHTML = xhttp.responseText;
+                        document.getElementById("id").value = "";
+                        document.getElementById("pname").value = "";
+                        document.getElementById("price").value = "";
+                        document.getElementById("target").value = "";
+                        document.getElementById("cattype").value = "";
+                        document.getElementById("discription").value = "";
+                        document.getElementById("discount").value = "";
+                        document.getElementById("code").value = "";
+                    }
+                };
+                if (size !== "" && qty !== "") {
+                    xhttp.open("GET", "stock?id=" + id + "&pname=" + pname + "&price=" + price + "&target=" + target + "&cattype=" + cattype + "&discription=" + discription + "&discount=" + discount + "&Type=" + Type + "&code=" + code, true);
+                    xhttp.send();
+
+                }
+
+            }
+
         </script>
     </head>
-
-
     <body id="addproduct">
         <div class="col-md-1"></div>
         <div class="col-md-10">
@@ -179,26 +204,26 @@
                 <div class="col-md-6 form">
 
 
-                    <div class="col-md-8"><input type="text" class="form-control" placeholder="Product ID"></div>
-                    <div class="col-md-8"><input type="text" class="form-control" placeholder="Product Name"></div>
-                    <div class="col-md-8"><input type="text" class="form-control" placeholder="Enter Price"></div>
+                    <div class="col-md-8"><input type="text" class="form-control" placeholder="Product ID" id="id"></div>
+                    <div class="col-md-8"><input type="text" class="form-control" placeholder="Product Name" id="pname"></div>
+                    <div class="col-md-8"><input type="text" class="form-control" placeholder="Enter Price" id="price"></div>
                     <div class="col-md-8">
                         <label class="">Select your targeted population</label>
                         <div class="row">
                             <div class="col-md-5">
-                                <div class="radio"><label><input type="radio" name="optradio" value="women">Women</label></div>
-                                <div class=" radio"><label><input type="radio" name="optradio" value="men">Men</label></div>
-                            </div>
-                            <div class="col-md-6 ">
-                                <div class=" radio"><label><input type="radio" name="optradio" value="girls">Girls</label></div>
-                                <div class=" radio"><label><input type="radio" name="optradio" value="boys">Boys</label></div>
+                                <select class="form-control" id="target">
+                                    <option>Women</option>
+                                    <option>Men</option>
+                                    <option>Girls</option>
+                                    <option>Boys</option>
+                                </select>
                             </div>
                         </div>
                     </div>
 
                     <div class="form-group col-md-8">
                         <label for="gender">Which type is your product?</label>
-                        <select class="form-control" id="gender">
+                        <select class="form-control" id="cattype">
                             <option>Boots</option>
                             <option>Lace-ups</option>
                             <option>Clogs & Mules</option>
@@ -209,9 +234,9 @@
                             <option>Sneakers</option>
                         </select>
                     </div>
-                    <div class="col-md-8"><textarea class="form-control" placeholder="Product Discription (This will show below the product)"></textarea></div>
-                    <div class="col-md-8"><input type="text" class="form-control" placeholder="Discount(%)"></div>
-
+                    <div class="col-md-8"><textarea class="form-control" placeholder="Product Discription (This will show below the product)" id="discription"></textarea></div>
+                    <div class="col-md-8"><input type="text" class="form-control" placeholder="Discount(%)" id="discount"></div>
+                    <div class="col-md-8"><input type="text" class="form-control" placeholder="Your Product Code Here" id="code"/></div>
 
                 </div>
 
@@ -229,7 +254,7 @@
                             </div>
 
                             <div class="col-md-4">
-                                <input type="button" class="btn btn-warning" value="Apply" onclick="addtable()">
+                                <input type="button" class="btn btn-warning balackcolor" value="Apply" onclick="addtable()">
                             </div>
                         </div>
 
@@ -261,57 +286,58 @@
                             </div>
 
                         </div>
-                            <hr>
+                        <hr>
                     </div>
+                    <div id="demo" class="col-md-4" style="margin-top: 22px; color: #ff3300"></div>
+
                     <div class="row">
-                        <form enctype="multipart/form-data" method="post" id="uploadForm" action="fileupload">
-
-                            <div id="progressBox">
-                                <input disabled="disabled" id="fileName" placeholder="Choose File"/>
-
-                                <div id="upFile" class="btn btn-primary">
-                                    <span>Select</span>
-                                    <input onchange="readURL(this)" class="upload" type="file" name="myfile" id="selectFile" multiple/>
-                                </div>
-
-                                <div class="progress">
-                                    <div class="progress-bar progress-bar-success progress-bar-striped active" id="pBar"></div>
+                        <!-- File Upload-->  
+                        <div class="col-md-8">  
+                            <form enctype="multipart/form-data" method="post" id="uploadForm" action="fileupload">
+                                <div class="row">
+                                    <div id="progressBox" class="col-md-7">
+                                        <input disabled="disabled" id="fileName" placeholder="Choose File"/>
+                                        <div id="upFile" class="btn btn-primary">
+                                            <span>Select</span>
+                                            <input onchange="readURL(this)" class="upload" type="file" name="myfile" id="selectFile" multiple/>
+                                        </div>
+                                        <div class="progress col-md-8">
+                                            <div class="progress-bar progress-bar-success progress-bar-striped active" id="pBar"></div>
+                                        </div>
+                                        <br>
+                                    </div>
                                 </div>
                                 <br>
-                                <div id="myimg">
-
-                                </div>
-                            </div>
-
-                            <br>
-
-                            <input class="btn btn-danger" type="submit" value="Upload My File"/>
-
+                                <input class="btn btn-danger" type="submit" value="Upload My File"/>
+                        </div>
+                        <div id="myimg" class="col-md-4">
+                        </div>
                         </form>
+                    </div>
 
-                        <!-- <div class="col-md-8"><input type="text" class="form-control" placeholder="Input Shoe Code Here"></div>-->
-
+                    <div class="row">
                         <div class="col-md-8">
                             <hr>
-                            <div class="col-md-4"><input type="submit" class="btn btn-danger" value="Save It"></div>
+                            <div class="col-md-4"><input type="submit" class="btn btn-danger" value="Save It" onclick="sendData()"></div>
                             <div class="col-md-4"><input type="button" class="btn btn-danger" value="Update"></div>
                             <div class="col-md-4"><input type="button" class="btn btn-danger" value="Delete"></div>
 
                         </div>
                     </div>
-
                 </div>
 
-
             </div>
-            <hr>
+
+
         </div>
-        <div class="col-md-1"></div>
+       
+    </div>
+    <div class="col-md-1"></div>
 
 
 
 
-        <script src="js/jquery-3.1.0.min.js"></script>       
-        <script src="js/bootstrap.min.js"></script> 
-    </body>
+    <!--<script src="js/jquery-3.1.0.min.js"></script>-->       
+
+</body>
 </html>

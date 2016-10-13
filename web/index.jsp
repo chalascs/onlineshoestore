@@ -4,6 +4,7 @@
     Author     : Shanaka
 --%>
 
+<%@page import="connection.NewHibernateUtil"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
@@ -52,48 +53,29 @@
                     </div>
                 </div>
 
+                <%
+                    Session ses = NewHibernateUtil.getSessionFactory().openSession();
+                    Criteria cr = ses.createCriteria(DB.Stock.class);
+                    List<DB.Stock> li = cr.list();
+                    for (DB.Stock stock : li) {
+                %>
+
                 <div class="row" style="margin-top: 80px;">
                     <div class="col-sm-6 col-md-3" style="text-align: center">
                         <div class="thumbnail">
-                            <img src="img/1.jpg" alt="sport">
+                            <img src="<%=stock.getImage()%>" alt="shoes">
                             <div class="caption">
-                                <h3>Omega Black</h3>
-                                <p>Cras justo odio, dapibus ac facilisis in, egestas eget quam. Donec id elit non mi porta gravida at eget metus. Nullam id dolor id nibh ultricies vehicula ut id elit.</p>
+                                <h3><%=stock.getProductName()%></h3>
+                                <p><%=stock.getDiscription()%></p>
                                 <p><a href="#" class="btn btn-success" role="button">Buy Now</a></p>
                             </div>
                         </div>
-                    </div>
-                    <div class="col-sm-6 col-md-3" style="text-align: center">
-                        <div class="thumbnail">
-                            <img src="img/1.jpg" alt="sport">
-                            <div class="caption">
-                                <h3>Omega Black</h3>
-                                <p>Cras justo odio, dapibus ac facilisis in, egestas eget quam. Donec id elit non mi porta gravida at eget metus. Nullam id dolor id nibh ultricies vehicula ut id elit.</p>
-                                <p><a href="#" class="btn btn-success" role="button">Buy Now</a></p>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-sm-6 col-md-3" style="text-align: center">
-                        <div class="thumbnail">
-                            <img src="img/1.jpg" alt="sport">
-                            <div class="caption">
-                                <h3>Omega Black</h3>
-                                <p><div style="max-height: 100px;overflow-y: auto;"><p>Cras justo odio, dapibus ac facilisis in, egestas eget quam. Donec id elit non mi porta gravida at eget metus. Nullam id dolor id nibh ultricies vehicula ut id elit.Cras justo odio, dapibus ac facilisis in, egestas eget quam. Donec id elit non mi porta gravida at eget metus. Nullam id dolor id nibh ultricies vehicula ut id elit.Cras justo odio, dapibus ac facilisis in, egestas eget quam. Donec id elit non mi porta gravida at eget metus. Nullam id dolor id nibh ultricies vehicula ut id elit.Cras justo odio, dapibus ac facilisis in, egestas eget quam. Donec id elit non mi porta gravida at eget metus. Nullam id dolor id nibh ultricies vehicula ut id elit.</p></div></p>
-                                <p><a href="#" class="btn btn-success" role="button">Buy Now</a></p>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-sm-6 col-md-3" style="text-align: center">
-                        <div class="thumbnail">
-                            <img src="img/1.jpg" alt="sport">
-                            <div class="caption">
-                                <h3>Omega Black</h3>
-                                <p>Cras justo odio, dapibus ac facilisis in, egestas eget quam. Donec id elit non mi porta gravida at eget metus. Nullam id dolor id nibh ultricies vehicula ut id elit.</p>
-                                <p><a href="#" class="btn btn-success" role="button">Buy Now</a></p>
-                            </div>
-                        </div>
-                    </div>
+                    </div>  
+                    <%}%>
                 </div>
+
+
+
             </div>
             <div class="col-md-1"></div>         
         </div>
