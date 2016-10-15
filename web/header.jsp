@@ -59,7 +59,7 @@
                     </span>
                 </div>
             </div>
-            <div class="col-md-2"><button type="button" class="btn btn-block btn-success" aria-label="Left Align"> <span class="glyphicon glyphicon-shopping-cart" aria-hidden="true"></span> Rs.0.00</button></div>
+            <div class="col-md-2"><a href="cart.jsp" style="text-decoration: none"><button type="button" class="btn btn-block btn-success" aria-label="Left Align"> <span class="glyphicon glyphicon-shopping-cart" aria-hidden="true"></span> Rs.0.00</button></a></div>
         </div>
     </body>
 </html>

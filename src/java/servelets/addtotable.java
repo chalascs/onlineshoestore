@@ -108,7 +108,6 @@ public class addtotable extends HttpServlet {
                 if (request.getSession().getAttribute("sizes") != null) {
                     ArrayList<Model> al = (ArrayList<Model>) request.getSession().getAttribute("sizes");
                     al.remove(Integer.parseInt(removeSize));
-
                 }
                 ArrayList<Model> al1 = (ArrayList<Model>) request.getSession().getAttribute("sizes");
 

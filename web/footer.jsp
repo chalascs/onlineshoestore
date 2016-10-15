@@ -12,8 +12,12 @@
         <title>JSP Page</title>
         <link rel="stylesheet" href="css/bootstrap.min.css">
         <link rel="stylesheet" href="css/custom.css">
+        <script src="js/jquery-3.1.0.min.js"></script>       
+        <script src="js/bootstrap.min.js"></script>   
     </head>
     <body>
+        <div id="footer">
+            
         <div class="col-md-7">
             <div class="row">
                 <div class="col-md-6">
@@ -105,7 +109,7 @@
             <div class="col-md-12"><pre><a href="#" style="text-decoration: none; color: #333;">Terms of Use</a> | <a href="#" style="text-decoration: none; color: #333;">Privacy Policy</a> | © OnlineShoeMart.com 2016</pre></div>
         </div>
 
-        <script src="js/jquery-3.1.0.min.js"></script>       
-        <script src="js/bootstrap.min.js"></script>   
+        
+        </div>
     </body>
 </html>

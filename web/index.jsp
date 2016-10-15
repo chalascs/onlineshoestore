@@ -13,6 +13,24 @@
         <title>Shoe Mart</title>
         <link rel="stylesheet" href="css/bootstrap.min.css">
         <link rel="stylesheet" href="css/custom.css">
+        <link rel="stylesheet" href="css/font-awesome.min.css">
+        <script src="js/jquery-3.1.0.min.js"></script>       
+        <script src="js/bootstrap.min.js"></script> 
+        <script>
+            function addtocart(stid) {
+                var xhttp = new XMLHttpRequest();
+                var adcrt = document.getElementById("adcrt").value;
+                var Type = "addtocart";
+                xhttp.onreadystatechange = function() {
+                    if(xhttp.readyState === 4 && xhttp.status ===200){
+                        
+                    }
+                };
+                xhttp.open("GET","cart?adcrt="+ stid +"&Type=" + Type,true);
+                xhttp.send();
+            }
+
+        </script>
     </head>
     <body>
         <div class="row" id="fullpage">
@@ -26,14 +44,12 @@
                 <div class="row">
                     <div class="col-md-3"></div>
                     <div class="col-md-7 navbar-nav col-xs-12" id="mid_nav">
-
                         <ul class="info col-xs-12">
                             <li><a href="#"><strong><span class="glyphicon glyphicon-folder-open"></span>  Browse</strong></a></li>
                             <li><a href="#"><strong><span class="glyphicon glyphicon-send"></span>  Latest</strong></a></li>
                             <li><a href="#"><strong><span class="glyphicon glyphicon-certificate"></span>  Special</strong></a></li>
                             <li><a href="#"><strong><span class="glyphicon glyphicon-tags"></span>  Brands</strong></a></li> 
                         </ul>
-
                     </div>
                     <div class="col-md-2"></div>
                 </div>
@@ -41,19 +57,19 @@
                     <div class="col-md-3" >
                         <%@include file="leftdropdown.jsp" %>
                     </div>
-
                     <!--Slider included -->
                     <div class="col-md-7 hidden-xs" id="slider" >
                         <%@include file="slider.jsp" %>
                     </div>
-
                     <!-- advertisement -->
                     <div class="cl-md-3 hidden-xs">
                         <img src="img/combank.png">
                     </div>
                 </div>
-
-
+                <hr>
+                <div class="row" style="margin-top: 50px;">
+                    <div class="col-md-12 text-center"><span class=" fa fa-3x"><kbd>Latest Products</kbd></span></div>
+                </div>
                 <div class="row" style="margin-top: 80px;">
                     <%
                         Session ses = NewHibernateUtil.getSessionFactory().openSession();
@@ -62,12 +78,12 @@
                         for (DB.Stock stock : li) {
                     %>
                     <div class="col-sm-6 col-md-3" style="text-align: center">
-                        <div class="thumbnail">
-                            <img src="<%=stock.getImage()%>" alt="shoes">
+                        <div class="thumbnail" style="background-color: #eee; border-radius: 20px;">
+                            <img src="<%=stock.getImage()%>" alt="shoes" style="border-radius: 20px;">
                             <div class="caption">
-                                <h3><%=stock.getProductName()%></h3>
+                                <h3 id="pname"><%=stock.getProductName()%></h3>
                                 <p><%=stock.getDiscription()%></p>
-                                <p><a href="<%=stock.getImage() %>" class="btn btn-success" role="button">Buy Now</a></p>
+                                <p><a  class="btn btn-success" role="button" id="adcrt" onclick="addtocart(<%=stock.getStid()%>)">Buy Now</a></p>
                             </div>
                         </div>
                     </div>  
@@ -79,8 +95,5 @@
         <div class="row" id="footer">
             <%@include file="footer.jsp" %>
         </div>            
-        <script src="js/jquery-3.1.0.min.js"></script>       
-        <script src="js/bootstrap.min.js"></script>  
-
     </body>
 </html>

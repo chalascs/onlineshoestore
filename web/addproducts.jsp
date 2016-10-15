@@ -4,6 +4,10 @@
     Author     : Shanaka
 --%>
 
+<%@page import="DB.Stock"%>
+<%@page import="org.hibernate.criterion.Projections"%>
+<%@page import="org.hibernate.criterion.Projection"%>
+<%@page import="org.hibernate.criterion.Restrictions"%>
 <%@page import="DB.Catagory"%>
 <%@page import="connection.NewHibernateUtil"%>
 <%@page import="java.util.ArrayList"%>
@@ -97,7 +101,6 @@
         <!--add to table fuction-->
         <script>
             function addtable() {
-
                 var xhttp = new XMLHttpRequest();
                 var size = document.getElementById("size").value;
                 var qty = document.getElementById("qty").value;
@@ -110,20 +113,15 @@
                     }
                 };
                 if (size !== "" && qty !== "") {
-
                     if (size > 22 && size < 44) {
-
                         ty = "";
                         xhttp.open("GET", "addtotable?size=" + size + "&qty=" + qty + "&type=AddItem", true);
                         xhttp.send();
-
                     } else {
                         ty = "Please Enter A Size Between 23 - 43";
-
                     }
                     document.getElementById("demo").innerHTML = ty;
                 }
-
             }
 
             function removeSize() {
@@ -133,27 +131,23 @@
                 xhttp.onreadystatechange = function() {
                     if (xhttp.readyState === 4 && xhttp.status === 200) {
                         document.getElementById("tab").innerHTML = xhttp.responseText;
-
                     }
                 };
                 xhttp.open("GET", "addtotable?type=removeItem", true);
                 xhttp.send();
-
             }
             function abc(val) {
                 var xhttp = new XMLHttpRequest();
-
                 xhttp.onreadystatechange = function() {
                     if (xhttp.readyState === 4 && xhttp.status === 200) {
                         document.getElementById("tab").innerHTML = xhttp.responseText;
-
                     }
                 };
                 xhttp.open("GET", "addtotable?removeSize=" + val + "&type=removeItem", true);
                 xhttp.send();
             }
 
-            // add to table validations... .. .
+            // sending data to save... .. .
             function sendData() {
 
                 var xhttp = new XMLHttpRequest();
@@ -204,8 +198,9 @@
 
 
                 <div class="col-md-6 form">
-
-
+                    <%
+                        Session ses = NewHibernateUtil.getSessionFactory().openSession();
+                    %>
                     <div class="col-md-8"><input type="text" class="form-control" placeholder="Product ID" id="id"></div>
                     <div class="col-md-8"><input type="text" class="form-control" placeholder="Product Name" id="pname"></div>
                     <div class="col-md-8"><input type="text" class="form-control" placeholder="Enter Price" id="price"></div>
@@ -227,13 +222,13 @@
                         <label for="gender">Which type is your product?</label>
                         <select class="form-control" id="cattype">
                             <%
-                                Session ses = NewHibernateUtil.getSessionFactory().openSession();
+                                // Session ses = NewHibernateUtil.getSessionFactory().openSession();
                                 Criteria cr = ses.createCriteria(DB.Catagory.class);
                                 List<Catagory> cat = cr.list();
                                 for (Catagory crt : cat) {
                             %>
 
-                            <option><%=crt.getCatagory() %></option>
+                            <option><%=crt.getCatagory()%></option>
                             <%}%>
                             <!--                            <option>Lace-ups</option>
                                                         <option>Clogs & Mules</option>

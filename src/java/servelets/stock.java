@@ -61,7 +61,6 @@ public class stock extends HttpServlet {
                 if (request.getSession().getAttribute("imgPath") == null) {
                     return;
                 }
-
                 Criteria cr = ses.createCriteria(DB.Stock.class);
                 cr.add(Restrictions.eq("stid", Integer.parseInt(id)));
                 DB.Stock crst = (DB.Stock) cr.uniqueResult();
@@ -86,12 +85,11 @@ public class stock extends HttpServlet {
                     ses.save(st);
 
                     ArrayList<Model> al = (ArrayList<Model>) request.getSession().getAttribute("sizes");
-                    DB.Size si = new Size();
                     for (Model mo : al) {
+                        DB.Size si = new Size();
                         si.setQty(mo.getQty());
                         si.setSize(mo.getSize());
                         si.setStock(st);
-
                         ses.save(si);
                     }
                     ses.beginTransaction().commit();
