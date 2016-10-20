@@ -20,7 +20,7 @@
     <body class="signup">
         <div class="row">
             <div class="col-md-6" style="margin-top: 240px; text-align: center">
-                <div class="col-md-12"><center><img src="img/logo.png" class="img-responsive"></center></div>
+                <div class="col-md-12"><center><a href="index.jsp"><img src="img/logo.png" class="img-responsive"></a></center></div>
                 <div class="col-sm-12"><h4 style="color: whitesmoke; font-family: cursive">Online Shoe Mart is the most suitable place for any human being to buy there shoes in one place. We produce you a very fast delivery and most secured products for your every penny.</h4></div>
             </div>
             <div class="col-md-6">

@@ -3,10 +3,10 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package servelets;
 
-import java.io.File;
+import DB.Stock;
+import connection.NewHibernateUtil;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.List;
@@ -15,17 +15,16 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import org.apache.commons.fileupload.FileItem;
-import org.apache.commons.fileupload.FileItemFactory;
-import org.apache.commons.fileupload.disk.DiskFileItemFactory;
-import org.apache.commons.fileupload.servlet.ServletFileUpload;
+import org.hibernate.Criteria;
+import org.hibernate.Session;
+import org.hibernate.criterion.Restrictions;
 
 /**
  *
  * @author Shanaka
  */
-@WebServlet(name = "fileupload", urlPatterns = {"/fileupload"})
-public class fileupload extends HttpServlet {
+@WebServlet(name = "browse", urlPatterns = {"/browse"})
+public class browse extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -39,36 +38,34 @@ public class fileupload extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        try (PrintWriter out = response.getWriter()) {
-            /* TODO output your page here. You may use following sample code. */
-            boolean ismultiple = ServletFileUpload.isMultipartContent(request);
+        PrintWriter out = response.getWriter();
+        try {
+            String women = request.getParameter("women");
 
-            if (ismultiple) {
-
-                FileItemFactory fif = new DiskFileItemFactory();
-                ServletFileUpload upload = new ServletFileUpload(fif);
-
-                try {
-
-                    List<FileItem> fit = upload.parseRequest(request);
-                    for (FileItem f : fit) {
-
-                        if (!f.isFormField()) {
-                            String n = new File(f.getName()).getName();
-                            System.out.println(f.getSize());
-                            //String pathh = "C:/Users/Shanaka/Documents/shoestoreupload/"+ System.currentTimeMillis() + "_" + n;
-                            String pathh = "C:/Users/Shanaka/Documents/NetBeansProjects/OnlineShoeStore/web/uploads/"+ System.currentTimeMillis() + "_" + n;
-                            f.write(new File(pathh));
-                            request.getSession().setAttribute("imgPath", pathh.split("/web/")[1]);
-                            response.sendRedirect("index.jsp");
-                        }
-                    }
-
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
+            if (women.equals("women")) {
+//                Session ses = NewHibernateUtil.getSessionFactory().openSession();
+//                Criteria cr = ses.createCriteria(DB.Stock.class);
+//                cr.add(Restrictions.eq("targetpop", women));
+//                List<Stock> l1 = cr.list();
+//                for (Stock st1 : l1) {
+//
+//                    
+//                    out.write("<div class=\"col-sm-6 col-md-3\" style=\"text-align: center\">");
+//                    out.write("<div class=\"thumbnail\" style=\"background-color: #eee; border-radius: 20px;\">");
+//                    out.write("<img src=\""+st1.getImage() +"\" alt=\"shoes\" style=\"border-radius: 20px;\">");
+//                    out.write("<div class=\"caption\">");
+//                    out.write("<h3 id=\"pname\"> "+st1.getProductName() +" </h3>");
+//                    out.write("<p> "+st1.getDiscription()+"</p>");
+//                    out.write("<p><a  class=\"btn btn-success\" role=\"button\" id=\"adcrt\" onclick=\"addtocart()\">Buy Now</a></p>");
+//                    out.write("</div>");
+//                    out.write("</div>");
+//                    out.write("</div>");
+//                   
+               // }
             }
 
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
 

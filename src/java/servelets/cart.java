@@ -41,7 +41,7 @@ public class cart extends HttpServlet {
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         PrintWriter out = response.getWriter();
-
+        
         try {
             String stkid = request.getParameter("adcrt");
             String cartPrice = request.getParameter("cartPrice");
@@ -63,18 +63,31 @@ public class cart extends HttpServlet {
                     ar = new ArrayList<>();
                     ar.add(id);
                 }
+                 if (request.getSession().getAttribute("cartTotal") != null) {
+                Double ab =  (Double) request.getSession().getAttribute("cartTotal");
+                     request.getSession().setAttribute("cartTotal", ab+id.getPrice());
+                } else {
+                      request.getSession().setAttribute("cartTotal", id.getPrice());
+                }
+               
                 request.getSession().setAttribute("cart", ar);
             } else if (Type.equals("changeQTY")) {
                 Stock ss = (Stock) ses.load(DB.Stock.class, Integer.parseInt(proID));
                 Criteria cr = ses.createCriteria(DB.Size.class);
                 cr.add(Restrictions.and(Restrictions.eq("stock", ss), Restrictions.eq("size", Integer.parseInt(size))));
                 DB.Size sz = (DB.Size) cr.uniqueResult();
+                 if (request.getSession().getAttribute("cartTotal") != null) {
+                    Double ab = (Double) request.getSession().getAttribute("cartTotal");
+                    Double newQTY = Double.parseDouble(qty) - 1;
+                    request.getSession().setAttribute("cartTotal", ab + (newQTY * Double.parseDouble(cartPrice)));
+                } 
                 if (sz != null) {
                     Double dd = Double.parseDouble(qty);
                     if (sz.getQty() >= dd) {
 
                         Double total = Double.parseDouble(cartPrice) * dd;
-                        out.write("Total-" + total);
+                        Double dqd = (Double) request.getSession().getAttribute("cartTotal");
+                        out.write("Total-" + total+"-"+dqd);
                     } else {
                         out.write("Message-QTY Too High");
                     }
@@ -106,7 +119,7 @@ public class cart extends HttpServlet {
                     for (DB.Stock stk : st) {
                         ii++;
 
-                        out.write("<tr>");
+                        out.write("<tr id=\"qwe\">");
                         out.write("<td class=\"text-center\">");
                         out.write("<div class=\"col-md-2\" style=\"margin-top: 70px;\">");
                         out.write("<input type=\"button\" class=\"btn btn-danger btn-xs\" value=\"X\" onclick=\"remove( " + st.indexOf(stk) + " )\">");

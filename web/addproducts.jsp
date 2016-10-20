@@ -4,6 +4,7 @@
     Author     : Shanaka
 --%>
 
+<%@page import="org.hibernate.criterion.Order"%>
 <%@page import="DB.Stock"%>
 <%@page import="org.hibernate.criterion.Projections"%>
 <%@page import="org.hibernate.criterion.Projection"%>
@@ -156,6 +157,7 @@
                 var price = document.getElementById("price").value;
                 var target = document.getElementById("target").value;
                 var cattype = document.getElementById("cattype").value;
+                alert(cattype);
                 var discription = document.getElementById("discription").value;
                 var discount = document.getElementById("discount").value;
                 var code = document.getElementById("code").value;
@@ -173,6 +175,7 @@
                         document.getElementById("code").value = "";
                     }
                 };
+
                 if (size !== "" && qty !== "") {
                     xhttp.open("GET", "stock?id=" + id + "&pname=" + pname + "&price=" + price + "&target=" + target + "&cattype=" + cattype + "&discription=" + discription + "&discount=" + discount + "&Type=" + Type + "&code=" + code, true);
                     xhttp.send();
@@ -183,6 +186,11 @@
 
         </script>
     </head>
+    <%
+        if (request.getSession().getAttribute("user") == null) {
+            response.sendRedirect("login.jsp");
+        }
+    %>
     <body id="addproduct">
         <div class="col-md-1"></div>
         <div class="col-md-10">
@@ -200,8 +208,14 @@
                 <div class="col-md-6 form">
                     <%
                         Session ses = NewHibernateUtil.getSessionFactory().openSession();
+                        Criteria crr = ses.createCriteria(DB.Stock.class);
+                        crr.addOrder(Order.desc("stid"));
+                        crr.setMaxResults(1);
+                       Stock sst =(Stock) crr.uniqueResult();
+
+
                     %>
-                    <div class="col-md-8"><input type="text" class="form-control" placeholder="Product ID" id="id"></div>
+                    <div class="col-md-8"><input type="text" class="form-control" placeholder="Product ID" id="id" value="<%=sst.getStid()+1 %>"></div>
                     <div class="col-md-8"><input type="text" class="form-control" placeholder="Product Name" id="pname"></div>
                     <div class="col-md-8"><input type="text" class="form-control" placeholder="Enter Price" id="price"></div>
                     <div class="col-md-8">
@@ -221,8 +235,7 @@
                     <div class="form-group col-md-8">
                         <label for="gender">Which type is your product?</label>
                         <select class="form-control" id="cattype">
-                            <%
-                                // Session ses = NewHibernateUtil.getSessionFactory().openSession();
+                            <%                                // Session ses = NewHibernateUtil.getSessionFactory().openSession();
                                 Criteria cr = ses.createCriteria(DB.Catagory.class);
                                 List<Catagory> cat = cr.list();
                                 for (Catagory crt : cat) {

@@ -56,7 +56,7 @@ public class stock extends HttpServlet {
             String discount = request.getParameter("discount");
             String code = request.getParameter("code");
             String Type = request.getParameter("Type");
-
+            System.out.println(cattype);
             if (Type.equals("AddToStock")) {
                 if (request.getSession().getAttribute("imgPath") == null) {
                     return;

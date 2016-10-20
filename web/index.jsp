@@ -4,6 +4,7 @@
     Author     : Shanaka
 --%>
 
+<%@page import="DB.Stock"%>
 <%@page import="connection.NewHibernateUtil"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
@@ -23,14 +24,23 @@
                 var Type = "addtocart";
                 xhttp.onreadystatechange = function() {
                     if(xhttp.readyState === 4 && xhttp.status ===200){
-                        
                     }
                 };
                 xhttp.open("GET","cart?adcrt="+ stid +"&Type=" + Type,true);
                 xhttp.send();
             }
-
+            
+             $(document).ready(function(){
+                $("#cl").hover(function(){
+                    $("#prudload").show(800);
+                });
+            });
         </script>
+        <style>
+            #prudload{
+                display: none;
+            }
+        </style>
     </head>
     <body>
         <div class="row" id="fullpage">
@@ -68,9 +78,9 @@
                 </div>
                 <hr>
                 <div class="row" style="margin-top: 50px;">
-                    <div class="col-md-12 text-center"><span class=" fa fa-3x"><kbd>Latest Products</kbd></span></div>
+                    <div id="cl" style="margin-bottom: 20px;"class="col-md-12 text-center"><span class=" fa fa-3x"><kbd >Latest Products</kbd></span></div>
                 </div>
-                <div class="row" style="margin-top: 80px;">
+                <div class="row" style="margin-top: 80px;" id="prudload">
                     <%
                         Session ses = NewHibernateUtil.getSessionFactory().openSession();
                         Criteria cr = ses.createCriteria(DB.Stock.class);
@@ -78,10 +88,11 @@
                         for (DB.Stock stock : li) {
                     %>
                     <div class="col-sm-6 col-md-3" style="text-align: center">
-                        <div class="thumbnail" style="background-color: #eee; border-radius: 20px;">
-                            <img src="<%=stock.getImage()%>" alt="shoes" style="border-radius: 20px;">
+                        <div class="thumbnail" style="background-color: #eee; border-radius: 20px; width: 250px; height: 370px;">
+                            <img src="<%=stock.getImage()%>" alt="shoes" style="border-radius: 20px; width: 240px;height: 200px;">
                             <div class="caption">
                                 <h3 id="pname"><%=stock.getProductName()%></h3>
+                                <p style="font-weight: bold;color:#ff3366 ">Rs. <%=stock.getPrice() %></p>
                                 <p><%=stock.getDiscription()%></p>
                                 <p><a  class="btn btn-success" role="button" id="adcrt" onclick="addtocart(<%=stock.getStid()%>)">Buy Now</a></p>
                             </div>

@@ -14,7 +14,14 @@
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>JSP Page</title>
+        <script type="text/javascript">
+            function search(){
+                var sch = document.getElementById("searchbar").value;
+                window.location="http://localhost:8080/OnlineShoeStore/browseProducts.jsp?map="+sch;
+            }
+        </script>
     </head>
+    
     <body>
         <div class="row" id="topthree">
             <div class="col-md-8"><marquee style="font-family: cursive; color: #1b6d85">you can see the latest news here. Stick with us for new discounts and lots of valuable gifts</marquee></div>
@@ -53,13 +60,20 @@
             <div class="col-md-4"><a href="index.jsp"><img src="img/logo.png" class="img-responsive"></a></div>
             <div class="col-md-6">
                 <div class="input-group">
-                    <input type="text" class="form-control" placeholder="Search for..." style="margin-top: 2px;">
+                    <input type="text" class="form-control" placeholder="Search for..." id="searchbar" style="margin-top: 2px;">
                     <span class="input-group-btn">
-                        <button class="btn btn-primary glyphicon glyphicon-search" type="button"></button>
+                        <button class="btn btn-primary glyphicon glyphicon-search" type="button" onclick="search()"></button>
                     </span>
                 </div>
             </div>
-            <div class="col-md-2"><a href="cart.jsp" style="text-decoration: none"><button type="button" class="btn btn-block btn-success" aria-label="Left Align"> <span class="glyphicon glyphicon-shopping-cart" aria-hidden="true"></span> Rs.0.00</button></a></div>
+            <div class="col-md-2"><a href="cart.jsp" style="text-decoration: none"><button id="hederCartButton" type="button" class="btn btn-block btn-success" aria-label="Left Align"> <span class="glyphicon glyphicon-shopping-cart" aria-hidden="true"></span> Rs:
+                        <%if(request.getSession().getAttribute("cartTotal")== null){
+                        %>0.00<%
+                        }else{
+                      %> 
+                        <%=(Double)request.getSession().getAttribute("cartTotal")  %>
+                    <%}%>
+                    </button></a></div>
         </div>
     </body>
 </html>
