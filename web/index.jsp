@@ -23,15 +23,28 @@
                 var adcrt = document.getElementById("adcrt").value;
                 var Type = "addtocart";
                 xhttp.onreadystatechange = function() {
-                    if(xhttp.readyState === 4 && xhttp.status ===200){
+                    if (xhttp.readyState === 4 && xhttp.status === 200) {
                     }
                 };
-                xhttp.open("GET","cart?adcrt="+ stid +"&Type=" + Type,true);
+                xhttp.open("GET", "cart?adcrt=" + stid + "&Type=" + Type, true);
                 xhttp.send();
             }
-            
-             $(document).ready(function(){
-                $("#cl").hover(function(){
+
+            function wishlist(stid) {
+                var xhttp = new XMLHttpRequest();
+                var adwl = document.getElementById("wish").value;
+                var Type = "addtowish";
+                xhttp.onreadystatechange = function() {
+                    if (xhttp.readyState === 4 && xhttp.status === 200) {
+                    }
+                };
+                xhttp.open("GET", "wishlist?adwl=" + stid + "&Type=" + Type, true);
+                xhttp.send();
+            }
+
+
+            $(document).ready(function() {
+                $("#cl").hover(function() {
                     $("#prudload").show(800);
                 });
             });
@@ -55,7 +68,7 @@
                     <div class="col-md-3"></div>
                     <div class="col-md-7 navbar-nav col-xs-12" id="mid_nav">
                         <ul class="info col-xs-12">
-                            <li><a href="#"><strong><span class="glyphicon glyphicon-folder-open"></span>  Browse</strong></a></li>
+                            <li><a href="http://localhost:8080/OnlineShoeStore/browseProducts.jsp?map=all"><strong><span class="glyphicon glyphicon-folder-open"></span>  Browse</strong></a></li>
                             <li><a href="#"><strong><span class="glyphicon glyphicon-send"></span>  Latest</strong></a></li>
                             <li><a href="#"><strong><span class="glyphicon glyphicon-certificate"></span>  Special</strong></a></li>
                             <li><a href="#"><strong><span class="glyphicon glyphicon-tags"></span>  Brands</strong></a></li> 
@@ -92,9 +105,14 @@
                             <img src="<%=stock.getImage()%>" alt="shoes" style="border-radius: 20px; width: 240px;height: 200px;">
                             <div class="caption">
                                 <h3 id="pname"><%=stock.getProductName()%></h3>
-                                <p style="font-weight: bold;color:#ff3366 ">Rs. <%=stock.getPrice() %></p>
+                                <p style="font-weight: bold;color:#ff3366 ">Rs. <%=stock.getPrice()%></p>
                                 <p><%=stock.getDiscription()%></p>
-                                <p><a  class="btn btn-success" role="button" id="adcrt" onclick="addtocart(<%=stock.getStid()%>)">Buy Now</a></p>
+                                <div class="col-md-6 ">
+                                    <p><a  class="btn btn-success text-right" role="button" id="adcrt" onclick="addtocart(<%=stock.getStid()%>)">Buy Now</a></p>       
+                                </div>
+                                <div class="col-md-6 text-left">                 
+                                    <p><a style="border-radius: 5px;" class="btn btn-primary" role="button" id="wish" onclick="wishlist(<%=stock.getStid()%>)">Wish List</a></p>
+                                </div>
                             </div>
                         </div>
                     </div>  

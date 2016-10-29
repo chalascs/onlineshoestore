@@ -1,5 +1,5 @@
 package DB;
-// Generated Oct 14, 2016 12:43:12 AM by Hibernate Tools 3.6.0
+// Generated Oct 28, 2016 1:45:07 PM by Hibernate Tools 3.6.0
 
 
 import java.util.HashSet;
@@ -16,13 +16,14 @@ public class Stock  implements java.io.Serializable {
      private Catagory catagory;
      private String productName;
      private Double price;
+     private String targetpop;
      private Double discount;
      private String date;
      private Integer status;
-     private String targetpop;
      private String code;
      private String image;
      private String discription;
+     private Set wishlists = new HashSet(0);
      private Set invoiceItemses = new HashSet(0);
      private Set sizes = new HashSet(0);
      private Set stockHasCarts = new HashSet(0);
@@ -35,18 +36,19 @@ public class Stock  implements java.io.Serializable {
         this.user = user;
         this.catagory = catagory;
     }
-    public Stock(User user, Catagory catagory, String productName, Double price, Double discount, String date, Integer status, String targetpop, String code, String image, String discription, Set invoiceItemses, Set sizes, Set stockHasCarts) {
+    public Stock(User user, Catagory catagory, String productName, Double price, String targetpop, Double discount, String date, Integer status, String code, String image, String discription, Set wishlists, Set invoiceItemses, Set sizes, Set stockHasCarts) {
        this.user = user;
        this.catagory = catagory;
        this.productName = productName;
        this.price = price;
+       this.targetpop = targetpop;
        this.discount = discount;
        this.date = date;
        this.status = status;
-       this.targetpop = targetpop;
        this.code = code;
        this.image = image;
        this.discription = discription;
+       this.wishlists = wishlists;
        this.invoiceItemses = invoiceItemses;
        this.sizes = sizes;
        this.stockHasCarts = stockHasCarts;
@@ -87,6 +89,13 @@ public class Stock  implements java.io.Serializable {
     public void setPrice(Double price) {
         this.price = price;
     }
+    public String getTargetpop() {
+        return this.targetpop;
+    }
+    
+    public void setTargetpop(String targetpop) {
+        this.targetpop = targetpop;
+    }
     public Double getDiscount() {
         return this.discount;
     }
@@ -108,13 +117,6 @@ public class Stock  implements java.io.Serializable {
     public void setStatus(Integer status) {
         this.status = status;
     }
-    public String getTargetpop() {
-        return this.targetpop;
-    }
-    
-    public void setTargetpop(String targetpop) {
-        this.targetpop = targetpop;
-    }
     public String getCode() {
         return this.code;
     }
@@ -135,6 +137,13 @@ public class Stock  implements java.io.Serializable {
     
     public void setDiscription(String discription) {
         this.discription = discription;
+    }
+    public Set getWishlists() {
+        return this.wishlists;
+    }
+    
+    public void setWishlists(Set wishlists) {
+        this.wishlists = wishlists;
     }
     public Set getInvoiceItemses() {
         return this.invoiceItemses;

@@ -151,7 +151,7 @@
                 </div>
                 <div class="row">
                     <div class="col-md-6"></div>
-                    <div class="col-md-6 text-right" style="margin-bottom: 30px;"><a class="btn btn-primary btn-sm" href="#">Checkout</a></div>
+                    <div class="col-md-6 text-right" style="margin-bottom: 30px;"><a class="btn btn-primary btn-sm" href="checkout.jsp">Checkout</a></div>
                 </div>
                 <div class="row">
                     <div class="col-md-3 text-center">

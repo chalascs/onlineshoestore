@@ -60,12 +60,17 @@
                         document.getElementById("carttable").innerHTML = xhttp.responseText;
                     }
                 };
-                xhttp.open("GET", "cart?remove=" + rem + "&Type=removeItem", true)
+                xhttp.open("GET", "cart?remove=" + rem + "&Type=removeItem", true);
                 xhttp.send();
             }
         </script>
     </head>
     <body id="background">
+        <%
+            if(request.getSession().getAttribute("cart")== null){
+             response.sendRedirect("browseProducts.jsp?map=all");
+            }
+        %>
         <div class="row">
             <div class="col-md-1"></div>
             <div class="col-md-10">

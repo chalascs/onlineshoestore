@@ -3,22 +3,22 @@
 "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
 <!-- Generated Oct 28, 2016 1:45:07 PM by Hibernate Tools 3.6.0 -->
 <hibernate-mapping>
-    <class name="DB.Cart" table="cart" catalog="shoestore">
-        <id name="idcart" type="java.lang.Integer">
-            <column name="idcart" />
+    <class name="DB.Wishlist" table="wishlist" catalog="shoestore">
+        <id name="idwishlist" type="java.lang.Integer">
+            <column name="idwishlist" />
             <generator class="identity" />
         </id>
         <many-to-one name="user" class="DB.User" fetch="select">
             <column name="user_uid" not-null="true" />
         </many-to-one>
+        <many-to-one name="stock" class="DB.Stock" fetch="select">
+            <column name="stock_stid" not-null="true" />
+        </many-to-one>
         <property name="date" type="string">
             <column name="date" />
         </property>
-        <set name="stockHasCarts" table="stock_has_cart" inverse="true" lazy="true" fetch="select">
-            <key>
-                <column name="cart_idcart" not-null="true" />
-            </key>
-            <one-to-many class="DB.StockHasCart" />
-        </set>
+        <property name="qty" type="java.lang.Integer">
+            <column name="qty" />
+        </property>
     </class>
 </hibernate-mapping>

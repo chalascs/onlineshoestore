@@ -10,6 +10,7 @@
     <mapping resource="DB/UserType.hbm.xml"/>
     <mapping resource="DB/Size.hbm.xml"/>
     <mapping resource="DB/Catagory.hbm.xml"/>
+    <mapping resource="DB/Wishlist.hbm.xml"/>
     <mapping resource="DB/Invoice.hbm.xml"/>
     <mapping resource="DB/District.hbm.xml"/>
     <mapping resource="DB/Cart.hbm.xml"/>

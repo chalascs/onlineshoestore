@@ -1,5 +1,5 @@
 package DB;
-// Generated Oct 14, 2016 12:43:12 AM by Hibernate Tools 3.6.0
+// Generated Oct 28, 2016 1:45:07 PM by Hibernate Tools 3.6.0
 
 
 import java.util.HashSet;
@@ -19,7 +19,9 @@ public class User  implements java.io.Serializable {
      private Integer status;
      private String email;
      private String password;
+     private Set invoices = new HashSet(0);
      private Set carts = new HashSet(0);
+     private Set wishlists = new HashSet(0);
      private Set loginDetails = new HashSet(0);
      private Set addresses = new HashSet(0);
      private Set stocks = new HashSet(0);
@@ -31,7 +33,7 @@ public class User  implements java.io.Serializable {
     public User(UserType userType) {
         this.userType = userType;
     }
-    public User(UserType userType, String fname, String lname, Integer tpnumber, Integer status, String email, String password, Set carts, Set loginDetails, Set addresses, Set stocks) {
+    public User(UserType userType, String fname, String lname, Integer tpnumber, Integer status, String email, String password, Set invoices, Set carts, Set wishlists, Set loginDetails, Set addresses, Set stocks) {
        this.userType = userType;
        this.fname = fname;
        this.lname = lname;
@@ -39,7 +41,9 @@ public class User  implements java.io.Serializable {
        this.status = status;
        this.email = email;
        this.password = password;
+       this.invoices = invoices;
        this.carts = carts;
+       this.wishlists = wishlists;
        this.loginDetails = loginDetails;
        this.addresses = addresses;
        this.stocks = stocks;
@@ -101,12 +105,26 @@ public class User  implements java.io.Serializable {
     public void setPassword(String password) {
         this.password = password;
     }
+    public Set getInvoices() {
+        return this.invoices;
+    }
+    
+    public void setInvoices(Set invoices) {
+        this.invoices = invoices;
+    }
     public Set getCarts() {
         return this.carts;
     }
     
     public void setCarts(Set carts) {
         this.carts = carts;
+    }
+    public Set getWishlists() {
+        return this.wishlists;
+    }
+    
+    public void setWishlists(Set wishlists) {
+        this.wishlists = wishlists;
     }
     public Set getLoginDetails() {
         return this.loginDetails;

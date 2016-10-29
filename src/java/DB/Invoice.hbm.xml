@@ -1,15 +1,21 @@
 <?xml version="1.0"?>
 <!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
 "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
-<!-- Generated Oct 14, 2016 12:43:12 AM by Hibernate Tools 3.6.0 -->
+<!-- Generated Oct 28, 2016 1:45:07 PM by Hibernate Tools 3.6.0 -->
 <hibernate-mapping>
     <class name="DB.Invoice" table="invoice" catalog="shoestore">
         <id name="invoiceId" type="java.lang.Integer">
             <column name="invoice_id" />
             <generator class="identity" />
         </id>
+        <many-to-one name="user" class="DB.User" fetch="select">
+            <column name="user_uid" not-null="true" />
+        </many-to-one>
         <property name="totalPrice" type="java.lang.Integer">
             <column name="total_price" />
+        </property>
+        <property name="date" type="string">
+            <column name="date" />
         </property>
         <set name="invoiceItemses" table="invoice_items" inverse="true" lazy="true" fetch="select">
             <key>
