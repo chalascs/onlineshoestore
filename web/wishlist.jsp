@@ -36,7 +36,8 @@
                             <table>
                                 <thead>
                                     <tr>
-                                        <td colspan="6">Seller : </td>
+                                        <td></td>
+                                        <td></td>
                                     </tr>
                                 </thead>
                             </table>

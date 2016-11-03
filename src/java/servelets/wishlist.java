@@ -3,7 +3,6 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package servelets;
 
 import DB.Stock;
@@ -41,27 +40,33 @@ public class wishlist extends HttpServlet {
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         PrintWriter out = response.getWriter();
-        
+
         try {
             String stkid = request.getParameter("adwl");
-            
-            
-            Session ses = NewHibernateUtil.getSessionFactory().openSession();
-            Criteria cr = ses.createCriteria(DB.Stock.class);
-            cr.add(Restrictions.eq("stid", stkid));
-            Stock st = (Stock) cr.uniqueResult();
-            Wishlist wl = new Wishlist();
-            wl.setStock(st);
-            
-       
-            
+            String Type = request.getParameter("Type");
+
+            if (Type.equals("addtowish")) {
+//                System.out.println(stkid);
+                Wishlist wl = new Wishlist();
+                Session ses = NewHibernateUtil.getSessionFactory().openSession();
+                Criteria cr = ses.createCriteria(DB.Stock.class);
+                cr.add(Restrictions.eq("stid", stkid));
+                DB.Stock st =  (DB.Stock) cr.uniqueResult();
+                wl.setStock(st);
+
+                DB.User us = (DB.User) request.getSession().getAttribute("user");
+                int uid = us.getUid();
+                Criteria cr1 = ses.createCriteria(DB.User.class);
+                cr1.add(Restrictions.eq("uid", uid));
+                DB.User u = (DB.User) cr1.uniqueResult();
+                wl.setUser(u);
+
+            }
+
         } catch (Exception e) {
             e.printStackTrace();
         }
-        
-        
-        
-        
+
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

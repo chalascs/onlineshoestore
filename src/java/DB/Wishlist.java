@@ -1,5 +1,5 @@
 package DB;
-// Generated Oct 28, 2016 1:45:07 PM by Hibernate Tools 3.6.0
+// Generated Oct 29, 2016 2:03:51 PM by Hibernate Tools 3.6.0
 
 
 
@@ -13,7 +13,6 @@ public class Wishlist  implements java.io.Serializable {
      private User user;
      private Stock stock;
      private String date;
-     private Integer qty;
 
     public Wishlist() {
     }
@@ -23,11 +22,10 @@ public class Wishlist  implements java.io.Serializable {
         this.user = user;
         this.stock = stock;
     }
-    public Wishlist(User user, Stock stock, String date, Integer qty) {
+    public Wishlist(User user, Stock stock, String date) {
        this.user = user;
        this.stock = stock;
        this.date = date;
-       this.qty = qty;
     }
    
     public Integer getIdwishlist() {
@@ -57,13 +55,6 @@ public class Wishlist  implements java.io.Serializable {
     
     public void setDate(String date) {
         this.date = date;
-    }
-    public Integer getQty() {
-        return this.qty;
-    }
-    
-    public void setQty(Integer qty) {
-        this.qty = qty;
     }
 
 

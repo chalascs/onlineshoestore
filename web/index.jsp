@@ -30,17 +30,17 @@
                 xhttp.send();
             }
 
-            function wishlist(stid) {
-                var xhttp = new XMLHttpRequest();
-                var adwl = document.getElementById("wish").value;
-                var Type = "addtowish";
-                xhttp.onreadystatechange = function() {
-                    if (xhttp.readyState === 4 && xhttp.status === 200) {
-                    }
-                };
-                xhttp.open("GET", "wishlist?adwl=" + stid + "&Type=" + Type, true);
-                xhttp.send();
-            }
+//            function wishlist(stid) {
+//                var xhttp = new XMLHttpRequest();
+//                var adwl = document.getElementById("wish").value;
+//                var Type = "addtowish";
+//                xhttp.onreadystatechange = function() {
+//                    if (xhttp.readyState === 4 && xhttp.status === 200) {
+//                    }
+//                };
+//                xhttp.open("GET", "wishlist?adwl=" + stid + "&Type=" + Type, true);
+//                xhttp.send();
+//            }
 
 
             $(document).ready(function() {
@@ -107,12 +107,12 @@
                                 <h3 id="pname"><%=stock.getProductName()%></h3>
                                 <p style="font-weight: bold;color:#ff3366 ">Rs. <%=stock.getPrice()%></p>
                                 <p><%=stock.getDiscription()%></p>
-                                <div class="col-md-6 ">
+                                <div>
                                     <p><a  class="btn btn-success text-right" role="button" id="adcrt" onclick="addtocart(<%=stock.getStid()%>)">Buy Now</a></p>       
                                 </div>
-                                <div class="col-md-6 text-left">                 
+<!--                                <div class="col-md-6 text-left">                 
                                     <p><a style="border-radius: 5px;" class="btn btn-primary" role="button" id="wish" onclick="wishlist(<%=stock.getStid()%>)">Wish List</a></p>
-                                </div>
+                                </div>-->
                             </div>
                         </div>
                     </div>  
