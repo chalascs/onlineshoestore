@@ -114,9 +114,9 @@
                             %>
                             <tr id="qwe">
                                 <td class="text-center">
-                                    <div class="col-md-2" style="margin-top: 70px;">
+<!--                                    <div class="col-md-2" style="margin-top: 70px;">
                                         <input type="button" class="btn btn-danger btn-xs" value="X" onclick="remove('<%=st.indexOf(stk)%>')">
-                                    </div>
+                                    </div>-->
                                     <div class="col-md-10">
                                         <img src="<%=stk.getImage()%>" style="width: 200px; height: 170px;">                                        
                                     </div>
@@ -137,7 +137,16 @@
                                         <%}%>
                                     </select>
                                 </td>
-                                <td class="text-right"><input type="number" id="abc" onchange="changeQTY(this.value + '-<%=ii%>')" value="1"></td>
+                                <td class="text-right">
+                                   <div class="row">
+                                        <div class="col-md-12">
+                                            <input type="number" id="abc" onchange="changeQTY(this.value + '-<%=ii%>')" value="1">
+                                        </div>
+                                        <div class="col-md-12" style="margin-top: 100px;">
+                                            <a onclick="remove('<%=st.indexOf(stk)%>')" class="btn btn-xs btn-danger" style="cursor: pointer">Remove</a>
+                                        </div>
+                                    </div>
+                                </td>
                                 <td id="cartTortel<%=ii%>" class="text-right"><%=stk.getPrice()%></td>
                             </tr>
                             <%}

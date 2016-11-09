@@ -108,16 +108,28 @@
                                 <p style="font-weight: bold;color:#ff3366 ">Rs. <%=stock.getPrice()%></p>
                                 <p><%=stock.getDiscription()%></p>
                                 <div>
-                                    <p><a  class="btn btn-success text-right" role="button" id="adcrt" onclick="addtocart(<%=stock.getStid()%>)">Buy Now</a></p>       
+                                    <p><a  class="btn btn-success text-right" role="button" id="adcrt" onclick="addtocart(<%=stock.getStid()%>)" data-toggle="modal" data-target="#myModal">Buy Now</a></p>   
                                 </div>
-<!--                                <div class="col-md-6 text-left">                 
-                                    <p><a style="border-radius: 5px;" class="btn btn-primary" role="button" id="wish" onclick="wishlist(<%=stock.getStid()%>)">Wish List</a></p>
-                                </div>-->
+                                <!--                                <div class="col-md-6 text-left">                 
+                                                                    <p><a style="border-radius: 5px;" class="btn btn-primary" role="button" id="wish" onclick="wishlist(<%=stock.getStid()%>)">Wish List</a></p>
+                                                                </div>-->
                             </div>
                         </div>
                     </div>  
                     <%}%>
                 </div>
+
+                <!-- Modal -->
+                <div class="modal fade" id="myModal" role="dialog">
+                    <div class="modal-dialog">
+                            <div class="modal-body">
+                                <div class="alert alert-success">
+                                    <strong>Success!</strong> Item added to your cart.
+                                </div>
+                            </div>
+                        </div>
+                </div>
+
             </div>
             <div class="col-md-1"></div>         
         </div>

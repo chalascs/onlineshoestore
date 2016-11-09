@@ -57,11 +57,26 @@ public class cart extends HttpServlet {
                 Stock id = (Stock) ses.load(Stock.class, Integer.parseInt(stkid));
                 ArrayList<Stock> ar = null;
                 if (request.getSession().getAttribute("cart") != null) {
-                    ar = (ArrayList<Stock>) request.getSession().getAttribute("cart");
-                    ar.add(id);
+                    
+                    boolean alreadyAdded = true;
+                    
+                    ArrayList<DB.Stock> st = (ArrayList<Stock>) request.getSession().getAttribute("cart");
+                    for (DB.Stock stk : st) {
+                        System.out.println("add--" + stk.getStid() + "=" + id.getStid());
+                        if (id.getStid() == stk.getStid()) {
+                            alreadyAdded = false;
+                        }
+                    }
+
+                    if (alreadyAdded) {
+                        ar = (ArrayList<Stock>) request.getSession().getAttribute("cart");
+                        ar.add(id);
+                        request.getSession().setAttribute("cart", ar);
+                    }
                 } else {
                     ar = new ArrayList<>();
                     ar.add(id);
+                    request.getSession().setAttribute("cart", ar);
                 }
                 if (request.getSession().getAttribute("cartTotal") != null) {
                     Double ab = (Double) request.getSession().getAttribute("cartTotal");
@@ -70,7 +85,6 @@ public class cart extends HttpServlet {
                     request.getSession().setAttribute("cartTotal", id.getPrice());
                 }
 
-                request.getSession().setAttribute("cart", ar);
             } else if (Type.equals("changeQTY")) {
                 Stock ss = (Stock) ses.load(DB.Stock.class, Integer.parseInt(proID));
                 Criteria cr = ses.createCriteria(DB.Size.class);
@@ -143,25 +157,31 @@ public class cart extends HttpServlet {
                         out.write("<td class=\"text-right\">");
                         out.write("<div class=\"row\">");
                         out.write("<div class=\"col-md-12\">");
-                        out.write("<input type=\"number\" id=\"abc\" onchange=\"changeQTY(this.value + '-"+ ii +"')\" value=\"1\">");
+                        out.write("<input type=\"number\" id=\"abc\" onchange=\"changeQTY(this.value + '-" + ii + "')\" value=\"1\">");
                         out.write("</div>");
                         out.write("<div class=\"col-md-12\" style=\"margin-top: 100px;\">");
-                        out.write("<a onclick=\"remove('"+st.indexOf(stk)+"')\" class=\"text-danger\" style=\"cursor: pointer\">Remove</a>");
+                        out.write("<a onclick=\"remove('" + st.indexOf(stk) + "')\" class=\"btn btn-xs btn-danger\" style=\"cursor: pointer\">Remove</a>");
                         out.write("</div>");
                         out.write("</div>");
                         out.write("</td>");
-                        out.write("<td id=\"cartTortel"+ii+"\" class=\"text-right\">");
+                        out.write("<td id=\"cartTortel" + ii + "\" class=\"text-right\">");
                         out.write("<div class=\"row\">");
                         out.write("<div class=\"col-md-12\">");
                         stk.getPrice();
                         out.write("</div>");
-                        out.write(" <div class=\"col-md-12\" style=\"margin-top: 105px;\">");
-                        out.write("<a onclick=\"\" class=\"text-primary\" style=\"cursor: pointer\">Save Item</a>");
+                        out.write(" <div class=\"col-md-12\" style=\"margin-top: 125px;\">");
+
+                        if (request.getSession().getAttribute("user") != null) {
+                            out.write("<a onclick=\"saveitem('" + stk.getStid() + "')\" class=\"btn btn-xs btn-primary\" id=\"wish\" style=\"cursor: pointer\">Save Item</a>");
+                        } else {
+                            out.write("<a onclick=\"saveitem('" + stk.getStid() + "')\" class=\"btn btn-xs btn-primary disabled\" id=\"wish\" style=\"cursor: pointer\">Save Item</a>");
+                        }
+
                         out.write("</div>");
                         out.write("</div>");
                         out.write("</td>");
                         out.write("</tr>");
-                        
+
                     }
                 }
                 out.write("</table>");

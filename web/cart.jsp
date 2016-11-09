@@ -69,7 +69,20 @@
                         document.getElementById("carttable").innerHTML = xhttp.responseText;
                     }
                 };
-                xhttp.open("GET", "cart?remove=" + rem + "&Type=removeItem", true)
+                xhttp.open("GET", "cart?remove=" + rem + "&Type=removeItem", true);
+                xhttp.send();
+            }
+
+            function saveitem(stid) {
+                
+                var xhttp = new XMLHttpRequest();
+                var adwl = document.getElementById("wish").value;
+                var Type = "addtowish";
+                xhttp.onreadystatechange = function() {
+                    if (xhttp.readyState === 4 && xhttp.status === 200) {
+                    }
+                };
+                xhttp.open("GET", "wishlist?adwl=" + stid + "&Type=" + Type, true);
                 xhttp.send();
             }
 
@@ -144,7 +157,7 @@
                                             <input type="number" id="abc" onchange="changeQTY(this.value + '-<%=ii%>')" value="1">
                                         </div>
                                         <div class="col-md-12" style="margin-top: 100px;">
-                                            <a onclick="remove('<%=st.indexOf(stk)%>')" class="text-danger" style="cursor: pointer">Remove</a>
+                                            <a onclick="remove('<%=st.indexOf(stk)%>')" class="btn btn-xs btn-danger" style="cursor: pointer">Remove</a>
                                         </div>
                                     </div>
                                 </td>
@@ -154,7 +167,17 @@
                                             <%=stk.getPrice()%>
                                         </div>
                                         <div class="col-md-12" style="margin-top: 105px;">
-                                            <a onclick="" class="text-primary" style="cursor: pointer">Save Item</a>
+                                            <%
+                                                if(request.getSession().getAttribute("user")!= null){
+                                            %>
+                                            <a onclick="saveitem(<%=stk.getStid()%>)" class="btn btn-xs btn-primary" id="wish" style="cursor: pointer">Save Item</a>
+                                            <%
+                                                }else{
+                                            %>
+                                            <a onclick="saveitem(<%=stk.getStid()%>)" class="btn btn-xs btn-primary disabled" id="wish" style="cursor: pointer">Save Item</a>
+                                            <%
+                                                }
+                                            %>
                                         </div>
                                     </div>
                                 </td>
