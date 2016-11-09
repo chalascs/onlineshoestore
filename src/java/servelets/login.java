@@ -43,17 +43,24 @@ public class login extends HttpServlet {
             String Type = request.getParameter("type");
             String uname = request.getParameter("uname");
             String pass = request.getParameter("pass");
+            String where = request.getParameter("logfrom");
 
             Session s = NewHibernateUtil.getSessionFactory().openSession();
-            if(Type.equals("Login")){
-            Criteria cr = s.createCriteria(DB.User.class);
-            cr.add(Restrictions.and(Restrictions.eq("email", uname), Restrictions.eq("password", pass)));
-            User us = (User) cr.uniqueResult();
-            if (us != null) {
-                request.getSession().setAttribute("user", us);
-                response.sendRedirect("index.jsp");
-            }
-            }else if(Type.equals("Logout")){
+
+            if (Type.equals("Login")) {
+
+                Criteria cr = s.createCriteria(DB.User.class);
+                cr.add(Restrictions.and(Restrictions.eq("email", uname), Restrictions.eq("password", pass)));
+                User us = (User) cr.uniqueResult();
+                if (us != null) {
+                    request.getSession().setAttribute("user", us);
+                    if (where.equals("checkout")) {
+                        response.sendRedirect("checkout.jsp");
+                    } else if(where.equals("signin")){
+                        response.sendRedirect("index.jsp");
+                    }
+                }
+            } else if (Type.equals("Logout")) {
                 request.getSession().invalidate();
                 response.sendRedirect("index.jsp");
             }

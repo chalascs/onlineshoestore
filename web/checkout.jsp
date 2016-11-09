@@ -25,6 +25,7 @@
         <script src="js/jquery.form.js" type="text/javascript"></script>
         <script src="js/progressBarScript.js" type="text/javascript"></script>
         <script src="js/bootstrap.min.js"></script>
+        
         <script>
             function changeQTY(ab) {
 
@@ -63,12 +64,29 @@
                 xhttp.open("GET", "cart?remove=" + rem + "&Type=removeItem", true);
                 xhttp.send();
             }
+
+            function login() {
+                var Type = "Login";
+                var logfrom = "checkout";
+                var uname = document.getElementById("username").value;
+                var pass = document.getElementById("password").value;
+
+                var xhttp = new XMLHttpRequest();
+                xhttp.onreadystatechange = function() {
+                    if (xhttp.readyState === 4 && xhttp.status === 200) {
+
+                    }
+                };
+                xhttp.open("GET", "login?logfrom=" + logfrom + "&uname=" + uname + "&pass=" + pass + "&type=" + Type, true);
+                xhttp.send();
+            }
+
         </script>
     </head>
     <body id="background">
         <%
-            if(request.getSession().getAttribute("cart")== null){
-             response.sendRedirect("browseProducts.jsp?map=all");
+            if (request.getSession().getAttribute("cart") == null) {
+                response.sendRedirect("browseProducts.jsp?map=all");
             }
         %>
         <div class="row">
@@ -87,10 +105,10 @@
                     </div>
                 </div>
                 <div class="row">
-                    <div class="col-md-12" id="carttable">
-                        <table class="table table-responsive table-condensed" id="table-cart">
-                            <thead style="border: 1px solid #eeee">
-                                <tr>
+                    <div class="col-md-12 crt" id="carttable">
+                        <table class="table table-responsive table-condensed " id="table-cart">
+                            <thead style="border: 1px solid black" class="">
+                                <tr class="active">
                                     <th colspan="2">Product</th>
                                     <th class="text-right">Price</th>
                                     <th class="text-right">Size</th>  
@@ -114,11 +132,11 @@
                             %>
                             <tr id="qwe">
                                 <td class="text-center">
-<!--                                    <div class="col-md-2" style="margin-top: 70px;">
-                                        <input type="button" class="btn btn-danger btn-xs" value="X" onclick="remove('<%=st.indexOf(stk)%>')">
-                                    </div>-->
+                                    <!--                                    <div class="col-md-2" style="margin-top: 70px;">
+                                                                            <input type="button" class="btn btn-danger btn-xs" value="X" onclick="remove('<%=st.indexOf(stk)%>')">
+                                                                        </div>-->
                                     <div class="col-md-10">
-                                        <img src="<%=stk.getImage()%>" style="width: 200px; height: 170px;">                                        
+                                        <img src="<%=stk.getImage()%>" style="width: 150px; height: 120px;">                                        
                                     </div>
 
                                 <td class="text-right"><%=stk.getProductName()%><input type="hidden" id="proID<%=ii%>" value="<%=stk.getStid()%>"></td>
@@ -138,11 +156,11 @@
                                     </select>
                                 </td>
                                 <td class="text-right">
-                                   <div class="row">
+                                    <div class="row">
                                         <div class="col-md-12">
                                             <input type="number" id="abc" onchange="changeQTY(this.value + '-<%=ii%>')" value="1">
                                         </div>
-                                        <div class="col-md-12" style="margin-top: 100px;">
+                                        <div class="col-md-12" style="margin-top: 10px;">
                                             <a onclick="remove('<%=st.indexOf(stk)%>')" class="btn btn-xs btn-danger" style="cursor: pointer">Remove</a>
                                         </div>
                                     </div>
@@ -155,8 +173,9 @@
 
                     </div>
                 </div>
+                        <hr>
                 <div class="row">
-                    <div class="col-md-3 form" style="border: 1px solid #eee; margin: 8px;">
+                    <div class="col-md-3 form" style="border-right: 1px solid #eee">
                         <div class="row text-center">
                             <h4>Personal Details</h4>
                         </div>
@@ -165,11 +184,12 @@
                         %>
                         <div class="row">
                             <div class="col-md-6">
-                                <input type="text" placeholder="User Name" class="form-control" name="uname"/>
+                                <input type="text" placeholder="User Name" class="form-control" name="uname" id="username"/>
                             </div>
                             <div class="col-md-6">                                 
-                                <input type="password" placeholder="Password" class="form-control" name="pass"/>
+                                <input type="password" placeholder="Password" class="form-control" name="pass" id="password"/>
                             </div>
+                            <div class="col-md-12 text-center" style="margin-top: 10px;"><button class="btn btn-sm btn-primary" onclick="login()">Login</button></div>
                         </div>
                         <%
                         } else {
@@ -186,29 +206,29 @@
                         %>
                     </div>
 
-                    <div class="col-md-5 text-center panel-default" style="border: 1px solid #eee; margin: 8px;">
-                       
+                    <div class="col-md-5 text-center panel-default" style="border-right: 1px solid #eee; margin: 8px;">
+
                         <div class="row">
                             <div class="row">
-                                
-                            <h4>Payment Method</h4>
+
+                                <h4>Payment Method</h4>
                             </div>
-                            <hr>
+                            
                         </div>
                         <div class="row">
                             <h5>Card Installments</h5>
                             <div class="row ">
-                            <input type="radio" name="pmethod" value="allcrard"/>
-                            <label> Credit/Debit Card: Visa & MasterCard</label>
+                                <input type="radio" name="pmethod" value="allcrard"/>
+                                <label> Credit/Debit Card: Visa & Master Card</label>
                             </div>
                             <div class="row">
-                            <input type="radio" name="pmethod" value="amarican"/>
-                            <label> Credit Card: American Express</label>
+                                <input type="radio" name="pmethod" value="amarican"/>
+                                <label> Credit Card: American Express</label>
                             </div>
                         </div>
-                        
+
                     </div>
-                    <div class="col-md-3 text-center" style="border: 1px solid #eee; margin: 8px;">
+                    <div class="col-md-3 text-center" style="">
                         <div class="row">
                             <h4>Totals</h4>
                         </div>
@@ -227,8 +247,8 @@
                                     <td><label>I have read and agree to the <a href="">Terms & Conditions</a></label></td>
                                 </tr>
                             </table>
-                            
-                            
+
+
                         </div>
                     </div>
                 </div> 

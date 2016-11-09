@@ -53,8 +53,8 @@ public class cart extends HttpServlet {
 
             Session ses = NewHibernateUtil.getSessionFactory().openSession();
             if (Type.equals("addtocart")) {
-
                 Stock id = (Stock) ses.load(Stock.class, Integer.parseInt(stkid));
+
                 ArrayList<Stock> ar = null;
                 if (request.getSession().getAttribute("cart") != null) {
                     
@@ -110,6 +110,9 @@ public class cart extends HttpServlet {
                 if (request.getSession().getAttribute("cart") != null) {
                     ArrayList<Stock> st = (ArrayList<Stock>) request.getSession().getAttribute("cart");
                     st.remove(Integer.parseInt(remove));
+                    
+                    
+           
                 }
                 out.write("<table class=\"table table-responsive table-condensed\" id=\"table-cart\">");
                 out.write("<thead style=\"border: 1px solid #eeee\">");
