@@ -50,16 +50,19 @@ public class cart extends HttpServlet {
             String proID = request.getParameter("proID");
             String Type = request.getParameter("Type");
             String remove = request.getParameter("remove");
-
+            
+            
+            System.out.println(size);
+            
             Session ses = NewHibernateUtil.getSessionFactory().openSession();
             if (Type.equals("addtocart")) {
                 Stock id = (Stock) ses.load(Stock.class, Integer.parseInt(stkid));
 
                 ArrayList<Stock> ar = null;
                 if (request.getSession().getAttribute("cart") != null) {
-                    
+
                     boolean alreadyAdded = true;
-                    
+
                     ArrayList<DB.Stock> st = (ArrayList<Stock>) request.getSession().getAttribute("cart");
                     for (DB.Stock stk : st) {
                         System.out.println("add--" + stk.getStid() + "=" + id.getStid());
@@ -78,14 +81,28 @@ public class cart extends HttpServlet {
                     ar.add(id);
                     request.getSession().setAttribute("cart", ar);
                 }
+//                if (request.getSession().getAttribute("cartTotal") != null) {
+//                    Double ab = (Double) request.getSession().getAttribute("cartTotal");
+//                    request.getSession().setAttribute("cartTotal", ab + id.getPrice());
+//                } else {
+//                    request.getSession().setAttribute("cartTotal", id.getPrice());
+//                }
                 if (request.getSession().getAttribute("cartTotal") != null) {
-                    Double ab = (Double) request.getSession().getAttribute("cartTotal");
-                    request.getSession().setAttribute("cartTotal", ab + id.getPrice());
+                    ArrayList<DB.Stock> st = (ArrayList<DB.Stock>) request.getSession().getAttribute("cart");
+                    for (Stock stk : st) {
+                        Double ab = (Double) request.getSession().getAttribute("cartTotal");
+                        request.getSession().setAttribute("cartTotal", ab + stk.getPrice());
+                    }
                 } else {
                     request.getSession().setAttribute("cartTotal", id.getPrice());
                 }
 
             } else if (Type.equals("changeQTY")) {
+                System.out.println(size);
+                
+                request.getSession().setAttribute("selectedqt", qty);
+                
+                
                 Stock ss = (Stock) ses.load(DB.Stock.class, Integer.parseInt(proID));
                 Criteria cr = ses.createCriteria(DB.Size.class);
                 cr.add(Restrictions.and(Restrictions.eq("stock", ss), Restrictions.eq("size", Integer.parseInt(size))));
@@ -110,9 +127,7 @@ public class cart extends HttpServlet {
                 if (request.getSession().getAttribute("cart") != null) {
                     ArrayList<Stock> st = (ArrayList<Stock>) request.getSession().getAttribute("cart");
                     st.remove(Integer.parseInt(remove));
-                    
-                    
-           
+
                 }
                 out.write("<table class=\"table table-responsive table-condensed\" id=\"table-cart\">");
                 out.write("<thead style=\"border: 1px solid #eeee\">");

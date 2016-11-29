@@ -129,3 +129,12 @@
     background-repeat: no-repeat;
     background-attachment: fixed;
 }
+.cnfrm{
+    border: 1px solid #73a839;
+}
+.cnfrm:hover{
+    border: 1px solid black;
+}
+.cnfrm:checked{
+    background-color: #999999;
+}

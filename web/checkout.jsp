@@ -4,6 +4,7 @@
     Author     : Shanaka
 --%>
 
+<%@page import="java.util.HashMap"%>
 <%@page import="DB.User"%>
 <%@page import="DB.Size"%>
 <%@page import="java.util.List"%>
@@ -25,17 +26,17 @@
         <script src="js/jquery.form.js" type="text/javascript"></script>
         <script src="js/progressBarScript.js" type="text/javascript"></script>
         <script src="js/bootstrap.min.js"></script>
-        
+
         <script>
             function changeQTY(ab) {
-
+                
                 var xhttp = new XMLHttpRequest();
                 var ss = ab.split("-");
                 var cartPrice = document.getElementById("cartPrice" + ss[1]).value;
-                var size = document.getElementById("size" + ss[1]).value;
+                var size = document.getElementById("size" );
+                alert(size);
                 var proID = document.getElementById("proID" + ss[1]).value;
                 var qty = ss[0];
-
                 var Type = "changeQTY";
                 xhttp.onreadystatechange = function() {
                     if (xhttp.readyState === 4 && xhttp.status === 200) {
@@ -50,6 +51,7 @@
                         }
                     }
                 };
+                
                 xhttp.open("GET", "cart?cartPrice=" + cartPrice + "&size=" + size + "&qty=" + qty + "&Type=" + Type + "&proID=" + proID, true);
                 xhttp.send();
             }
@@ -79,6 +81,10 @@
                 };
                 xhttp.open("GET", "login?logfrom=" + logfrom + "&uname=" + uname + "&pass=" + pass + "&type=" + Type, true);
                 xhttp.send();
+            }
+
+            function confirm() {
+
             }
 
         </script>
@@ -147,25 +153,29 @@
                                         cr.add(Restrictions.eq("stock", stk));
                                     %>
                                 <td class="text-right">
-                                    <select id="size<%=ii%>" class="">
-                                        <% List<Size> si = (List<Size>) cr.list();
-                                            for (DB.Size sz : si) {
-                                        %>
-                                        <option><%=sz.getSize()%></option>
-                                        <%}%>
-                                    </select>
-                                </td>
-                                <td class="text-right">
-                                    <div class="row">
-                                        <div class="col-md-12">
-                                            <input type="number" id="abc" onchange="changeQTY(this.value + '-<%=ii%>')" value="1">
-                                        </div>
-                                        <div class="col-md-12" style="margin-top: 10px;">
-                                            <a onclick="remove('<%=st.indexOf(stk)%>')" class="btn btn-xs btn-danger" style="cursor: pointer">Remove</a>
-                                        </div>
+
+                                    <%
+                                        if(request.getSession().getAttribute("selectedsize")!=null){
+                                    HashMap hm = (HashMap) request.getSession().getAttribute("selectedsize");
+                                        
+                                    
+                                    %>
+                                    <%=hm.get(stk.getStid().toString())%>
+                                    
+                                    <%}%>
+                                    
+                            </td>
+                            <td class="text-right">
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <input type="number" id="abc" onchange="changeQTY(this.value + '-<%=ii%>')" value="1" >
                                     </div>
-                                </td>
-                                <td id="cartTortel<%=ii%>" class="text-right"><%=stk.getPrice()%></td>
+                                    <div class="col-md-12" style="margin-top: 10px;">
+                                        <a onclick="remove('<%=st.indexOf(stk)%>')" class="btn btn-xs btn-danger" style="cursor: pointer">Remove</a>
+                                    </div>
+                                </div>
+                            </td>
+                            <td id="cartTortel<%=ii%>" class="text-right"><%=stk.getPrice()%></td>
                             </tr>
                             <%}
                                 }%>
@@ -173,7 +183,7 @@
 
                     </div>
                 </div>
-                        <hr>
+                <hr>
                 <div class="row">
                     <div class="col-md-3 form" style="border-right: 1px solid #eee">
                         <div class="row text-center">
@@ -213,7 +223,7 @@
 
                                 <h4>Payment Method</h4>
                             </div>
-                            
+
                         </div>
                         <div class="row">
                             <h5>Card Installments</h5>
@@ -244,11 +254,14 @@
                             <table>
                                 <tr>
                                     <td><input type="checkbox" class="form-control"/></td>
-                                    <td><label>I have read and agree to the <a href="">Terms & Conditions</a></label></td>
+                                    <td  style="margin-top: 5px;"><h6 style="margin-left: 10px;">I have read and agree to the <a href="">Terms & Conditions</a></h6></td>
                                 </tr>
                             </table>
-
-
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12 text-right" style="margin-top: 10px;">
+                                <button class="btn cnfrm" style="background-color: #73a839; color: white;" onclick="confirm()" >Confirm</button> 
+                            </div>
                         </div>
                     </div>
                 </div> 

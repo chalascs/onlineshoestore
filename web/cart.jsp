@@ -41,6 +41,7 @@
                 var cartPrice = document.getElementById("cartPrice" + ss[1]).value;
                 var size = document.getElementById("size" + ss[1]).value;
                 var proID = document.getElementById("proID" + ss[1]).value;
+                
                 var qty = ss[0];
 
                 var Type = "changeQTY";
@@ -83,6 +84,19 @@
                     }
                 };
                 xhttp.open("GET", "wishlist?adwl=" + stid + "&Type=" + Type, true);
+                xhttp.send();
+            }
+            
+            function sizechange(aa){
+                
+                alert(aa);
+                var xhttp = new XMLHttpRequest();
+                xhttp.onreadystatechange = function (){
+                    if(xhttp.readyState === 4 && xhttp.status === 200){
+                        
+                    }
+                };
+                xhttp.open("GET","valcheckout?value="+ aa,true);
                 xhttp.send();
             }
 
@@ -136,6 +150,7 @@
                                     </div>
 
                                 <td class="text-right"><%=stk.getProductName()%><input type="hidden" id="proID<%=ii%>" value="<%=stk.getStid()%>"></td>
+                                
                                 <td class="text-right"><%=stk.getPrice()%><input type="hidden" id="cartPrice<%=ii%>" value="<%=stk.getPrice()%>"></td>
                                     <%
                                         Session ses = NewHibernateUtil.getSessionFactory().openSession();
@@ -143,7 +158,7 @@
                                         cr.add(Restrictions.eq("stock", stk));
                                     %>
                                 <td class="text-right">
-                                    <select id="size<%=ii%>" class="">
+                                    <select id="size<%=ii%>" onchange="sizechange(this.value+'-<%=stk.getStid()%>')" onload="sizechange(this.value)">
                                         <%                                            List<Size> si = (List<Size>) cr.list();
                                             for (DB.Size sz : si) {
                                         %>
@@ -189,7 +204,7 @@
                 </div>
                 <div class="row">
                     <div class="col-md-6"></div>
-                    <div class="col-md-6 text-right" style="margin-bottom: 30px;"><a class="btn btn-primary btn-sm" href="checkout.jsp">Checkout</a></div>
+                    <div class="col-md-6 text-right" style="margin-bottom: 30px;"><a class="btn btn-primary btn-sm" href="checkout.jsp" onclick="takevalues()">Checkout</a></div>
                 </div>
                 <div class="row">
                     <div class="col-md-3 text-center">
