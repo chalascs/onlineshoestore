@@ -50,10 +50,9 @@ public class cart extends HttpServlet {
             String proID = request.getParameter("proID");
             String Type = request.getParameter("Type");
             String remove = request.getParameter("remove");
-            
-            
+
             System.out.println(size);
-            
+
             Session ses = NewHibernateUtil.getSessionFactory().openSession();
             if (Type.equals("addtocart")) {
                 Stock id = (Stock) ses.load(Stock.class, Integer.parseInt(stkid));
@@ -98,10 +97,7 @@ public class cart extends HttpServlet {
                 }
 
             } else if (Type.equals("changeQTY")) {
-                System.out.println(size);
-                
-                request.getSession().setAttribute("selectedqt", qty);
-                
+             
                 
                 Stock ss = (Stock) ses.load(DB.Stock.class, Integer.parseInt(proID));
                 Criteria cr = ses.createCriteria(DB.Size.class);
@@ -109,8 +105,11 @@ public class cart extends HttpServlet {
                 DB.Size sz = (DB.Size) cr.uniqueResult();
                 if (request.getSession().getAttribute("cartTotal") != null) {
                     Double ab = (Double) request.getSession().getAttribute("cartTotal");
-                    Double newQTY = Double.parseDouble(qty) - 1;
-                    request.getSession().setAttribute("cartTotal", ab + (newQTY * Double.parseDouble(cartPrice)));
+                    System.out.println("ab" + ab);
+                    System.out.println("QTY" + qty);
+                    int newQTY = Integer.parseInt(qty) - 1;
+                    request.getSession().setAttribute("cartTotal", ab + (ss.getPrice()));
+                    
                 }
                 if (sz != null) {
                     Double dd = Double.parseDouble(qty);
@@ -127,9 +126,9 @@ public class cart extends HttpServlet {
                 if (request.getSession().getAttribute("cart") != null) {
                     ArrayList<Stock> st = (ArrayList<Stock>) request.getSession().getAttribute("cart");
                     st.remove(Integer.parseInt(remove));
-
+//sada
                 }
-                out.write("<table class=\"table table-responsive table-condensed\" id=\"table-cart\">");
+                out.write("<table style=\"background-color:white\" class=\"table table-responsive table-condensed\" id=\"table-cart\">");
                 out.write("<thead style=\"border: 1px solid #eeee\">");
                 out.write("<tr>");
                 out.write("<th colspan=\"2\">Product</th>");

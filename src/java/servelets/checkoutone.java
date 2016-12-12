@@ -3,13 +3,11 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
+
 package servelets;
 
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -20,8 +18,8 @@ import javax.servlet.http.HttpServletResponse;
  *
  * @author Shanaka
  */
-@WebServlet(name = "valcheckout", urlPatterns = {"/valcheckout"})
-public class valcheckout extends HttpServlet {
+@WebServlet(name = "checkoutone", urlPatterns = {"/checkoutone"})
+public class checkoutone extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -35,24 +33,12 @@ public class valcheckout extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        try (PrintWriter out = response.getWriter()) {
-
-            String value = request.getParameter("value");
-            System.out.println("value----" + value);
-            String size = value.split("-")[0];
-            String sid = value.split("-")[1];
-            if (request.getSession().getAttribute("selectedsize") != null) {
-                
-                HashMap hm = (HashMap) request.getSession().getAttribute("selectedsize");
-                hm.put(sid, size);
-                request.getSession().setAttribute("selectedsize", hm);
-            } else {
-                HashMap hm = new HashMap();
-                hm.put(sid, size);
-                request.getSession().setAttribute("selectedsize", hm);
-
-            }
-
+        PrintWriter out = response.getWriter();
+        
+        try {
+            
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
 

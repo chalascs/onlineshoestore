@@ -4,19 +4,24 @@
     Author     : Shanaka
 --%>
 
+<%@page import="DB.Stock"%>
+<%@page import="java.util.ArrayList"%>
 <%@page import="DB.UserType"%>
 <%@page import="java.util.List"%>
 <%@page import="org.hibernate.Criteria"%>
 <%@page import="org.hibernate.Session"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@taglib prefix="f" uri="http://java.sun.com/jsp/jstl/functions" %>
 <!DOCTYPE html>
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>JSP Page</title>
-        
+        <link href="https://fonts.googleapis.com/css?family=Quicksand" rel="stylesheet">
         <link rel="stylesheet" href="css/bootstrap.min.css">
         <link rel="stylesheet" href="css/custom.css">
+        <link rel="stylesheet" href="css/skeleton.css" >
         <link rel="stylesheet" href="css/font-awesome.min.css">
         <script src="js/jquery-3.1.0.min.js"></script>       
         <script src="js/bootstrap.min.js"></script> 
@@ -61,9 +66,9 @@
                     %>
                     <li><span><span class="glyphicon glyphicon-heart"></span><a href="wishlist.jsp"> Wish List</a></span></li>
                     <li><span><span class="fa fa-sign-out"></span><a href="login?type=Logout"> Logout</a></span></li>
-                            <%
-                                }
-                            %>
+                                <%
+                                    }
+                                %>
             </div>
         </div>
         <div class="row">
@@ -76,13 +81,26 @@
                     </span>
                 </div>
             </div>
-            <div class="col-md-2"><a href="cart.jsp" style="text-decoration: none"><button id="hederCartButton" type="button" class="btn btn-block btn-success" aria-label="Left Align"> <span class="glyphicon glyphicon-shopping-cart" aria-hidden="true"></span> Rs:
-                        <%if (request.getSession().getAttribute("cartTotal") == null) {
+            <div class="col-md-2"><a href="cart.jsp" style="text-decoration: none"><button id="hederCartButton" type="button" class="button-primary" aria-label="Left Align"> <span class="glyphicon glyphicon-shopping-cart" aria-hidden="true"></span> Rs:
+                        <%if (request.getSession().getAttribute("cart") == null) {
                         %>0.00<%
                         } else {
                         %> 
-                        <%=(Double) request.getSession().getAttribute("cartTotal")%>
-                        <%}%>
+                        <%
+                            ArrayList<DB.Stock> st = (ArrayList<Stock>) request.getSession().getAttribute("cart");
+                            int tot = 0;
+                            for (DB.Stock stk : st) {
+                               tot += stk.getPrice();
+                              
+                        %>
+                        
+                        
+                        <%}
+                            %>
+                            <%=tot%>
+                        <%
+                            }
+                        %>
                     </button></a></div>
         </div>
     </body>

@@ -29,11 +29,11 @@
 
         <script>
             function changeQTY(ab) {
-                
+
                 var xhttp = new XMLHttpRequest();
                 var ss = ab.split("-");
                 var cartPrice = document.getElementById("cartPrice" + ss[1]).value;
-                var size = document.getElementById("size" );
+                var size = document.getElementById("size");
                 alert(size);
                 var proID = document.getElementById("proID" + ss[1]).value;
                 var qty = ss[0];
@@ -51,7 +51,7 @@
                         }
                     }
                 };
-                
+
                 xhttp.open("GET", "cart?cartPrice=" + cartPrice + "&size=" + size + "&qty=" + qty + "&Type=" + Type + "&proID=" + proID, true);
                 xhttp.send();
             }
@@ -85,7 +85,33 @@
 
             function confirm() {
 
+                var Type = "confirm";
+                var size = document.getElementById("ssize").innerHTML;
+                var stid = document.getElementById("pid").value;
+                var qty = document.getElementById("abc").value;
+                alert(size);
+                var xhttp = new XMLHttpRequest();
+                xhttp.onreadystatechange = function() {
+                    if (xhttp.readyState === 4 && xhttp.status === 200) {
+
+                    }
+                };
+                xhttp.open("GET", "checkout?Type" + Type + "&size=" + size + "&stid=" + stid + "&qty=" + qty, true);
+                xhttp.send();
             }
+            
+            
+            function purchaseone() {
+
+                var xhttp = new XMLHttpRequest();
+                xhttp.onreadystatechange = function() {
+                    if (xhttp.readyState === 4 && xhttp.status === 200) {
+
+                    }
+                };
+
+            }
+
 
         </script>
     </head>
@@ -130,6 +156,7 @@
                                 </td> 
                             </tr>
                             <%} else {
+
                                 ArrayList<DB.Stock> st = (ArrayList<DB.Stock>) request.getSession().getAttribute("cart");
                                 int ii = 0;
                                 for (DB.Stock stk : st) {
@@ -145,37 +172,47 @@
                                         <img src="<%=stk.getImage()%>" style="width: 150px; height: 120px;">                                        
                                     </div>
 
-                                <td class="text-right"><%=stk.getProductName()%><input type="hidden" id="proID<%=ii%>" value="<%=stk.getStid()%>"></td>
+                                <td class="text-right"><%=stk.getProductName()%><input type="hidden" id="proID<%=ii%>" value="<%=stk.getStid()%>"><input type="hidden" id="pid" value="<%=stk.getStid()%>"></td>
                                 <td class="text-right"><%=stk.getPrice()%><input type="hidden" id="cartPrice<%=ii%>" value="<%=stk.getPrice()%>"></td>
                                     <%
                                         Session ses = NewHibernateUtil.getSessionFactory().openSession();
                                         Criteria cr = ses.createCriteria(DB.Size.class);
                                         cr.add(Restrictions.eq("stock", stk));
                                     %>
-                                <td class="text-right">
+                                <td class="text-right" id="ssize">
 
                                     <%
-                                        if(request.getSession().getAttribute("selectedsize")!=null){
-                                    HashMap hm = (HashMap) request.getSession().getAttribute("selectedsize");
-                                        
-                                    
+                                        if (request.getSession().getAttribute("selectedsize") != null) {
+                                            HashMap hm = (HashMap) request.getSession().getAttribute("selectedsize");
                                     %>
+
                                     <%=hm.get(stk.getStid().toString())%>
-                                    
+
                                     <%}%>
-                                    
-                            </td>
-                            <td class="text-right">
-                                <div class="row">
-                                    <div class="col-md-12">
-                                        <input type="number" id="abc" onchange="changeQTY(this.value + '-<%=ii%>')" value="1" >
+
+                                </td>
+                                <td class="text-right">
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <%
+                                                if (request.getSession().getAttribute("selectedqty") != null) {
+                                                    HashMap hm = (HashMap) request.getSession().getAttribute("selectedqty");
+
+                                            %>
+                                            <%=hm.get(stk.getStid().toString())%>
+
+                                            <%}%>
+                                        </div>
+                                        <div class="col-md-12" style="margin-top: 10px;">
+                                            <a onclick="remove('<%=st.indexOf(stk)%>')" class="btn btn-xs btn-danger" style="cursor: pointer">Remove</a>
+                                        </div>
                                     </div>
+                                </td>
+                                <td id="cartTortel<%=ii%>" class="text-right"><%=stk.getPrice()%>
                                     <div class="col-md-12" style="margin-top: 10px;">
-                                        <a onclick="remove('<%=st.indexOf(stk)%>')" class="btn btn-xs btn-danger" style="cursor: pointer">Remove</a>
+                                        <a onclick="purchaseone()" class="btn btn-xs btn-primary" style="cursor: pointer">Confirm this</a>
                                     </div>
-                                </div>
-                            </td>
-                            <td id="cartTortel<%=ii%>" class="text-right"><%=stk.getPrice()%></td>
+                                </td>
                             </tr>
                             <%}
                                 }%>

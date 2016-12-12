@@ -35,13 +35,13 @@
         </style>
         <script>
             function changeQTY(ab) {
-
+                changeQTY.called = true;
                 var xhttp = new XMLHttpRequest();
                 var ss = ab.split("-");
                 var cartPrice = document.getElementById("cartPrice" + ss[1]).value;
                 var size = document.getElementById("size" + ss[1]).value;
                 var proID = document.getElementById("proID" + ss[1]).value;
-                
+
                 var qty = ss[0];
 
                 var Type = "changeQTY";
@@ -59,6 +59,7 @@
                     }
                 };
                 xhttp.open("GET", "cart?cartPrice=" + cartPrice + "&size=" + size + "&qty=" + qty + "&Type=" + Type + "&proID=" + proID, true);
+                xhttp.open("GET", "qtystore?qty=" + qty + "&proID=" + proID, true);
                 xhttp.send();
             }
 
@@ -75,7 +76,7 @@
             }
 
             function saveitem(stid) {
-                
+
                 var xhttp = new XMLHttpRequest();
                 var adwl = document.getElementById("wish").value;
                 var Type = "addtowish";
@@ -86,18 +87,30 @@
                 xhttp.open("GET", "wishlist?adwl=" + stid + "&Type=" + Type, true);
                 xhttp.send();
             }
-            
-            function sizechange(aa){
-                
-                alert(aa);
+
+            function sizechange(aa) {
+                sizechange.called = true;
+
                 var xhttp = new XMLHttpRequest();
-                xhttp.onreadystatechange = function (){
-                    if(xhttp.readyState === 4 && xhttp.status === 200){
-                        
+                xhttp.onreadystatechange = function() {
+                    if (xhttp.readyState === 4 && xhttp.status === 200) {
+
                     }
                 };
-                xhttp.open("GET","valcheckout?value="+ aa,true);
+                xhttp.open("GET", "valcheckout?value=" + aa, true);
                 xhttp.send();
+            }
+
+            function checkout() {
+
+
+                if (sizechange.called && changeQTY.called){
+                    window.location.href = "checkout.jsp";
+                }else{
+                    alert("Please Select Size and QTY");
+                }
+
+                
             }
 
         </script>
@@ -113,7 +126,7 @@
                 </div>
                 <div class="row" style="margin-top: 20px;">
                     <div class="col-md-12 text-center" id="carttable">
-                        <table class="table table-responsive table-condensed" id="table-cart">
+                        <table style="background-color: white" class="table table-responsive table-condensed" id="table-cart">
                             <thead style="border: 1px solid #eeee">
                                 <tr>
                                     <th colspan="2">Product</th>
@@ -123,8 +136,7 @@
                                     <th class="text-right">Total</th>  
                                 </tr>
                             </thead>
-                            <%
-                                if (request.getSession().getAttribute("cart") == null) {
+                            <%                                if (request.getSession().getAttribute("cart") == null || request.getSession().getAttribute("cart") == "") {
                             %>
                             <tr>
                                 <td class="text-center" colspan="6" style="font-family:Helvetica,Arial,sans-serif; font-weight: bold;"><h4>Your cart is empty.. But it doesn't have to be</h4>
@@ -150,7 +162,7 @@
                                     </div>
 
                                 <td class="text-right"><%=stk.getProductName()%><input type="hidden" id="proID<%=ii%>" value="<%=stk.getStid()%>"></td>
-                                
+
                                 <td class="text-right"><%=stk.getPrice()%><input type="hidden" id="cartPrice<%=ii%>" value="<%=stk.getPrice()%>"></td>
                                     <%
                                         Session ses = NewHibernateUtil.getSessionFactory().openSession();
@@ -158,7 +170,7 @@
                                         cr.add(Restrictions.eq("stock", stk));
                                     %>
                                 <td class="text-right">
-                                    <select id="size<%=ii%>" onchange="sizechange(this.value+'-<%=stk.getStid()%>')" onload="sizechange(this.value)">
+                                    <select id="size<%=ii%>" onchange="sizechange(this.value + '-<%=stk.getStid()%>')">
                                         <%                                            List<Size> si = (List<Size>) cr.list();
                                             for (DB.Size sz : si) {
                                         %>
@@ -169,10 +181,10 @@
                                 <td class="text-right">
                                     <div class="row">
                                         <div class="col-md-12">
-                                            <input type="number" id="abc" onchange="changeQTY(this.value + '-<%=ii%>')" value="1">
+                                            <input type="number" id="abc" onchange="changeQTY(this.value + '-<%=ii%>')" value="1"><input type="hidden" id="hid" value="<%=ii%>">
                                         </div>
                                         <div class="col-md-12" style="margin-top: 100px;">
-                                            <a onclick="remove('<%=st.indexOf(stk)%>')" class="btn btn-xs btn-danger" style="cursor: pointer">Remove</a>
+                                            <a onclick="remove('<%=st.indexOf(stk)%>')" class="button-primary btn-xs btn-danger" style="cursor: pointer">Remove</a>
                                         </div>
                                     </div>
                                 </td>
@@ -181,15 +193,15 @@
                                         <div class="col-md-12">
                                             <%=stk.getPrice()%>
                                         </div>
-                                        <div class="col-md-12" style="margin-top: 105px;">
+                                        <div class="col-md-12" style="margin-top: 115px;">
                                             <%
-                                                if(request.getSession().getAttribute("user")!= null){
+                                                if (request.getSession().getAttribute("user") != null) {
                                             %>
-                                            <a onclick="saveitem(<%=stk.getStid()%>)" class="btn btn-xs btn-primary" id="wish" style="cursor: pointer">Save Item</a>
+                                            <a onclick="saveitem(<%=stk.getStid()%>)" class="button-primary btn-xs btn-primary" id="wish" style="cursor: pointer">Save Item</a>
                                             <%
-                                                }else{
+                                            } else {
                                             %>
-                                            <a onclick="saveitem(<%=stk.getStid()%>)" class="btn btn-xs btn-primary disabled" id="wish" style="cursor: pointer">Save Item</a>
+                                            <a onclick="saveitem(<%=stk.getStid()%>)" class="button-primary btn-xs btn-primary disabled" id="wish" style="cursor: pointer">Save Item</a>
                                             <%
                                                 }
                                             %>
@@ -204,7 +216,7 @@
                 </div>
                 <div class="row">
                     <div class="col-md-6"></div>
-                    <div class="col-md-6 text-right" style="margin-bottom: 30px;"><a class="btn btn-primary btn-sm" href="checkout.jsp" onclick="takevalues()">Checkout</a></div>
+                    <div class="col-md-6 text-right" style="margin-bottom: 30px;"><button class="btn-primary btn-xs" onclick="checkout()">Checkout</button></div>
                 </div>
                 <div class="row">
                     <div class="col-md-3 text-center">

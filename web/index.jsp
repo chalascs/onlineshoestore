@@ -19,6 +19,7 @@
         <script src="js/bootstrap.min.js"></script> 
         <script>
             function addtocart(stid) {
+                
                 var xhttp = new XMLHttpRequest();
                 var adcrt = document.getElementById("adcrt").value;
                 var Type = "addtocart";
@@ -91,7 +92,7 @@
                 </div>
                 <hr>
                 <div class="row" style="margin-top: 50px;">
-                    <div id="cl" style="margin-bottom: 20px;"class="col-md-12 text-center"><span class=" fa fa-3x"><kbd >Latest Products</kbd></span></div>
+                    <div id="cl" style="margin-bottom: 20px;"class="col-md-12 text-center"><span class=" fa fa-3x"><kbd style="font-family: 'Quicksand', sans-serif;">Latest Products</kbd></span></div>
                 </div>
                 <div class="row" style="margin-top: 80px;" id="prudload">
                     <%
