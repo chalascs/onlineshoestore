@@ -170,7 +170,7 @@
                                         cr.add(Restrictions.eq("stock", stk));
                                     %>
                                 <td class="text-right">
-                                    <select id="size<%=ii%>" onchange="sizechange(this.value + '-<%=stk.getStid()%>')">
+                                    <select id="size<%=ii%>" onchange="sizechange(this.value + '-<%=stk.getStid()%>')" >
                                         <%                                            List<Size> si = (List<Size>) cr.list();
                                             for (DB.Size sz : si) {
                                         %>
@@ -181,7 +181,7 @@
                                 <td class="text-right">
                                     <div class="row">
                                         <div class="col-md-12">
-                                            <input type="number" id="abc" onchange="changeQTY(this.value + '-<%=ii%>')" value="1"><input type="hidden" id="hid" value="<%=ii%>">
+                                            <input type="number" id="abc" onchange="changeQTY(this.value + '-<%=ii%>')" value="0">
                                         </div>
                                         <div class="col-md-12" style="margin-top: 100px;">
                                             <a onclick="remove('<%=st.indexOf(stk)%>')" class="button-primary btn-xs btn-danger" style="cursor: pointer">Remove</a>

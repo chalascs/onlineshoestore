@@ -25,6 +25,7 @@
                 var Type = "addtocart";
                 xhttp.onreadystatechange = function() {
                     if (xhttp.readyState === 4 && xhttp.status === 200) {
+                        
                     }
                 };
                 xhttp.open("GET", "cart?adcrt=" + stid + "&Type=" + Type, true);

@@ -84,23 +84,26 @@
             }
 
             function confirm() {
+                
+//                var Type = "confirm";
+//                var size = document.getElementById("ssize").innerHTML;
+//                var stid = document.getElementById("pid").value;
+//                var qty = document.getElementById("abc").value;
 
-                var Type = "confirm";
-                var size = document.getElementById("ssize").innerHTML;
-                var stid = document.getElementById("pid").value;
-                var qty = document.getElementById("abc").value;
-                alert(size);
                 var xhttp = new XMLHttpRequest();
                 xhttp.onreadystatechange = function() {
                     if (xhttp.readyState === 4 && xhttp.status === 200) {
-
+                        
                     }
                 };
-                xhttp.open("GET", "checkout?Type" + Type + "&size=" + size + "&stid=" + stid + "&qty=" + qty, true);
+
+//                xhttp.open("GET", "checkout?Type" + Type + "&size=" + size + "&stid=" + stid + "&qty=" + qty, true);
+                
+                xhttp.open("GET", "checkout", true);
                 xhttp.send();
             }
-            
-            
+
+
             function purchaseone() {
 
                 var xhttp = new XMLHttpRequest();

@@ -123,6 +123,7 @@ public class cart extends HttpServlet {
                     }
                 }
             } else if (Type.equals("removeItem")) {
+                
                 if (request.getSession().getAttribute("cart") != null) {
                     ArrayList<Stock> st = (ArrayList<Stock>) request.getSession().getAttribute("cart");
                     st.remove(Integer.parseInt(remove));
