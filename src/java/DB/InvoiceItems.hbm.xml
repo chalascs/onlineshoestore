@@ -1,18 +1,24 @@
 <?xml version="1.0"?>
 <!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
 "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
-<!-- Generated Oct 29, 2016 2:03:52 PM by Hibernate Tools 3.6.0 -->
+<!-- Generated Dec 13, 2016 4:10:12 AM by Hibernate Tools 3.6.0 -->
 <hibernate-mapping>
     <class name="DB.InvoiceItems" table="invoice_items" catalog="shoestore">
-        <id name="invItemsId" type="int">
+        <id name="invItemsId" type="java.lang.Integer">
             <column name="inv_items_id" />
-            <generator class="assigned" />
+            <generator class="identity" />
         </id>
         <many-to-one name="stock" class="DB.Stock" fetch="select">
-            <column name="stock_stid" />
+            <column name="stock_stid" not-null="true" />
         </many-to-one>
         <many-to-one name="invoice" class="DB.Invoice" fetch="select">
-            <column name="invoice_invoice_id" />
+            <column name="invoice_invoice_id" not-null="true" />
         </many-to-one>
+        <property name="qty" type="java.lang.Integer">
+            <column name="qty" />
+        </property>
+        <property name="price" type="java.lang.Double">
+            <column name="price" precision="22" scale="0" />
+        </property>
     </class>
 </hibernate-mapping>

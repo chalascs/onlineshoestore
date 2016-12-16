@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
 "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
-<!-- Generated Oct 29, 2016 2:03:52 PM by Hibernate Tools 3.6.0 -->
+<!-- Generated Dec 13, 2016 4:10:12 AM by Hibernate Tools 3.6.0 -->
 <hibernate-mapping>
     <class name="DB.Stock" table="stock" catalog="shoestore">
         <id name="stid" type="java.lang.Integer">
@@ -49,7 +49,7 @@
         </set>
         <set name="invoiceItemses" table="invoice_items" inverse="true" lazy="true" fetch="select">
             <key>
-                <column name="stock_stid" />
+                <column name="stock_stid" not-null="true" />
             </key>
             <one-to-many class="DB.InvoiceItems" />
         </set>

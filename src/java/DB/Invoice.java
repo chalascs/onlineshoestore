@@ -1,7 +1,8 @@
 package DB;
-// Generated Oct 29, 2016 2:03:51 PM by Hibernate Tools 3.6.0
+// Generated Dec 13, 2016 4:10:11 AM by Hibernate Tools 3.6.0
 
 
+import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -14,7 +15,7 @@ public class Invoice  implements java.io.Serializable {
      private Integer invoiceId;
      private User user;
      private Integer totalPrice;
-     private String date;
+     private Date date;
      private Set invoiceItemses = new HashSet(0);
 
     public Invoice() {
@@ -24,7 +25,7 @@ public class Invoice  implements java.io.Serializable {
     public Invoice(User user) {
         this.user = user;
     }
-    public Invoice(User user, Integer totalPrice, String date, Set invoiceItemses) {
+    public Invoice(User user, Integer totalPrice, Date date, Set invoiceItemses) {
        this.user = user;
        this.totalPrice = totalPrice;
        this.date = date;
@@ -52,11 +53,11 @@ public class Invoice  implements java.io.Serializable {
     public void setTotalPrice(Integer totalPrice) {
         this.totalPrice = totalPrice;
     }
-    public String getDate() {
+    public Date getDate() {
         return this.date;
     }
     
-    public void setDate(String date) {
+    public void setDate(Date date) {
         this.date = date;
     }
     public Set getInvoiceItemses() {

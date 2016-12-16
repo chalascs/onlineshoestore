@@ -58,7 +58,7 @@ public class wishlist extends HttpServlet {
                 cr.add(Restrictions.eq("stid", Integer.parseInt(stkid)));
                 DB.Stock st =  (DB.Stock) cr.uniqueResult();
                 wl.setStock(st);
-                wl.setDate(new SimpleDateFormat("yyyy:MM:dd").format(new Date()));
+                wl.setDate(new Date().toString());
 
                 DB.User us = (DB.User) request.getSession().getAttribute("user");
                 int uid = us.getUid();

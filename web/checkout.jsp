@@ -4,6 +4,8 @@
     Author     : Shanaka
 --%>
 
+<%@page import="DB.InvoiceItems"%>
+<%@page import="org.hibernate.criterion.Order"%>
 <%@page import="java.util.HashMap"%>
 <%@page import="DB.User"%>
 <%@page import="DB.Size"%>
@@ -84,7 +86,7 @@
             }
 
             function confirm() {
-                
+
 //                var Type = "confirm";
 //                var size = document.getElementById("ssize").innerHTML;
 //                var stid = document.getElementById("pid").value;
@@ -93,12 +95,12 @@
                 var xhttp = new XMLHttpRequest();
                 xhttp.onreadystatechange = function() {
                     if (xhttp.readyState === 4 && xhttp.status === 200) {
-                        
+
                     }
                 };
 
 //                xhttp.open("GET", "checkout?Type" + Type + "&size=" + size + "&stid=" + stid + "&qty=" + qty, true);
-                
+
                 xhttp.open("GET", "checkout", true);
                 xhttp.send();
             }
@@ -129,20 +131,20 @@
             <div class="col-md-10">
                 <div class="row">
                     <div class="col-md-4"></div>
-                    <div class="col-md-4" style="margin-top: 20px;">
+                    <div class="col-md-4" style="margin-top: 0px;">
                         <a href="index.jsp"><img src="img/logo.png" class="img-responsive"  style="text-align: center"></a>
                     </div>
                     <div class="col-md-4"></div>
                 </div>
                 <div class="row">
                     <div class="col-md-12">
-                        <h3 style="font-weight: bold; font-family: sans-serif; text-align: center" class="text-center"><span class="glyphicon glyphicon-shopping-cart"></span>Checkout</h3>
+                        <h3 style="font-weight: bold; font-family: sans-serif; text-align: center; color: white; margin-top: 0px;" class="text-center"><span class="glyphicon glyphicon-shopping-cart"></span>Checkout</h3>
                     </div>
                 </div>
                 <div class="row">
                     <div class="col-md-12 crt" id="carttable">
-                        <table class="table table-responsive table-condensed " id="table-cart">
-                            <thead style="border: 1px solid black" class="">
+                        <table style="background-color: white" class="table table-responsive table-condensed " id="table-cart">
+                            <thead style="border: 1px solid #eeee" class="">
                                 <tr class="active">
                                     <th colspan="2">Product</th>
                                     <th class="text-right">Price</th>
@@ -256,7 +258,7 @@
                         %>
                     </div>
 
-                    <div class="col-md-5 text-center panel-default" style="border-right: 1px solid #eee; margin: 8px;">
+                    <div class="col-md-5 text-center panel-default" style="border-right: 1px solid #eee; margin-top: 0px;">
 
                         <div class="row">
                             <div class="row">
@@ -266,15 +268,7 @@
 
                         </div>
                         <div class="row">
-                            <h5>Card Installments</h5>
-                            <div class="row ">
-                                <input type="radio" name="pmethod" value="allcrard"/>
-                                <label> Credit/Debit Card: Visa & Master Card</label>
-                            </div>
-                            <div class="row">
-                                <input type="radio" name="pmethod" value="amarican"/>
-                                <label> Credit Card: American Express</label>
-                            </div>
+                            <center><img src="img/cards.png" class="img-responsive" style="width: 400px;height: 30px;"></center>
                         </div>
 
                     </div>
@@ -300,11 +294,70 @@
                         </div>
                         <div class="row">
                             <div class="col-md-12 text-right" style="margin-top: 10px;">
-                                <button class="btn cnfrm" style="background-color: #73a839; color: white;" onclick="confirm()" >Confirm</button> 
+                                <button class="btn cnfrm" style="background-color: #73a839; color: white;" onclick="confirm()" data-toggle="modal" data-target="#myModal" >Confirm</button> 
                             </div>
                         </div>
                     </div>
                 </div> 
+                <!-- Modal -->
+                <div class="modal fade" id="myModal" role="dialog">
+                    <div class="modal-dialog">
+                        <%
+                            Session ses = NewHibernateUtil.getSessionFactory().openSession();
+                            Criteria cr = ses.createCriteria(DB.Invoice.class);
+                            cr.addOrder(Order.desc("invoiceId"));
+                            cr.setMaxResults(1);
+                            DB.Invoice in = (DB.Invoice) cr.uniqueResult();
+                        %>
+                        <!-- Modal content-->
+                        <div class="modal-content" style="background-color: #eeee;">
+                            <div class="modal-header">
+                                <center><h3>Invoice</h3></center>
+                                <!--                                <button type="button" class="close" data-dismiss="modal">&times;</button>-->
+                                <h4 class="modal-title"></h4>
+                            </div>
+                            <div class="modal-body">
+                                <div class="row">
+                                    <div class="col-md-6" >
+                                        <div class="row" style="color: royalblue">
+                                            <div class="col-md-12"><h4 style="color: #101010; font-weight: bold">DATE</h4></div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-12"><h5><%=in.getDate()%></h5></div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="row">
+                                            <div class="col-md-12"><h4 style="color: #101010; font-weight: bold">BILL TO</h4></div>
+                                            <div class="col-md-12"><%=in.getUser().getFname()%> <%=in.getUser().getLname()%> <%=in.getInvoiceId() %></div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-12">
+
+                                        <table>
+                                            <thead>
+                                                <tr>
+                                                    <td>Product</td>
+                                                    <td>Qty</td>
+                                                    <td>Price</td>
+                                                    <td>Total</td>
+                                                </tr>
+                                            </thead>
+                                           
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-default" data-dismiss="modal">Shop More</button>
+                                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
             </div>
             <div class="col-md-1"></div>
         </div>

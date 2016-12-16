@@ -1,5 +1,5 @@
 package DB;
-// Generated Oct 29, 2016 2:03:51 PM by Hibernate Tools 3.6.0
+// Generated Dec 13, 2016 4:10:11 AM by Hibernate Tools 3.6.0
 
 
 import java.util.HashSet;

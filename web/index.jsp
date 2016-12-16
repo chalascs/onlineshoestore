@@ -4,6 +4,7 @@
     Author     : Shanaka
 --%>
 
+<%@page import="org.hibernate.criterion.Order"%>
 <%@page import="DB.Stock"%>
 <%@page import="connection.NewHibernateUtil"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
@@ -19,13 +20,13 @@
         <script src="js/bootstrap.min.js"></script> 
         <script>
             function addtocart(stid) {
-                
+
                 var xhttp = new XMLHttpRequest();
                 var adcrt = document.getElementById("adcrt").value;
                 var Type = "addtocart";
                 xhttp.onreadystatechange = function() {
                     if (xhttp.readyState === 4 && xhttp.status === 200) {
-                        
+
                     }
                 };
                 xhttp.open("GET", "cart?adcrt=" + stid + "&Type=" + Type, true);
@@ -45,16 +46,25 @@
 //            }
 
 
-            $(document).ready(function() {
-                $("#cl").hover(function() {
-                    $("#prudload").show(800);
-                });
-            });
+//            $(document).ready(function() {
+//                $("#cl").hover(function() {
+//                    $("#prudload").show(800);
+//                });
+//            });
+
+            function loadPID(pid) {
+                var url = "index.jsp?pid=" + pid;
+
+                window.location.href = url;
+//                window.scrollTo(0, 100);
+
+            }
         </script>
         <style>
-            #prudload{
-                display: none;
-            }
+            /*            #prudload{
+                            display: none;
+                        }*/
+            .pagination>li>a, .pagination>li>span { border-radius: 50% !important;margin: 0 5px;}
         </style>
     </head>
     <body>
@@ -96,10 +106,31 @@
                     <div id="cl" style="margin-bottom: 20px;"class="col-md-12 text-center"><span class=" fa fa-3x"><kbd style="font-family: 'Quicksand', sans-serif;">Latest Products</kbd></span></div>
                 </div>
                 <div class="row" style="margin-top: 80px;" id="prudload">
-                    <%
-                        Session ses = NewHibernateUtil.getSessionFactory().openSession();
+                    <%                        Session ses = NewHibernateUtil.getSessionFactory().openSession();
                         Criteria cr = ses.createCriteria(DB.Stock.class);
+//                        List<DB.Stock> li = cr.list();
+                        //pagination
+//                        Criteria cr1 = ses.createCriteria(DB.Stock.class);
+                        if (request.getParameter("pge") != null) {
+                            int asd = Integer.parseInt(request.getParameter("pge"));
+                            if (asd == 1) {
+                                cr.setMaxResults(4);
+                            } else {
+                                cr.setFirstResult((Integer.parseInt(request.getParameter("pge")) * 4) - 4);
+                                cr.setMaxResults(4);
+                            }
+                        } else {
+                            cr.setMaxResults(4);
+                        }
+
                         List<DB.Stock> li = cr.list();
+
+                        int pge = li.size() % 4;
+
+                        if (pge % 4 > 0) {
+                            pge += 1;
+                        }
+
                         for (DB.Stock stock : li) {
                     %>
                     <div class="col-sm-6 col-md-3" style="text-align: center">
@@ -119,19 +150,32 @@
                         </div>
                     </div>  
                     <%}%>
-                </div>
 
+                </div>
+                <div class="row">
+                    <div class="col-md-6"></div>
+                    <div class="col-md-6">
+                        <%
+                            for (int i = 0; i < pge; i++) {
+                        %>
+                        
+                        <input type="button" class="btn-link" onclick="location.href = 'index.jsp?pge=<%=i + 1%>'"value="<%=i + 1%>" >
+                            <%}%>
+
+                    </div>
+                            
+                </div>
                 <!-- Modal -->
                 <div class="modal fade" id="myModal" role="dialog">
                     <div class="modal-dialog">
-                            <div class="modal-body">
-                                <div class="alert alert-success">
-                                    <strong>Success!</strong> Item added to your cart.
-                                </div>
+                        <div class="modal-body">
+                            <div class="alert alert-success">
+                                <strong>Success!</strong> Item added to your cart.
                             </div>
                         </div>
+                    </div>
                 </div>
-
+                <!--end of the modal-->
             </div>
             <div class="col-md-1"></div>         
         </div>

@@ -1,5 +1,5 @@
 package DB;
-// Generated Oct 29, 2016 2:03:51 PM by Hibernate Tools 3.6.0
+// Generated Dec 13, 2016 4:10:11 AM by Hibernate Tools 3.6.0
 
 
 
@@ -9,28 +9,32 @@ package DB;
 public class InvoiceItems  implements java.io.Serializable {
 
 
-     private int invItemsId;
+     private Integer invItemsId;
      private Stock stock;
      private Invoice invoice;
+     private Integer qty;
+     private Double price;
 
     public InvoiceItems() {
     }
 
 	
-    public InvoiceItems(int invItemsId) {
-        this.invItemsId = invItemsId;
+    public InvoiceItems(Stock stock, Invoice invoice) {
+        this.stock = stock;
+        this.invoice = invoice;
     }
-    public InvoiceItems(int invItemsId, Stock stock, Invoice invoice) {
-       this.invItemsId = invItemsId;
+    public InvoiceItems(Stock stock, Invoice invoice, Integer qty, Double price) {
        this.stock = stock;
        this.invoice = invoice;
+       this.qty = qty;
+       this.price = price;
     }
    
-    public int getInvItemsId() {
+    public Integer getInvItemsId() {
         return this.invItemsId;
     }
     
-    public void setInvItemsId(int invItemsId) {
+    public void setInvItemsId(Integer invItemsId) {
         this.invItemsId = invItemsId;
     }
     public Stock getStock() {
@@ -46,6 +50,20 @@ public class InvoiceItems  implements java.io.Serializable {
     
     public void setInvoice(Invoice invoice) {
         this.invoice = invoice;
+    }
+    public Integer getQty() {
+        return this.qty;
+    }
+    
+    public void setQty(Integer qty) {
+        this.qty = qty;
+    }
+    public Double getPrice() {
+        return this.price;
+    }
+    
+    public void setPrice(Double price) {
+        this.price = price;
     }
 
 

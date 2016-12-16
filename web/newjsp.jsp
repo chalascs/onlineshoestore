@@ -124,5 +124,98 @@ svg {
   </svg>
 <div class="child">
 Clouds<br /> of æther.</div>
+  
+  <td style="vertical-align: top;" id="viewadsList">
+                                    <%
+
+                                        int fr = 0;
+                                        if (request.getParameter("pid") != null) {
+                                            int q = Integer.parseInt(request.getParameter("pid").toString());
+                                            fr = q * 2;
+                                        }
+                                        Criteria cr1 = ses.createCriteria(DB.Advertisements.class);
+                                        cr1.add(Restrictions.eq("viewStatus", "Confirmed"));
+                                        if (but != null) {
+                                            cr1.add(Restrictions.eq("mainCategory", but));
+                                        }
+                                        if (Subbut != null) {
+                                            cr1.add(Restrictions.eq("subCategory", Subbut));
+                                        }
+                                        cr1.addOrder(Order.desc("idads"));
+                                        int y = cr1.list().size() / 2;
+                                        if (cr1.list().size() % 2 == 1) {
+                                            y += 1;
+                                        }
+                                        cr1.setFirstResult(fr);
+                                        cr1.setMaxResults(4);
+                                        List<DB.Advertisements> adsss = cr1.list();
+                                        if (!adsss.isEmpty()) {
+                                            for (Advertisements ads1 : adsss) {
+                                                Criteria cr2 = ses.createCriteria(DB.AdsAttachment.class);
+                                                cr2.add(Restrictions.eq("advertisements", ads1));
+                                                cr2.add(Restrictions.eq("mainImage", "1"));
+                                                AdsAttachment adsatt = (AdsAttachment) cr2.uniqueResult();
+                                    %>
+                                    <div class="mainDiv2-SubDiv">
+                                        <table style="border: 0px;">
+                                            <tr>
+                                                <td>
+                                                    <div class="AdvertisementDiv-PublishAds">
+                                                            <div class="AdvertisementDiv-PublishAds-Div1">
+                                                                <div class="AdvertisementDiv-PublishAds-Div1-images" onclick="SelectedAdsView(<%=ads1.getIdads()%>)"><img src="<%=(adsatt != null) ? adsatt.getPath() : "image/home/home-slider/regalliving.jpg"%>" style="width: 100%; height: 100%;" onmousedown="return false"></div>
+                                                                <div class="AdvertisementDiv-PublishAds-Div1-title" onclick="SelectedAdsView(<%=ads1.getIdads()%>)"><%=ads1.getAdsTitle()%></div><br>
+                                                                <div class="AdvertisementDiv-PublishAds-Div1-Price" onclick="SelectedAdsView(<%=ads1.getIdads()%>)">LKR:<%if (!ads1.getAdsPayments().isEmpty()) {%><%=((AdsPayment) ads1.getAdsPayments().toArray()[0]).getAdsPayment()%>(<%=((AdsPayment) ads1.getAdsPayments().toArray()[0]).getValidTime()%>)<%} else {%>0.00<%}%> </div><br>
+                                                                <div class="AdvertisementDiv-PublishAds-Div1-address" onclick="SelectedAdsView(<%=ads1.getIdads()%>)"><i class="fa fa-map-marker"></i>&nbsp<%=ads1.getAdsAddress()%></div><br>
+                                                                <%
+                                                                    User us = (User) request.getSession().getAttribute("User_logId");
+                                                                    if (us != null) {
+                                                                        Criteria cr11 = ses.createCriteria(DB.Favourite.class);
+                                                                        cr11.add(Restrictions.and(Restrictions.eq("advertisements", ads1), Restrictions.eq("user", us)));
+                                                                        Favourite fav1 = (Favourite) cr11.uniqueResult();
+                                                                        if (fav1 != null) {
+                                                                %>
+                                                                <div class="AdvertisementDiv-PublishAds-Div1-Details" id="AdvertisementFavourite3"><i class="fa fa-star" style="color: #ffcc00;" onclick="deleteFavorites(<%=fav1.getIdFavourite()%>)"></i>&nbsp&nbsp<span onclick="deleteFavorites(<%=fav1.getIdFavourite()%>)">Unfavorite</span></div><br>
+                                                                <%} else {%>
+                                                                <div class="AdvertisementDiv-PublishAds-Div1-Details" id="AdvertisementFavourite1"><i class="fa fa-star-o" onclick="AddFavorites(<%=ads1.getIdads()%>)"></i>&nbsp&nbsp<span onclick="AddFavorites(<%=ads1.getIdads()%>)">Favorite</span></div><br>
+                                                                <%}
+                                                                } else {%>
+                                                                <div class="AdvertisementDiv-PublishAds-Div1-Details" id="AdvertisementFavourite2"><i class="fa fa-star-o" onclick="AddFavorites(<%=ads1.getIdads()%>)"></i>&nbsp&nbsp<span onclick="AddFavorites(<%=ads1.getIdads()%>)">Favorite</span></div><br>
+                                                                <%}%>
+                                                            </div>
+                                                        </div>
+                                                </td>
+                                            </tr>
+                                        </table>
+                                    </div>
+                                    <%}
+                                    } else {%>
+                                    <div class="mainDiv2-SubDiv">
+                                        <table style="border: 0px;">
+                                            <tr>
+                                                <td>
+                                                    <div class="AdvertisementDiv-PublishAds">
+                                                        <div class="AdvertisementDiv-PublishAds-Div1">
+                                                            <div class="AdvertisementDiv-PublishAds-Div1-images"><img src="image/home/home-slider/regalliving.jpg" style="width: 100%; height: 100%;" onmousedown="return false"></div>
+                                                            <div class="AdvertisementDiv-PublishAds-Div1-title">Empty Title</div><br>
+                                                            <div class="AdvertisementDiv-PublishAds-Div1-Price">Empty Price</div><br>
+                                                            <div class="AdvertisementDiv-PublishAds-Div1-address"><i class="fa fa-map-marker"></i>&nbspEmpty Address</div><br>
+                                                            <div class="AdvertisementDiv-PublishAds-Div1-Details"></div><br>
+                                                        </div>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                        </table>
+                                    </div>
+                                    <%}%>
+
+
+                                </td>
+                                
+                                
+                                <%
+                                    for (int x = 0; x < y; x++) {
+                                %>
+                                <td><a href="ViewAdvertisements.jsp?pid=<%=x%>"><button><%=x%></button></a></td>
+                                            <%}%>
     </body>
 </html>
