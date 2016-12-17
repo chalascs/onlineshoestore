@@ -78,7 +78,7 @@ public class checkout extends HttpServlet {
 
                 }
                 System.out.println(tot);
-            // saving to invoice table
+                // saving to invoice table
 
                 inv.setTotalPrice(tot);
 
@@ -93,9 +93,9 @@ public class checkout extends HttpServlet {
 
                 ses.save(inv);
 
-            // invoice items table
+                // invoice items table
                 for (DB.Stock sttk : st) {
-                    
+
                     HashMap hm1 = (HashMap) request.getSession().getAttribute("selectedqty");
                     String i = sttk.getStid().toString();
                     DB.InvoiceItems ini = new InvoiceItems();
@@ -111,6 +111,10 @@ public class checkout extends HttpServlet {
                 }
                 ses.beginTransaction().commit();
                 response.sendRedirect("invoice.jsp");
+
+//                request.getSession().setAttribute("cart", null);
+                ArrayList<Stock> stt = (ArrayList<Stock>) request.getSession().getAttribute("cart");
+                st.clear();
             } else {
                 response.sendRedirect("login.jsp");
             }

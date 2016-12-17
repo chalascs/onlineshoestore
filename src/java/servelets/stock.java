@@ -74,6 +74,7 @@ public class stock extends HttpServlet {
                     st.setDiscription(discription);
                     st.setDiscount(Double.parseDouble(discount));
                     st.setCode(code);
+                    st.setStatus(1);
 
                     Criteria cr1 = ses.createCriteria(DB.Catagory.class);
                     cr1.add(Restrictions.eq("catagory", cattype));
