@@ -53,7 +53,7 @@
                         DB.User userObj = (DB.User) request.getSession().getAttribute("user");
                     %>
 
-                    <li><span><span class="glyphicon glyphicon-user"></span><a href="#"> <%=userObj.getFname()%></a></span></li>
+                    <li><span><span class="glyphicon glyphicon-user"></span><a href="user.jsp"> <%=userObj.getFname()%></a></span></li>
 
                     <%
 
