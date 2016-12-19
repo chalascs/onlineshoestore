@@ -16,7 +16,7 @@
         <script src="js/bootstrap.min.js"></script>   
 
         <style>
-            html {
+/*            html {
                 width: 100%;
                 height: 100%;
                 box-sizing: border-box;
@@ -50,7 +50,7 @@
             svg {
                 width:100%;
                 height: 100%;
-            }
+            }*/
 
         </style>
     </head>
@@ -124,7 +124,7 @@
                 </rect>
                 </svg>-->
 
-    </div>
+    <!--</div>-->
     <div class="child">
         <div class="row" >
             <div class="col-md-6" style="margin-top: 240px; text-align: center">
@@ -134,7 +134,7 @@
 
             <div class="col-md-5" style="margin-top: 100px; border: 1px solid #666666; margin-bottom: 10px; padding-bottom: 10px;" >
                 <form class="form" action="login" method="post">
-                    <div>
+                    <div class="row">
                         <h2>Sign In</h2>
                         <hr>
                         <div class="col-md-8"><input type="text" class="form-control" placeholder="User Name" name="uname"></div>
@@ -150,9 +150,9 @@
 
                     </div>
                 </form>
-                <div>
-                    <div class="col-md-5"><a><img src="img/facebook-login.png" class="img-responsive"></a></div>
-                    <div class="col-md-5"><a><img src="img/google-plus-login.png" class="img-responsive"></a></div>
+                <div class="row">
+                    <div class="col-md-6"><a><img src="img/facebook-login.png" class="img-responsive"></a></div>
+                    <div class="col-md-6"><a ><img src="img/google-plus-login.png" class="img-responsive"></a></div>
                 </div>
             </div>
         </div>

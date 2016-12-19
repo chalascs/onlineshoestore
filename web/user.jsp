@@ -352,7 +352,7 @@
                                                                     }
                                                                     if (i == 1) {
                                                                 %>
-                                                            <td>Deactivate? <input type="checkbox" class="checkbox" onclick="activation(<%=sz.getStid() %>)"><i class="fa fa-times-circle text-danger"></i></td>
+                                                            <td>Deactivate? <input type="checkbox" class="checkbox" onclick="activation(<%=sz.getStid() %>)"> <i class="fa fa-times-circle text-danger"></i></td>
                                                                 <%} else if (i == 0) {%>
                                                             <td>Activate? <input type="checkbox" onclick="activation(<%=sz.getStid() %>)"> <i class="fa fa-check-circle text-success"></i></td>
                                                                 <%}%>

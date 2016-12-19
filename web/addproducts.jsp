@@ -19,12 +19,13 @@
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>Add products</title>
-        <link rel="stylesheet" href="css/bootstrap.min_1.css">
-        <link rel="stylesheet" href="css/custom.css">
-        <script src="js/jquery-3.1.0.min.js" type="text/javascript"></script>
-        <script src="js/jquery.form.js" type="text/javascript"></script>
-        <script src="js/progressBarScript.js" type="text/javascript"></script>
-        <script src="js/bootstrap.min.js"></script>
+                <link rel="stylesheet" href="css/bootstrap.min_1.css">
+                <link rel="stylesheet" href="css/custom.css">
+                <script src="js/jquery-3.1.0.min.js" type="text/javascript"></script>
+                <script src="js/jquery.form.js" type="text/javascript"></script>
+                <script src="js/progressBarScript.js" type="text/javascript"></script>
+                <script src="js/bootstrap.min.js"></script>
+       
 
         <style type="text/css">
             #progressBox{
@@ -186,8 +187,7 @@
 
         </script>
     </head>
-    <%
-        if (request.getSession().getAttribute("user") == null) {
+    <%        if (request.getSession().getAttribute("user") == null) {
             response.sendRedirect("login.jsp");
         }
     %>
@@ -209,16 +209,15 @@
 
 
                 <div class="col-md-6 form">
-                    <%
-                        Session ses = NewHibernateUtil.getSessionFactory().openSession();
+                    <%                        Session ses = NewHibernateUtil.getSessionFactory().openSession();
                         Criteria crr = ses.createCriteria(DB.Stock.class);
                         crr.addOrder(Order.desc("stid"));
                         crr.setMaxResults(1);
-                       Stock sst =(Stock) crr.uniqueResult();
+                        Stock sst = (Stock) crr.uniqueResult();
 
 
                     %>
-                    <div class="col-md-8"><input type="text" class="form-control" placeholder="Product ID" id="id" value="<%=sst.getStid()+1 %>"></div>
+                    <div class="col-md-8"><input type="text" class="form-control" placeholder="Product ID" id="id" value="<%=sst.getStid() + 1%>"></div>
                     <div class="col-md-8"><input type="text" class="form-control" placeholder="Product Name" id="pname"></div>
                     <div class="col-md-8"><input type="text" class="form-control" placeholder="Enter Price" id="price"></div>
                     <div class="col-md-8">
@@ -356,9 +355,6 @@
     <div class="col-md-1"></div>
 
 
-
-
-    <!--<script src="js/jquery-3.1.0.min.js"></script>-->       
 
 </body>
 </html>

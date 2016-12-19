@@ -52,13 +52,20 @@ public class login extends HttpServlet {
                 Criteria cr = s.createCriteria(DB.User.class);
                 cr.add(Restrictions.and(Restrictions.eq("email", uname), Restrictions.eq("password", pass)));
                 User us = (User) cr.uniqueResult();
+                int i = us.getStatus();
                 if (us != null) {
+                    if(i==1){
                     request.getSession().setAttribute("user", us);
                     if (where.equals("checkout")) {
                         response.sendRedirect("checkout.jsp");
                     } else if(where.equals("signin")){
                         response.sendRedirect("index.jsp");
                     }
+                    }else{
+                        response.sendRedirect("login.jsp?acnt=locked");
+                    }
+                }else{
+                response.sendRedirect("login.jsp?pw=invalied");
                 }
             } else if (Type.equals("Logout")) {
                 request.getSession().invalidate();

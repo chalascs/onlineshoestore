@@ -60,7 +60,7 @@ public class fileupload extends HttpServlet {
                             String pathh = "C:/Users/Shanaka/Documents/NetBeansProjects/OnlineShoeStore/web/uploads/"+ System.currentTimeMillis() + "_" + n;
                             f.write(new File(pathh));
                             request.getSession().setAttribute("imgPath", pathh.split("/web/")[1]);
-                            response.sendRedirect("index.jsp");
+                            response.sendRedirect("addproducts.jsp");
                         }
                     }
 
