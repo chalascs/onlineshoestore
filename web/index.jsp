@@ -4,6 +4,8 @@
     Author     : Shanaka
 --%>
 
+<%@page import="DB.Adds"%>
+<%@page import="org.hibernate.criterion.Restrictions"%>
 <%@page import="org.hibernate.criterion.Order"%>
 <%@page import="DB.Stock"%>
 <%@page import="connection.NewHibernateUtil"%>
@@ -98,7 +100,13 @@
                     </div>
                     <!-- advertisement -->
                     <div class="cl-md-3 hidden-xs">
-                        <img src="img/combank.png">
+                        <%
+                        Session ses = NewHibernateUtil.getSessionFactory().openSession();
+                            Criteria crr = ses.createCriteria(DB.Adds.class);
+                            crr.add(Restrictions.eq("idadd", 3));
+                            DB.Adds ad = (Adds)crr.uniqueResult();
+                        %>
+                        <img src="img/combank.png" width="180px" height="417">
                     </div>
                 </div>
                 <hr>
@@ -106,32 +114,35 @@
                     <div id="cl" style="margin-bottom: 20px;"class="col-md-12 text-center"><span class=" fa fa-3x"><kbd style="font-family: 'Quicksand', sans-serif;">Latest Products</kbd></span></div>
                 </div>
                 <div class="row" style="margin-top: 80px;" id="prudload">
-                    <%                        Session ses = NewHibernateUtil.getSessionFactory().openSession();
+                    <%                        
                         Criteria cr = ses.createCriteria(DB.Stock.class);
-//                        List<DB.Stock> li = cr.list();
+                        List<DB.Stock> lis = cr.list();
                         //pagination
-//                        Criteria cr1 = ses.createCriteria(DB.Stock.class);
+                        Criteria cr1 = ses.createCriteria(DB.Stock.class);
+                        cr1.add(Restrictions.eq("status", 1));
+                        cr1.addOrder(Order.desc("stid"));
                         if (request.getParameter("pge") != null) {
                             int asd = Integer.parseInt(request.getParameter("pge"));
                             if (asd == 1) {
-                                cr.setMaxResults(4);
+                                cr1.setMaxResults(4);
                             } else {
-                                cr.setFirstResult((Integer.parseInt(request.getParameter("pge")) * 4) - 4);
-                                cr.setMaxResults(4);
+                                cr1.setFirstResult((Integer.parseInt(request.getParameter("pge")) * 4) - 4);
+                                cr1.setMaxResults(4);
                             }
                         } else {
-                            cr.setMaxResults(4);
+                            cr1.setMaxResults(4);
                         }
 
-                        List<DB.Stock> li = cr.list();
+                        List<DB.Stock> li = cr1.list();
 
-                        int pge = li.size() % 4;
+                        int pge = lis.size() % 4;
 
                         if (pge % 4 > 0) {
                             pge += 1;
                         }
 
                         for (DB.Stock stock : li) {
+                            System.out.print(stock.getStid());
                     %>
                     <div class="col-sm-6 col-md-3" style="text-align: center">
                         <div class="thumbnail" style="background-color: #eee; border-radius: 20px; width: 250px; height: 370px;">
@@ -139,7 +150,7 @@
                             <div class="caption">
                                 <h3 id="pname"><%=stock.getProductName()%></h3>
                                 <p style="font-weight: bold;color:#ff3366 ">Rs. <%=stock.getPrice()%></p>
-                                <p><%=stock.getDiscription()%></p>
+                                <p><%=stock.getUser().getFname() %> <%=stock.getUser().getLname() %></p>
                                 <div>
                                     <p><a  class="btn btn-success text-right" role="button" id="adcrt" onclick="addtocart(<%=stock.getStid()%>)" data-toggle="modal" data-target="#myModal">Buy Now</a></p>   
                                 </div>
@@ -157,13 +168,14 @@
                     <div class="col-md-6">
                         <%
                             for (int i = 0; i < pge; i++) {
+
                         %>
-                        
+
                         <input type="button" class="btn-link" onclick="location.href = 'index.jsp?pge=<%=i + 1%>'"value="<%=i + 1%>" >
-                            <%}%>
+                        <%}%>
 
                     </div>
-                            
+
                 </div>
                 <!-- Modal -->
                 <div class="modal fade" id="myModal" role="dialog">

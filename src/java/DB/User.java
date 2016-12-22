@@ -1,5 +1,5 @@
 package DB;
-// Generated Dec 13, 2016 4:10:11 AM by Hibernate Tools 3.6.0
+// Generated Dec 21, 2016 2:58:47 AM by Hibernate Tools 3.6.0
 
 
 import java.util.HashSet;
@@ -21,6 +21,7 @@ public class User  implements java.io.Serializable {
      private String password;
      private Set invoices = new HashSet(0);
      private Set carts = new HashSet(0);
+     private Set orderses = new HashSet(0);
      private Set wishlists = new HashSet(0);
      private Set loginDetails = new HashSet(0);
      private Set addresses = new HashSet(0);
@@ -33,7 +34,7 @@ public class User  implements java.io.Serializable {
     public User(UserType userType) {
         this.userType = userType;
     }
-    public User(UserType userType, String fname, String lname, Integer tpnumber, Integer status, String email, String password, Set invoices, Set carts, Set wishlists, Set loginDetails, Set addresses, Set stocks) {
+    public User(UserType userType, String fname, String lname, Integer tpnumber, Integer status, String email, String password, Set invoices, Set carts, Set orderses, Set wishlists, Set loginDetails, Set addresses, Set stocks) {
        this.userType = userType;
        this.fname = fname;
        this.lname = lname;
@@ -43,6 +44,7 @@ public class User  implements java.io.Serializable {
        this.password = password;
        this.invoices = invoices;
        this.carts = carts;
+       this.orderses = orderses;
        this.wishlists = wishlists;
        this.loginDetails = loginDetails;
        this.addresses = addresses;
@@ -118,6 +120,13 @@ public class User  implements java.io.Serializable {
     
     public void setCarts(Set carts) {
         this.carts = carts;
+    }
+    public Set getOrderses() {
+        return this.orderses;
+    }
+    
+    public void setOrderses(Set orderses) {
+        this.orderses = orderses;
     }
     public Set getWishlists() {
         return this.wishlists;

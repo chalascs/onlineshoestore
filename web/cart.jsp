@@ -132,6 +132,7 @@
                                     <th colspan="2">Product</th>
                                     <th class="text-right">Price</th>
                                     <th class="text-right">Size</th>  
+                                    <th class="text-right">Seller</th>  
                                     <th class="text-right">Qty</th>
                                     <th class="text-right">Total</th>  
                                 </tr>
@@ -177,6 +178,9 @@
                                         <option><%=sz.getSize()%></option>
                                         <%}%>
                                     </select>
+                                </td>
+                                <td class="text-right">
+                                    <%=stk.getUser().getFname() %> <%=stk.getUser().getLname() %>
                                 </td>
                                 <td class="text-right">
                                     <div class="row">

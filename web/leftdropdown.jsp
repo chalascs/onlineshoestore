@@ -205,7 +205,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="panel panel-default nav nav-pills">
+<!--                <div class="panel panel-default nav nav-pills">
                     <div class="panel-heading">
                         <h4 class="panel-title">
                             <a data-toggle="collapse" data-target-id="36" data-parent="#accordion" href="#collapsFive">Ratings</a>
@@ -239,7 +239,7 @@
                         </div>
                     </div>
 
-                </div>
+                </div>-->
             </div>
         </div>
         <script src="js/jquery-3.1.0.min.js"></script>       

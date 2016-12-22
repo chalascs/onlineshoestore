@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
 "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
-<!-- Generated Dec 13, 2016 4:10:12 AM by Hibernate Tools 3.6.0 -->
+<!-- Generated Dec 21, 2016 2:58:48 AM by Hibernate Tools 3.6.0 -->
 <hibernate-mapping>
     <class name="DB.User" table="user" catalog="shoestore">
         <id name="uid" type="java.lang.Integer">
@@ -40,6 +40,12 @@
                 <column name="user_uid" not-null="true" />
             </key>
             <one-to-many class="DB.Cart" />
+        </set>
+        <set name="orderses" table="orders" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="user_uid" not-null="true" />
+            </key>
+            <one-to-many class="DB.Orders" />
         </set>
         <set name="wishlists" table="wishlist" inverse="true" lazy="true" fetch="select">
             <key>

@@ -3,7 +3,6 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package servelets;
 
 import java.io.File;
@@ -47,7 +46,6 @@ public class fileupload extends HttpServlet {
 
                 FileItemFactory fif = new DiskFileItemFactory();
                 ServletFileUpload upload = new ServletFileUpload(fif);
-
                 try {
 
                     List<FileItem> fit = upload.parseRequest(request);
@@ -57,7 +55,7 @@ public class fileupload extends HttpServlet {
                             String n = new File(f.getName()).getName();
                             System.out.println(f.getSize());
                             //String pathh = "C:/Users/Shanaka/Documents/shoestoreupload/"+ System.currentTimeMillis() + "_" + n;
-                            String pathh = "C:/Users/Shanaka/Documents/NetBeansProjects/OnlineShoeStore/web/uploads/"+ System.currentTimeMillis() + "_" + n;
+                            String pathh = "C:/Users/Shanaka/Documents/NetBeansProjects/OnlineShoeStore/web/uploads/" + System.currentTimeMillis() + "_" + n;
                             f.write(new File(pathh));
                             request.getSession().setAttribute("imgPath", pathh.split("/web/")[1]);
                             response.sendRedirect("addproducts.jsp");

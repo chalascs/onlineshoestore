@@ -1,5 +1,5 @@
 package DB;
-// Generated Dec 13, 2016 4:10:11 AM by Hibernate Tools 3.6.0
+// Generated Dec 21, 2016 2:58:47 AM by Hibernate Tools 3.6.0
 
 
 import java.util.Date;

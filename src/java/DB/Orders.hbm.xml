@@ -3,19 +3,28 @@
 "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
 <!-- Generated Dec 21, 2016 2:58:48 AM by Hibernate Tools 3.6.0 -->
 <hibernate-mapping>
-    <class name="DB.Size" table="size" catalog="shoestore">
-        <id name="sizeid" type="java.lang.Integer">
-            <column name="sizeid" />
+    <class name="DB.Orders" table="orders" catalog="shoestore">
+        <id name="orderid" type="java.lang.Integer">
+            <column name="orderid" />
             <generator class="identity" />
         </id>
+        <many-to-one name="user" class="DB.User" fetch="select">
+            <column name="user_uid" not-null="true" />
+        </many-to-one>
         <many-to-one name="stock" class="DB.Stock" fetch="select">
             <column name="stock_stid" not-null="true" />
         </many-to-one>
+        <property name="date" type="string">
+            <column name="date" />
+        </property>
         <property name="size" type="java.lang.Integer">
             <column name="size" />
         </property>
-        <property name="qty" type="java.lang.Integer">
-            <column name="qty" />
+        <property name="qty" type="int">
+            <column name="qty" not-null="true" />
+        </property>
+        <property name="status" type="java.lang.Integer">
+            <column name="status" />
         </property>
     </class>
 </hibernate-mapping>

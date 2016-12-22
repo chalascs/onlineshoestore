@@ -8,19 +8,23 @@
     <property name="hibernate.connection.username">root</property>
     <property name="hibernate.connection.password">1234</property>
     <mapping resource="DB/UserType.hbm.xml"/>
+    <mapping resource="DB/Orders.hbm.xml"/>
     <mapping resource="DB/Size.hbm.xml"/>
     <mapping resource="DB/Catagory.hbm.xml"/>
     <mapping resource="DB/Wishlist.hbm.xml"/>
     <mapping resource="DB/Invoice.hbm.xml"/>
     <mapping resource="DB/District.hbm.xml"/>
+    <mapping resource="DB/Pages.hbm.xml"/>
     <mapping resource="DB/Cart.hbm.xml"/>
     <mapping resource="DB/Address.hbm.xml"/>
     <mapping resource="DB/User.hbm.xml"/>
     <mapping resource="DB/Province.hbm.xml"/>
     <mapping resource="DB/LoginDetail.hbm.xml"/>
+    <mapping resource="DB/Adds.hbm.xml"/>
     <mapping resource="DB/StockHasCart.hbm.xml"/>
     <mapping resource="DB/City.hbm.xml"/>
     <mapping resource="DB/InvoiceItems.hbm.xml"/>
     <mapping resource="DB/Stock.hbm.xml"/>
+    <mapping resource="DB/Admin.hbm.xml"/>
   </session-factory>
 </hibernate-configuration>

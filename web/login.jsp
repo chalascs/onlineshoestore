@@ -126,6 +126,11 @@
 
     <!--</div>-->
     <div class="child">
+        <%
+            if(request.getSession().getAttribute("user")!= null){
+            response.sendRedirect("index.jsp");
+            }else{
+        %>
         <div class="row" >
             <div class="col-md-6" style="margin-top: 240px; text-align: center">
                 <div class="col-md-12"><center><a href="index.jsp"><img src="img/logo.png" class="img-responsive"></a></center></div>
@@ -156,6 +161,7 @@
                 </div>
             </div>
         </div>
+        <%}%>
     </div>
 </body>
 </html>

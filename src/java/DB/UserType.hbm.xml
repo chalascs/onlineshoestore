@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
 "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
-<!-- Generated Dec 13, 2016 4:10:12 AM by Hibernate Tools 3.6.0 -->
+<!-- Generated Dec 21, 2016 2:58:48 AM by Hibernate Tools 3.6.0 -->
 <hibernate-mapping>
     <class name="DB.UserType" table="user_type" catalog="shoestore">
         <id name="usid" type="java.lang.Integer">

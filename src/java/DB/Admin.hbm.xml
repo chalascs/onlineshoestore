@@ -1,0 +1,18 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated Dec 21, 2016 2:58:48 AM by Hibernate Tools 3.6.0 -->
+<hibernate-mapping>
+    <class name="DB.Admin" table="admin" catalog="shoestore">
+        <id name="adminid" type="java.lang.Integer">
+            <column name="adminid" />
+            <generator class="identity" />
+        </id>
+        <property name="uname" type="string">
+            <column name="uname" />
+        </property>
+        <property name="pass" type="string">
+            <column name="pass" />
+        </property>
+    </class>
+</hibernate-mapping>

@@ -91,7 +91,7 @@
                             elem.setAttribute("onclick", 'deleteimage(' + c + ')');
                             document.getElementById("myimg").appendChild(elem);
                             c++;
-                        }
+                        };
                         reader.readAsDataURL(input.files[i]);
                     }
                 }
@@ -339,8 +339,8 @@
                         <div class="col-md-8">
                             <hr>
                             <div class="col-md-4"><input type="submit" class="btn btn-danger" value="Save It" onclick="sendData()"></div>
-                            <div class="col-md-4"><input type="button" class="btn btn-danger" value="Update"></div>
-                            <div class="col-md-4"><input type="button" class="btn btn-danger" value="Delete"></div>
+<!--                            <div class="col-md-4"><input type="button" class="btn btn-danger" value="Update"></div>
+                            <div class="col-md-4"><input type="button" class="btn btn-danger" value="Delete"></div>-->
 
                         </div>
                     </div>

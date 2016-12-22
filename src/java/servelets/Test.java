@@ -30,6 +30,7 @@ public class Test extends HttpServlet{
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         PrintWriter out=resp.getWriter();
         out.write("Chanchala");
+        
     }
     
     

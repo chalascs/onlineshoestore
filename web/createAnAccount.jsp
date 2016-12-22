@@ -18,10 +18,17 @@
         <link rel="stylesheet" href="css/custom.css">
     </head>
     <body class="signup">
+
         <div class="row">
             <div class="col-md-6" style="margin-top: 240px; text-align: center">
                 <div class="col-md-12"><center><a href="index.jsp"><img src="img/logo.png" class="img-responsive"></a></center></div>
                 <div class="col-sm-12"><h4 style="color: whitesmoke; font-family: cursive">Online Shoe Mart is the most suitable place for any human being to buy there shoes in one place. We produce you a very fast delivery and most secured products for your every penny.</h4></div>
+                <%
+//                    if(request.getParameter("user")!= null){
+//                    if (request.getParameter("user").equals("emailexsist")) {
+                %>
+                <!--<div class="col-sm-12"><h3 style="color: tomato; font-family: cursive">Email is already in use please try another one</h3></div>-->
+                <% //}}%>
             </div>
             <div class="col-md-6">
                 <div class="panel-body" style="border: 1px solid #666666; margin-top: 80px; margin-right: 10px;">
@@ -39,7 +46,7 @@
                             <div class="form-group">
                                 <label for="sel1">Which are you? (select one):</label>
                                 <select class="form-control" id="sel1" name="who">
-                                    <%
+                                    <%                          
                                         Session ses = connection.NewHibernateUtil.getSessionFactory().openSession();
                                         Criteria cr = ses.createCriteria(DB.UserType.class);
                                         List<DB.UserType> loadType = cr.list();
@@ -83,11 +90,6 @@
                 <div class="col-sm-5" style="margin-top: 30px; border: 1px solid #666666; padding: 10px;"> Already have an account? <input type="button" class="btn btn-primary" value="Sign In" onclick="location.href = 'login.jsp'"></div>         
             </div>
         </div>
-
-
-
-
-
         <script src="js/jquery-3.1.0.min.js"></script>       
         <script src="js/bootstrap.min.js"></script>     
     </body>

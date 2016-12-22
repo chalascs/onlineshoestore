@@ -128,6 +128,9 @@
             if (request.getSession().getAttribute("cart") == null) {
                 response.sendRedirect("browseProducts.jsp?map=all");
             }
+            if(request.getSession().getAttribute("user") == null){
+                response.sendRedirect("login.jsp");
+            }else{
         %>
         <div class="row">
             <div class="col-md-1"></div>
@@ -275,26 +278,26 @@
                         </div>
 
                     </div>
-                    <div class="col-md-3 text-center" style="">
-                        <div class="row">
+                    <!--<div class="col-md-3 text-center" style="">-->
+<!--                        <div class="row">
                             <h4>Totals</h4>
-                        </div>
-                        <div class="row">
+                        </div>-->
+<!--                        <div class="row">
                             <div class="col-md-6"><h6>Sub-Total</h6></div>
                             <div class="col-md-6"><h6></h6></div>
                         </div>
                         <div class="row">
                             <div class="col-md-6"><h6>Total</h6></div>
-                            <div class="col-md-6"></div>
-                        </div>
-                        <div class="row">
-                            <table>
+                            <div class="col-md-6"></div>-->
+<!--                        </div>
+                        <div class="row">-->
+<!--                            <table>
                                 <tr>
                                     <td><input type="checkbox" class="form-control"/></td>
                                     <td  style="margin-top: 5px;"><h6 style="margin-left: 10px;">I have read and agree to the <a href="">Terms & Conditions</a></h6></td>
                                 </tr>
-                            </table>
-                        </div>
+                            </table>-->
+<!--                        </div>-->
                         <div class="row">
                             <div class="col-md-12 text-right" style="margin-top: 10px;">
                                 <button class="btn cnfrm" style="background-color: #73a839; color: white;" onclick="confirm()" data-toggle="modal" data-target="#myModal" >Confirm</button> 
@@ -383,5 +386,6 @@
             </div>
             <div class="col-md-1"></div>
         </div>
+                                            <%}%>
     </body>
 </html>

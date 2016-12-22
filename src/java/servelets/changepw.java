@@ -50,7 +50,13 @@ public class changepw extends HttpServlet {
             String email = request.getParameter("email");
 
             String stid = request.getParameter("stid");
-
+            
+            String sttid = request.getParameter("sttid");
+            String sizez = request.getParameter("sizez");
+            String newe = request.getParameter("newe");
+            
+            String oderid = request.getParameter("oderid");
+            
             Session ses = NewHibernateUtil.getSessionFactory().openSession();
 
             if (type.equals("changepass")) {
@@ -99,6 +105,27 @@ public class changepw extends HttpServlet {
                     ses.update(st);
                     ses.beginTransaction().commit();
                 }
+            }
+            if(type.equals("updatestock")){
+                Criteria cr1 = ses.createCriteria(DB.Stock.class);
+                cr1.add(Restrictions.eq("stid", Integer.parseInt(sttid)));
+                DB.Stock st = (DB.Stock) cr1.uniqueResult();
+                
+                Criteria cr = ses.createCriteria(DB.Size.class);
+                cr.add(Restrictions.and(Restrictions.eq("stock", st), Restrictions.eq("size", Integer.parseInt(sizez))));
+                DB.Size sz = (DB.Size) cr.uniqueResult();
+                sz.setQty(Integer.parseInt(newe));
+                ses.update(sz);
+                ses.beginTransaction().commit();
+            }
+            if(type.equals("deliver")){
+                System.out.println("awa");
+                Criteria cr = ses.createCriteria(DB.Orders.class);
+                cr.add(Restrictions.eq("orderid", Integer.parseInt(oderid)));
+                DB.Orders or = (DB.Orders) cr.uniqueResult();
+                or.setStatus(1);
+                ses.update(or);
+                ses.beginTransaction().commit();
             }
 
         } catch (Exception e) {

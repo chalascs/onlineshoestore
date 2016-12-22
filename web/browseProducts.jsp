@@ -4,6 +4,7 @@
     Author     : Shanaka
 --%>
 
+<%@page import="org.hibernate.criterion.Order"%>
 <%@page import="DB.Size"%>
 <%@page import="DB.Catagory"%>
 <%@page import="DB.Stock"%>
@@ -38,6 +39,21 @@
                 $("#prudload").show(1000);
 
             });
+            
+            function addtocart(stid) {
+                alert("Added");
+                var xhttp = new XMLHttpRequest();
+                var adcrt = document.getElementById("adcrt").value;
+                var Type = "addtocart";
+                xhttp.onreadystatechange = function() {
+                    if (xhttp.readyState === 4 && xhttp.status === 200) {
+
+                    }
+                };
+                xhttp.open("GET", "cart?adcrt=" + stid + "&Type=" + Type, true);
+                xhttp.send();
+            }
+            
         </script>
         <style type="text/css">
             #prudload{
@@ -57,13 +73,35 @@
 
                 <div class="col-md-8" id="sethere">
                     <div class="row" id="prudload">
-                        <%
-                            if (request.getParameter("map") != null && request.getParameter("map").equals("all")) {
+                        <%                            if (request.getParameter("map") != null && request.getParameter("map").equals("all")) {
 
                                 Session ses = NewHibernateUtil.getSessionFactory().openSession();
                                 Criteria cr = ses.createCriteria(DB.Stock.class);
-                                List<Stock> l1 = cr.list();
-                                for (Stock st1 : l1) {
+                                List<DB.Stock> lis = cr.list();
+                                //pagination
+                                Criteria cr1 = ses.createCriteria(DB.Stock.class);
+                                cr1.add(Restrictions.eq("status", 1));
+                                cr1.addOrder(Order.desc("stid"));
+                                if (request.getParameter("pge") != null) {
+                                    int asd = Integer.parseInt(request.getParameter("pge"));
+                                    if (asd == 1) {
+                                        cr1.setMaxResults(4);
+                                    } else {
+                                        cr1.setFirstResult((Integer.parseInt(request.getParameter("pge")) * 4) - 4);
+                                        cr1.setMaxResults(4);
+                                    }
+                                } else {
+                                    cr1.setMaxResults(4);
+                                }
+
+                                List<DB.Stock> li = cr1.list();
+
+                                int pge = lis.size() % 4;
+
+                                if (pge % 4 > 0) {
+                                    pge += 1;
+                                }
+                                for (Stock st1 : li) {
 
                         %>
                         <div class="col-sm-6 col-md-3" style="text-align: center" id="eff">
@@ -71,14 +109,27 @@
                                 <img src="<%=st1.getImage()%>" alt="shoes" style="border-radius: 20px;width: 170px;height: 150px;">
                                 <div class="caption">
                                     <h3 id="pname"><%=st1.getProductName()%></h3>
-                                    <p style="font-weight: bold;color:#ff3366 ">Rs. <%=st1.getPrice() %></p>
+                                    <p style="font-weight: bold;color:#ff3366 ">Rs. <%=st1.getPrice()%></p>
                                     <p><%=st1.getDiscription()%></p>
-                                    <p><a  class="btn btn-success" role="button" id="adcrt" onclick="addtocart()">Buy Now</a></p>
+                                    <p><a  class="btn btn-success" role="button" id="adcrt" onclick="addtocart(<%=st1.getStid()%>)">Buy Now</a></p>
                                 </div>
                             </div>
                         </div> 
-                        <%}
-                            }%>
+                        <%}%>
+                        <div class="row">
+                            
+                            <div class="col-md-4"></div>
+                            <div class="col-md-4"></div>
+                            <div class="col-md-4">
+                                <%
+                                    for (int i = 0; i < pge; i++) {
+
+                                %>
+                                <input type="button" class="btn-link" onclick="location.href = 'browseProducts.jsp?pge=<%=i + 1%>'"value="<%=i + 1%>" >
+                                <%}%>
+                            </div>
+                        </div>
+                        <%}%>
 
 
                         <%
@@ -92,13 +143,13 @@
 
                         %>
                         <div class="col-sm-6 col-md-3" style="text-align: center">
-                             <div class="thumbnail" style="background-color: #eee; border-radius: 20px; width: 170px; max-height:330px;">
+                            <div class="thumbnail" style="background-color: #eee; border-radius: 20px; width: 170px; max-height:330px;">
                                 <img src="<%=st1.getImage()%>" alt="shoes" style="border-radius: 20px;width: 170px;height: 150px;">
                                 <div class="caption">
                                     <h3 id="pname"><%=st1.getProductName()%></h3>
-                                    <p style="font-weight: bold;color:#ff3366 ">Rs. <%=st1.getPrice() %></p>
+                                    <p style="font-weight: bold;color:#ff3366 ">Rs. <%=st1.getPrice()%></p>
                                     <p><%=st1.getDiscription()%></p>
-                                    <p><a  class="btn btn-success" role="button" id="adcrt" onclick="addtocart()">Buy Now</a></p>
+                                    <p><a  class="btn btn-success" role="button" id="adcrt" onclick="addtocart(<%=st1.getStid()%>)">Buy Now</a></p>
                                 </div>
                             </div>
                         </div> 
@@ -116,14 +167,14 @@
                                 for (Stock st1 : l1) {
 
                         %>
-                       <div class="col-sm-6 col-md-3" style="text-align: center">
-                             <div class="thumbnail" style="background-color: #eee; border-radius: 20px; width: 170px; max-height:330px;">
+                        <div class="col-sm-6 col-md-3" style="text-align: center">
+                            <div class="thumbnail" style="background-color: #eee; border-radius: 20px; width: 170px; max-height:330px;">
                                 <img src="<%=st1.getImage()%>" alt="shoes" style="border-radius: 20px;width: 170px;height: 150px;">
                                 <div class="caption">
                                     <h3 id="pname"><%=st1.getProductName()%></h3>
-                                    <p style="font-weight: bold;color:#ff3366 ">Rs. <%=st1.getPrice() %></p>
+                                    <p style="font-weight: bold;color:#ff3366 ">Rs. <%=st1.getPrice()%></p>
                                     <p><%=st1.getDiscription()%></p>
-                                    <p><a  class="btn btn-success" role="button" id="adcrt" onclick="addtocart()">Buy Now</a></p>
+                                    <p><a  class="btn btn-success" role="button" id="adcrt" onclick="addtocart(<%=st1.getStid()%>)">Buy Now</a></p>
                                 </div>
                             </div>
                         </div> 
@@ -146,9 +197,9 @@
                                 <img src="<%=st1.getImage()%>" alt="shoes" style="border-radius: 20px;width: 170px;height: 150px;">
                                 <div class="caption">
                                     <h3 id="pname"><%=st1.getProductName()%></h3>
-                                    <p style="font-weight: bold;color:#ff3366 ">Rs. <%=st1.getPrice() %></p>
+                                    <p style="font-weight: bold;color:#ff3366 ">Rs. <%=st1.getPrice()%></p>
                                     <p><%=st1.getDiscription()%></p>
-                                    <p><a  class="btn btn-success" role="button" id="adcrt" onclick="addtocart()">Buy Now</a></p>
+                                    <p><a  class="btn btn-success" role="button" id="adcrt" onclick="addtocart(<%=st1.getStid()%>)">Buy Now</a></p>
                                 </div>
                             </div>
                         </div> 
@@ -167,13 +218,13 @@
 
                         %>
                         <div class="col-sm-6 col-md-3" style="text-align: center">
-                             <div class="thumbnail" style="background-color: #eee; border-radius: 20px; width: 170px; max-height:330px;">
+                            <div class="thumbnail" style="background-color: #eee; border-radius: 20px; width: 170px; max-height:330px;">
                                 <img src="<%=st1.getImage()%>" alt="shoes" style="border-radius: 20px;width: 170px;height: 150px;">
                                 <div class="caption">
                                     <h3 id="pname"><%=st1.getProductName()%></h3>
-                                    <p style="font-weight: bold;color:#ff3366 ">Rs. <%=st1.getPrice() %></p>
+                                    <p style="font-weight: bold;color:#ff3366 ">Rs. <%=st1.getPrice()%></p>
                                     <p><%=st1.getDiscription()%></p>
-                                    <p><a  class="btn btn-success" role="button" id="adcrt" onclick="addtocart()">Buy Now</a></p>
+                                    <p><a  class="btn btn-success" role="button" id="adcrt" onclick="addtocart(<%=st1.getStid()%>)">Buy Now</a></p>
                                 </div>
                             </div>
                         </div> 
@@ -196,13 +247,13 @@
 
                         %>
                         <div class="col-sm-6 col-md-3" style="text-align: center">
-                             <div class="thumbnail" style="background-color: #eee; border-radius: 20px; width: 170px; max-height:330px;">
+                            <div class="thumbnail" style="background-color: #eee; border-radius: 20px; width: 170px; max-height:330px;">
                                 <img src="<%=st1.getImage()%>" alt="shoes" style="border-radius: 20px;width: 170px;height: 150px;">
                                 <div class="caption">
                                     <h3 id="pname"><%=st1.getProductName()%></h3>
-                                    <p style="font-weight: bold;color:#ff3366 ">Rs. <%=st1.getPrice() %></p>
+                                    <p style="font-weight: bold;color:#ff3366 ">Rs. <%=st1.getPrice()%></p>
                                     <p><%=st1.getDiscription()%></p>
-                                    <p><a  class="btn btn-success" role="button" id="adcrt" onclick="addtocart()">Buy Now</a></p>
+                                    <p><a  class="btn btn-success" role="button" id="adcrt" onclick="addtocart(<%=st1.getStid()%>)">Buy Now</a></p>
                                 </div>
                             </div>
                         </div> 
@@ -225,14 +276,14 @@
                                 for (Stock st1 : l1) {
 
                         %>
-                       <div class="col-sm-6 col-md-3" style="text-align: center">
-                             <div class="thumbnail" style="background-color: #eee; border-radius: 20px; width: 170px; max-height:330px;">
+                        <div class="col-sm-6 col-md-3" style="text-align: center">
+                            <div class="thumbnail" style="background-color: #eee; border-radius: 20px; width: 170px; max-height:330px;">
                                 <img src="<%=st1.getImage()%>" alt="shoes" style="border-radius: 20px;width: 170px;height: 150px;">
                                 <div class="caption">
                                     <h3 id="pname"><%=st1.getProductName()%></h3>
-                                    <p style="font-weight: bold;color:#ff3366 ">Rs. <%=st1.getPrice() %></p>
+                                    <p style="font-weight: bold;color:#ff3366 ">Rs. <%=st1.getPrice()%></p>
                                     <p><%=st1.getDiscription()%></p>
-                                    <p><a  class="btn btn-success" role="button" id="adcrt" onclick="addtocart()">Buy Now</a></p>
+                                    <p><a  class="btn btn-success" role="button" id="adcrt" onclick="addtocart(<%=st1.getStid()%>)">Buy Now</a></p>
                                 </div>
                             </div>
                         </div> 
@@ -256,13 +307,13 @@
 
                         %>
                         <div class="col-sm-6 col-md-3" style="text-align: center">
-                             <div class="thumbnail" style="background-color: #eee; border-radius: 20px; width: 170px; max-height:330px;">
+                            <div class="thumbnail" style="background-color: #eee; border-radius: 20px; width: 170px; max-height:330px;">
                                 <img src="<%=st1.getImage()%>" alt="shoes" style="border-radius: 20px;width: 170px;height: 150px;">
                                 <div class="caption">
                                     <h3 id="pname"><%=st1.getProductName()%></h3>
-                                    <p style="font-weight: bold;color:#ff3366 ">Rs. <%=st1.getPrice() %></p>
+                                    <p style="font-weight: bold;color:#ff3366 ">Rs. <%=st1.getPrice()%></p>
                                     <p><%=st1.getDiscription()%></p>
-                                    <p><a  class="btn btn-success" role="button" id="adcrt" onclick="addtocart()">Buy Now</a></p>
+                                    <p><a  class="btn btn-success" role="button" id="adcrt" onclick="addtocart(<%=st1.getStid()%>)">Buy Now</a></p>
                                 </div>
                             </div>
                         </div> 
@@ -286,13 +337,13 @@
 
                         %>
                         <div class="col-sm-6 col-md-3" style="text-align: center">
-                             <div class="thumbnail" style="background-color: #eee; border-radius: 20px; width: 170px; max-height:330px;">
+                            <div class="thumbnail" style="background-color: #eee; border-radius: 20px; width: 170px; max-height:330px;">
                                 <img src="<%=st1.getImage()%>" alt="shoes" style="border-radius: 20px;width: 170px;height: 150px;">
                                 <div class="caption">
                                     <h3 id="pname"><%=st1.getProductName()%></h3>
-                                    <p style="font-weight: bold;color:#ff3366 ">Rs. <%=st1.getPrice() %></p>
+                                    <p style="font-weight: bold;color:#ff3366 ">Rs. <%=st1.getPrice()%></p>
                                     <p><%=st1.getDiscription()%></p>
-                                    <p><a  class="btn btn-success" role="button" id="adcrt" onclick="addtocart()">Buy Now</a></p>
+                                    <p><a  class="btn btn-success" role="button" id="adcrt" onclick="addtocart(<%=st1.getStid()%>)">Buy Now</a></p>
                                 </div>
                             </div>
                         </div> 
@@ -316,13 +367,13 @@
 
                         %>
                         <div class="col-sm-6 col-md-3" style="text-align: center">
-                             <div class="thumbnail" style="background-color: #eee; border-radius: 20px; width: 170px; max-height:330px;">
+                            <div class="thumbnail" style="background-color: #eee; border-radius: 20px; width: 170px; max-height:330px;">
                                 <img src="<%=st1.getImage()%>" alt="shoes" style="border-radius: 20px;width: 170px;height: 150px;">
                                 <div class="caption">
                                     <h3 id="pname"><%=st1.getProductName()%></h3>
-                                    <p style="font-weight: bold;color:#ff3366 ">Rs. <%=st1.getPrice() %></p>
+                                    <p style="font-weight: bold;color:#ff3366 ">Rs. <%=st1.getPrice()%></p>
                                     <p><%=st1.getDiscription()%></p>
-                                    <p><a  class="btn btn-success" role="button" id="adcrt" onclick="addtocart()">Buy Now</a></p>
+                                    <p><a  class="btn btn-success" role="button" id="adcrt" onclick="addtocart(<%=st1.getStid()%>)">Buy Now</a></p>
                                 </div>
                             </div>
                         </div> 
@@ -344,14 +395,14 @@
                                 for (Stock st1 : l1) {
 
                         %>
-                       <div class="col-sm-6 col-md-3" style="text-align: center">
-                             <div class="thumbnail" style="background-color: #eee; border-radius: 20px; width: 170px; max-height:330px;">
+                        <div class="col-sm-6 col-md-3" style="text-align: center">
+                            <div class="thumbnail" style="background-color: #eee; border-radius: 20px; width: 170px; max-height:330px;">
                                 <img src="<%=st1.getImage()%>" alt="shoes" style="border-radius: 20px;width: 170px;height: 150px;">
                                 <div class="caption">
                                     <h3 id="pname"><%=st1.getProductName()%></h3>
-                                    <p style="font-weight: bold;color:#ff3366 ">Rs. <%=st1.getPrice() %></p>
+                                    <p style="font-weight: bold;color:#ff3366 ">Rs. <%=st1.getPrice()%></p>
                                     <p><%=st1.getDiscription()%></p>
-                                    <p><a  class="btn btn-success" role="button" id="adcrt" onclick="addtocart()">Buy Now</a></p>
+                                    <p><a  class="btn btn-success" role="button" id="adcrt" onclick="addtocart(<%=st1.getStid()%>)">Buy Now</a></p>
                                 </div>
                             </div>
                         </div> 
@@ -381,9 +432,9 @@
                                 <img src="<%=st1.getImage()%>" alt="shoes" style="border-radius: 20px;width: 170px;height: 150px;">
                                 <div class="caption">
                                     <h3 id="pname"><%=st1.getProductName()%></h3>
-                                    <p style="font-weight: bold;color:#ff3366 ">Rs. <%=st1.getPrice() %></p>
+                                    <p style="font-weight: bold;color:#ff3366 ">Rs. <%=st1.getPrice()%></p>
                                     <p><%=st1.getDiscription()%></p>
-                                    <p><a  class="btn btn-success" role="button" id="adcrt" onclick="addtocart()">Buy Now</a></p>
+                                    <p><a  class="btn btn-success" role="button" id="adcrt" onclick="addtocart(<%=st1.getStid()%>)">Buy Now</a></p>
                                 </div>
                             </div>
                         </div> 
@@ -409,14 +460,14 @@
                                 for (Stock st1 : l1) {
 
                         %>
-                       <div class="col-sm-6 col-md-3" style="text-align: center">
-                             <div class="thumbnail" style="background-color: #eee; border-radius: 20px; width: 170px; max-height:330px;">
+                        <div class="col-sm-6 col-md-3" style="text-align: center">
+                            <div class="thumbnail" style="background-color: #eee; border-radius: 20px; width: 170px; max-height:330px;">
                                 <img src="<%=st1.getImage()%>" alt="shoes" style="border-radius: 20px;width: 170px;height: 150px;">
                                 <div class="caption">
                                     <h3 id="pname"><%=st1.getProductName()%></h3>
-                                    <p style="font-weight: bold;color:#ff3366 ">Rs. <%=st1.getPrice() %></p>
+                                    <p style="font-weight: bold;color:#ff3366 ">Rs. <%=st1.getPrice()%></p>
                                     <p><%=st1.getDiscription()%></p>
-                                    <p><a  class="btn btn-success" role="button" id="adcrt" onclick="addtocart()">Buy Now</a></p>
+                                    <p><a  class="btn btn-success" role="button" id="adcrt" onclick="addtocart(<%=st1.getStid()%>)">Buy Now</a></p>
                                 </div>
                             </div>
                         </div> 
@@ -432,457 +483,441 @@
                                 cr1.add(Restrictions.eq("size", 28));
                                 List<DB.Size> li = cr1.list();
                                 for (Size sz : li) {
-                                   
+
                         %>
                         <div class="col-sm-6 col-md-3" style="text-align: center">
-                             <div class="thumbnail" style="background-color: #eee; border-radius: 20px; width: 170px; max-height:330px;">
-                                <img src="<%=sz.getStock().getImage() %>" alt="shoes" style="border-radius: 20px;width: 170px;height: 150px;">
+                            <div class="thumbnail" style="background-color: #eee; border-radius: 20px; width: 170px; max-height:330px;">
+                                <img src="<%=sz.getStock().getImage()%>" alt="shoes" style="border-radius: 20px;width: 170px;height: 150px;">
                                 <div class="caption">
-                                    <h3 id="pname"><%=sz.getStock().getProductName() %></h3>
-                                    <p style="font-weight: bold;color:#ff3366 ">Rs. <%=sz.getStock().getPrice() %></p>
-                                    <p><%=sz.getStock().getDiscription() %></p>
-                                    <p><a  class="btn btn-success" role="button" id="adcrt" onclick="addtocart()">Buy Now</a></p>
+                                    <h3 id="pname"><%=sz.getStock().getProductName()%></h3>
+                                    <p style="font-weight: bold;color:#ff3366 ">Rs. <%=sz.getStock().getPrice()%></p>
+                                    <p><%=sz.getStock().getDiscription()%></p>
+                                    <p><a  class="btn btn-success" role="button" id="adcrt" onclick="addtocart(<%=sz.getStock().getStid() %>)">Buy Now</a></p>
                                 </div>
                             </div>
                         </div> 
                         <%}
-                                }
-                            
+                            }
+
                         %>
 
 
-                        <%
-                            if (request.getParameter("map") != null && request.getParameter("map").equals("29")) {
+                        <%                            if (request.getParameter("map") != null && request.getParameter("map").equals("29")) {
 
                                 Session ses = NewHibernateUtil.getSessionFactory().openSession();
                                 Criteria cr1 = ses.createCriteria(DB.Size.class);
                                 cr1.add(Restrictions.eq("size", 29));
                                 List<DB.Size> li = cr1.list();
                                 for (Size sz : li) {
-                                   
+
                         %>
                         <div class="col-sm-6 col-md-3" style="text-align: center">
-                             <div class="thumbnail" style="background-color: #eee; border-radius: 20px; width: 170px; max-height:330px;">
+                            <div class="thumbnail" style="background-color: #eee; border-radius: 20px; width: 170px; max-height:330px;">
                                 <img src="<%=sz.getStock().getImage()%>" alt="shoes" style="border-radius: 20px;width: 170px;height: 150px;">
                                 <div class="caption">
                                     <h3 id="pname"><%=sz.getStock().getProductName()%></h3>
-                                    <p style="font-weight: bold;color:#ff3366 ">Rs. <%=sz.getStock().getPrice() %></p>
+                                    <p style="font-weight: bold;color:#ff3366 ">Rs. <%=sz.getStock().getPrice()%></p>
                                     <p><%=sz.getStock().getDiscription()%></p>
-                                    <p><a  class="btn btn-success" role="button" id="adcrt" onclick="addtocart()">Buy Now</a></p>
+                                    <p><a  class="btn btn-success" role="button" id="adcrt" onclick="addtocart(<%=sz.getStock().getStid() %>)">Buy Now</a></p>
                                 </div>
                             </div>
                         </div> 
                         <%}
-                                }
-                            
+                            }
+
                         %>
 
-                        <%
-                            if (request.getParameter("map") != null && request.getParameter("map").equals("30")) {
+                        <%                            if (request.getParameter("map") != null && request.getParameter("map").equals("30")) {
 
                                 Session ses = NewHibernateUtil.getSessionFactory().openSession();
                                 Criteria cr1 = ses.createCriteria(DB.Size.class);
                                 cr1.add(Restrictions.eq("size", 30));
                                 List<DB.Size> li = cr1.list();
                                 for (Size sz : li) {
-                                   
+
                         %>
                         <div class="col-sm-6 col-md-3" style="text-align: center">
-                             <div class="thumbnail" style="background-color: #eee; border-radius: 20px; width: 170px; max-height:330px;">
-                                <img src="<%=sz.getStock().getImage() %>" alt="shoes" style="border-radius: 20px;width: 170px;height: 150px;">
+                            <div class="thumbnail" style="background-color: #eee; border-radius: 20px; width: 170px; max-height:330px;">
+                                <img src="<%=sz.getStock().getImage()%>" alt="shoes" style="border-radius: 20px;width: 170px;height: 150px;">
                                 <div class="caption">
                                     <h3 id="pname"><%=sz.getStock().getProductName()%></h3>
                                     <p><%=sz.getStock().getDiscription()%></p>
-                                    <p><a  class="btn btn-success" role="button" id="adcrt" onclick="addtocart()">Buy Now</a></p>
+                                    <p><a  class="btn btn-success" role="button" id="adcrt" onclick="addtocart(<%=sz.getStock().getStid() %>)">Buy Now</a></p>
                                 </div>
                             </div>
                         </div> 
                         <%}
-                                }
-                            
+                            }
+
                         %>
-                        
-                        
-                        
-                        
-                          <%
-                            if (request.getParameter("map") != null && request.getParameter("map").equals("31")) {
+
+
+
+
+                        <%                              if (request.getParameter("map") != null && request.getParameter("map").equals("31")) {
 
                                 Session ses = NewHibernateUtil.getSessionFactory().openSession();
                                 Criteria cr1 = ses.createCriteria(DB.Size.class);
                                 cr1.add(Restrictions.eq("size", 31));
                                 List<DB.Size> li = cr1.list();
                                 for (Size sz : li) {
-                                   
+
                         %>
                         <div class="col-sm-6 col-md-3" style="text-align: center">
-                             <div class="thumbnail" style="background-color: #eee; border-radius: 20px; width: 170px; max-height:330px;">
-                                <img src="<%=sz.getStock().getImage() %>" alt="shoes" style="border-radius: 20px;width: 170px;height: 150px;">
+                            <div class="thumbnail" style="background-color: #eee; border-radius: 20px; width: 170px; max-height:330px;">
+                                <img src="<%=sz.getStock().getImage()%>" alt="shoes" style="border-radius: 20px;width: 170px;height: 150px;">
                                 <div class="caption">
                                     <h3 id="pname"><%=sz.getStock().getProductName()%></h3>
                                     <p><%=sz.getStock().getDiscription()%></p>
-                                    <p><a  class="btn btn-success" role="button" id="adcrt" onclick="addtocart()">Buy Now</a></p>
+                                    <p><a  class="btn btn-success" role="button" id="adcrt" onclick="addtocart(<%=sz.getStock().getStid() %>)">Buy Now</a></p>
                                 </div>
                             </div>
                         </div> 
                         <%}
-                                }
-                            
+                            }
+
                         %>
-                        
-                        <%
-                            if (request.getParameter("map") != null && request.getParameter("map").equals("32")) {
+
+                        <%                            if (request.getParameter("map") != null && request.getParameter("map").equals("32")) {
 
                                 Session ses = NewHibernateUtil.getSessionFactory().openSession();
                                 Criteria cr1 = ses.createCriteria(DB.Size.class);
                                 cr1.add(Restrictions.eq("size", 32));
                                 List<DB.Size> li = cr1.list();
                                 for (Size sz : li) {
-                                   
+
                         %>
                         <div class="col-sm-6 col-md-3" style="text-align: center">
-                             <div class="thumbnail" style="background-color: #eee; border-radius: 20px; width: 170px; max-height:330px;">
-                                <img src="<%=sz.getStock().getImage() %>" alt="shoes" style="border-radius: 20px;width: 170px;height: 150px;">
+                            <div class="thumbnail" style="background-color: #eee; border-radius: 20px; width: 170px; max-height:330px;">
+                                <img src="<%=sz.getStock().getImage()%>" alt="shoes" style="border-radius: 20px;width: 170px;height: 150px;">
                                 <div class="caption">
                                     <h3 id="pname"><%=sz.getStock().getProductName()%></h3>
                                     <p><%=sz.getStock().getDiscription()%></p>
-                                    <p><a  class="btn btn-success" role="button" id="adcrt" onclick="addtocart()">Buy Now</a></p>
+                                    <p><a  class="btn btn-success" role="button" id="adcrt" onclick="addtocart(<%=sz.getStock().getStid() %>)">Buy Now</a></p>
                                 </div>
                             </div>
                         </div> 
                         <%}
-                                }
-                            
+                            }
+
                         %>
-                        
-                        
-                        <%
-                            if (request.getParameter("map") != null && request.getParameter("map").equals("33")) {
+
+
+                        <%                            if (request.getParameter("map") != null && request.getParameter("map").equals("33")) {
 
                                 Session ses = NewHibernateUtil.getSessionFactory().openSession();
                                 Criteria cr1 = ses.createCriteria(DB.Size.class);
                                 cr1.add(Restrictions.eq("size", 33));
                                 List<DB.Size> li = cr1.list();
                                 for (Size sz : li) {
-                                   
+
                         %>
                         <div class="col-sm-6 col-md-3" style="text-align: center">
-                             <div class="thumbnail" style="background-color: #eee; border-radius: 20px; width: 170px; max-height:330px;">
-                                <img src="<%=sz.getStock().getImage() %>" alt="shoes" style="border-radius: 20px;width: 170px;height: 150px;">
+                            <div class="thumbnail" style="background-color: #eee; border-radius: 20px; width: 170px; max-height:330px;">
+                                <img src="<%=sz.getStock().getImage()%>" alt="shoes" style="border-radius: 20px;width: 170px;height: 150px;">
                                 <div class="caption">
                                     <h3 id="pname"><%=sz.getStock().getProductName()%></h3>
                                     <p><%=sz.getStock().getDiscription()%></p>
-                                    <p><a  class="btn btn-success" role="button" id="adcrt" onclick="addtocart()">Buy Now</a></p>
+                                    <p><a  class="btn btn-success" role="button" id="adcrt" onclick="addtocart(<%=sz.getStock().getStid() %>)">Buy Now</a></p>
                                 </div>
                             </div>
                         </div> 
                         <%}
-                                }
-                            
+                            }
+
                         %>
-                        
-                        
-                        
-                        <%
-                            if (request.getParameter("map") != null && request.getParameter("map").equals("34")) {
+
+
+
+                        <%                            if (request.getParameter("map") != null && request.getParameter("map").equals("34")) {
 
                                 Session ses = NewHibernateUtil.getSessionFactory().openSession();
                                 Criteria cr1 = ses.createCriteria(DB.Size.class);
                                 cr1.add(Restrictions.eq("size", 34));
                                 List<DB.Size> li = cr1.list();
                                 for (Size sz : li) {
-                                   
+
                         %>
                         <div class="col-sm-6 col-md-3" style="text-align: center">
-                             <div class="thumbnail" style="background-color: #eee; border-radius: 20px; width: 170px; max-height:330px;">
-                                <img src="<%=sz.getStock().getImage() %>" alt="shoes" style="border-radius: 20px;width: 170px;height: 150px;">
+                            <div class="thumbnail" style="background-color: #eee; border-radius: 20px; width: 170px; max-height:330px;">
+                                <img src="<%=sz.getStock().getImage()%>" alt="shoes" style="border-radius: 20px;width: 170px;height: 150px;">
                                 <div class="caption">
                                     <h3 id="pname"><%=sz.getStock().getProductName()%></h3>
                                     <p><%=sz.getStock().getDiscription()%></p>
-                                    <p><a  class="btn btn-success" role="button" id="adcrt" onclick="addtocart()">Buy Now</a></p>
+                                    <p><a  class="btn btn-success" role="button" id="adcrt" onclick="addtocart(<%=sz.getStock().getStid() %>)">Buy Now</a></p>
                                 </div>
                             </div>
                         </div> 
                         <%}
-                                }
-                            
+                            }
+
                         %>
-                        
-                        
-                        <%
-                            if (request.getParameter("map") != null && request.getParameter("map").equals("35")) {
+
+
+                        <%                            if (request.getParameter("map") != null && request.getParameter("map").equals("35")) {
 
                                 Session ses = NewHibernateUtil.getSessionFactory().openSession();
                                 Criteria cr1 = ses.createCriteria(DB.Size.class);
                                 cr1.add(Restrictions.eq("size", 35));
                                 List<DB.Size> li = cr1.list();
                                 for (Size sz : li) {
-                                   
+
                         %>
                         <div class="col-sm-6 col-md-3" style="text-align: center">
-                             <div class="thumbnail" style="background-color: #eee; border-radius: 20px; width: 170px; max-height:330px;">
-                                <img src="<%=sz.getStock().getImage() %>" alt="shoes" style="border-radius: 20px;width: 170px;height: 150px;">
+                            <div class="thumbnail" style="background-color: #eee; border-radius: 20px; width: 170px; max-height:330px;">
+                                <img src="<%=sz.getStock().getImage()%>" alt="shoes" style="border-radius: 20px;width: 170px;height: 150px;">
                                 <div class="caption">
                                     <h3 id="pname"><%=sz.getStock().getProductName()%></h3>
                                     <p><%=sz.getStock().getDiscription()%></p>
-                                    <p><a  class="btn btn-success" role="button" id="adcrt" onclick="addtocart()">Buy Now</a></p>
+                                    <p><a  class="btn btn-success" role="button" id="adcrt" onclick="addtocart(<%=sz.getStock().getStid() %>)">Buy Now</a></p>
                                 </div>
                             </div>
                         </div> 
                         <%}
-                                }
-                            
+                            }
+
                         %>
-                        
-                        <%
-                            if (request.getParameter("map") != null && request.getParameter("map").equals("36")) {
+
+                        <%                            if (request.getParameter("map") != null && request.getParameter("map").equals("36")) {
 
                                 Session ses = NewHibernateUtil.getSessionFactory().openSession();
                                 Criteria cr1 = ses.createCriteria(DB.Size.class);
                                 cr1.add(Restrictions.eq("size", 36));
                                 List<DB.Size> li = cr1.list();
                                 for (Size sz : li) {
-                                   
+
                         %>
                         <div class="col-sm-6 col-md-3" style="text-align: center">
-                             <div class="thumbnail" style="background-color: #eee; border-radius: 20px; width: 170px; max-height:330px;">
-                                <img src="<%=sz.getStock().getImage() %>" alt="shoes" style="border-radius: 20px;width: 170px;height: 150px;">
+                            <div class="thumbnail" style="background-color: #eee; border-radius: 20px; width: 170px; max-height:330px;">
+                                <img src="<%=sz.getStock().getImage()%>" alt="shoes" style="border-radius: 20px;width: 170px;height: 150px;">
                                 <div class="caption">
                                     <h3 id="pname"><%=sz.getStock().getProductName()%></h3>
                                     <p><%=sz.getStock().getDiscription()%></p>
-                                    <p><a  class="btn btn-success" role="button" id="adcrt" onclick="addtocart()">Buy Now</a></p>
+                                    <p><a  class="btn btn-success" role="button" id="adcrt" onclick="addtocart(<%=sz.getStock().getStid() %>)">Buy Now</a></p>
                                 </div>
                             </div>
                         </div> 
                         <%}
-                                }
-                            
+                            }
+
                         %>
-                        
-                        
-                        
-                        <%
-                            if (request.getParameter("map") != null && request.getParameter("map").equals("37")) {
+
+
+
+                        <%                            if (request.getParameter("map") != null && request.getParameter("map").equals("37")) {
 
                                 Session ses = NewHibernateUtil.getSessionFactory().openSession();
                                 Criteria cr1 = ses.createCriteria(DB.Size.class);
                                 cr1.add(Restrictions.eq("size", 37));
                                 List<DB.Size> li = cr1.list();
                                 for (Size sz : li) {
-                                   
+
                         %>
                         <div class="col-sm-6 col-md-3" style="text-align: center">
-                             <div class="thumbnail" style="background-color: #eee; border-radius: 20px; width: 170px; max-height:330px;">
-                                <img src="<%=sz.getStock().getImage() %>" alt="shoes" style="border-radius: 20px;width: 170px;height: 150px;">
+                            <div class="thumbnail" style="background-color: #eee; border-radius: 20px; width: 170px; max-height:330px;">
+                                <img src="<%=sz.getStock().getImage()%>" alt="shoes" style="border-radius: 20px;width: 170px;height: 150px;">
                                 <div class="caption">
                                     <h3 id="pname"><%=sz.getStock().getProductName()%></h3>
                                     <p><%=sz.getStock().getDiscription()%></p>
-                                    <p><a  class="btn btn-success" role="button" id="adcrt" onclick="addtocart()">Buy Now</a></p>
+                                    <p><a  class="btn btn-success" role="button" id="adcrt" onclick="addtocart(<%=sz.getStock().getStid() %>)">Buy Now</a></p>
                                 </div>
                             </div>
                         </div> 
                         <%}
-                                }
-                            
+                            }
+
                         %>
-                        
-                        
-                        
-                        <%
-                            if (request.getParameter("map") != null && request.getParameter("map").equals("38")) {
+
+
+
+                        <%                            if (request.getParameter("map") != null && request.getParameter("map").equals("38")) {
 
                                 Session ses = NewHibernateUtil.getSessionFactory().openSession();
                                 Criteria cr1 = ses.createCriteria(DB.Size.class);
                                 cr1.add(Restrictions.eq("size", 38));
                                 List<DB.Size> li = cr1.list();
                                 for (Size sz : li) {
-                                   
+
                         %>
                         <div class="col-sm-6 col-md-3" style="text-align: center">
-                             <div class="thumbnail" style="background-color: #eee; border-radius: 20px; width: 170px; max-height:330px;">
-                                <img src="<%=sz.getStock().getImage() %>" alt="shoes" style="border-radius: 20px;width: 170px;height: 150px;">
+                            <div class="thumbnail" style="background-color: #eee; border-radius: 20px; width: 170px; max-height:330px;">
+                                <img src="<%=sz.getStock().getImage()%>" alt="shoes" style="border-radius: 20px;width: 170px;height: 150px;">
                                 <div class="caption">
                                     <h3 id="pname"><%=sz.getStock().getProductName()%></h3>
                                     <p><%=sz.getStock().getDiscription()%></p>
-                                    <p><a  class="btn btn-success" role="button" id="adcrt" onclick="addtocart()">Buy Now</a></p>
+                                    <p><a  class="btn btn-success" role="button" id="adcrt" onclick="addtocart(<%=sz.getStock().getStid() %>)">Buy Now</a></p>
                                 </div>
                             </div>
                         </div> 
                         <%}
-                                }
-                            
+                            }
+
                         %>
-                        
-                        
-                        
-                        
-                        <%
-                            if (request.getParameter("map") != null && request.getParameter("map").equals("39")) {
+
+
+
+
+                        <%                            if (request.getParameter("map") != null && request.getParameter("map").equals("39")) {
 
                                 Session ses = NewHibernateUtil.getSessionFactory().openSession();
                                 Criteria cr1 = ses.createCriteria(DB.Size.class);
                                 cr1.add(Restrictions.eq("size", 39));
                                 List<DB.Size> li = cr1.list();
                                 for (Size sz : li) {
-                                   
+
                         %>
                         <div class="col-sm-6 col-md-3" style="text-align: center">
-                             <div class="thumbnail" style="background-color: #eee; border-radius: 20px; width: 170px; max-height:330px;">
-                                <img src="<%=sz.getStock().getImage() %>" alt="shoes" style="border-radius: 20px;width: 170px;height: 150px;">
+                            <div class="thumbnail" style="background-color: #eee; border-radius: 20px; width: 170px; max-height:330px;">
+                                <img src="<%=sz.getStock().getImage()%>" alt="shoes" style="border-radius: 20px;width: 170px;height: 150px;">
                                 <div class="caption">
                                     <h3 id="pname"><%=sz.getStock().getProductName()%></h3>
                                     <p><%=sz.getStock().getDiscription()%></p>
-                                    <p><a  class="btn btn-success" role="button" id="adcrt" onclick="addtocart()">Buy Now</a></p>
+                                    <p><a  class="btn btn-success" role="button" id="adcrt" onclick="addtocart(<%=sz.getStock().getStid() %>)">Buy Now</a></p>
                                 </div>
                             </div>
                         </div> 
                         <%}
-                                }
-                            
+                            }
+
                         %>
-                        
-                        <%
-                            if (request.getParameter("map") != null && request.getParameter("map").equals("40")) {
+
+                        <%                            if (request.getParameter("map") != null && request.getParameter("map").equals("40")) {
 
                                 Session ses = NewHibernateUtil.getSessionFactory().openSession();
                                 Criteria cr1 = ses.createCriteria(DB.Size.class);
                                 cr1.add(Restrictions.eq("size", 40));
                                 List<DB.Size> li = cr1.list();
                                 for (Size sz : li) {
-                                   
+
                         %>
                         <div class="col-sm-6 col-md-3" style="text-align: center">
-                             <div class="thumbnail" style="background-color: #eee; border-radius: 20px; width: 170px; max-height:330px;">
-                                <img src="<%=sz.getStock().getImage() %>" alt="shoes" style="border-radius: 20px;width: 170px;height: 150px;">
+                            <div class="thumbnail" style="background-color: #eee; border-radius: 20px; width: 170px; max-height:330px;">
+                                <img src="<%=sz.getStock().getImage()%>" alt="shoes" style="border-radius: 20px;width: 170px;height: 150px;">
                                 <div class="caption">
                                     <h3 id="pname"><%=sz.getStock().getProductName()%></h3>
                                     <p><%=sz.getStock().getDiscription()%></p>
-                                    <p><a  class="btn btn-success" role="button" id="adcrt" onclick="addtocart()">Buy Now</a></p>
+                                    <p><a  class="btn btn-success" role="button" id="adcrt" onclick="addtocart(<%=sz.getStock().getStid() %>)">Buy Now</a></p>
                                 </div>
                             </div>
                         </div> 
                         <%}
-                                }
-                            
+                            }
+
                         %>
-                        
-                        
-                        
-                        <%
-                            if (request.getParameter("map") != null && request.getParameter("map").equals("41")) {
+
+
+
+                        <%                            if (request.getParameter("map") != null && request.getParameter("map").equals("41")) {
 
                                 Session ses = NewHibernateUtil.getSessionFactory().openSession();
                                 Criteria cr1 = ses.createCriteria(DB.Size.class);
                                 cr1.add(Restrictions.eq("size", 41));
                                 List<DB.Size> li = cr1.list();
                                 for (Size sz : li) {
-                                   
+
                         %>
                         <div class="col-sm-6 col-md-3" style="text-align: center">
-                             <div class="thumbnail" style="background-color: #eee; border-radius: 20px; width: 170px; max-height:330px;">
-                                <img src="<%=sz.getStock().getImage() %>" alt="shoes" style="border-radius: 20px;width: 170px;height: 150px;">
+                            <div class="thumbnail" style="background-color: #eee; border-radius: 20px; width: 170px; max-height:330px;">
+                                <img src="<%=sz.getStock().getImage()%>" alt="shoes" style="border-radius: 20px;width: 170px;height: 150px;">
                                 <div class="caption">
                                     <h3 id="pname"><%=sz.getStock().getProductName()%></h3>
                                     <p><%=sz.getStock().getDiscription()%></p>
-                                    <p><a  class="btn btn-success" role="button" id="adcrt" onclick="addtocart()">Buy Now</a></p>
+                                    <p><a  class="btn btn-success" role="button" id="adcrt" onclick="addtocart(<%=sz.getStock().getStid() %>)">Buy Now</a></p>
                                 </div>
                             </div>
                         </div> 
                         <%}
-                                }
-                            
+                            }
+
                         %>
-                        
-                        
-                        
-                        <%
-                            if (request.getParameter("map") != null && request.getParameter("map").equals("42")) {
+
+
+
+                        <%                            if (request.getParameter("map") != null && request.getParameter("map").equals("42")) {
 
                                 Session ses = NewHibernateUtil.getSessionFactory().openSession();
                                 Criteria cr1 = ses.createCriteria(DB.Size.class);
                                 cr1.add(Restrictions.eq("size", 42));
                                 List<DB.Size> li = cr1.list();
                                 for (Size sz : li) {
-                                   
+
                         %>
                         <div class="col-sm-6 col-md-3" style="text-align: center">
-                             <div class="thumbnail" style="background-color: #eee; border-radius: 20px; width: 170px; max-height:330px;">
-                                <img src="<%=sz.getStock().getImage() %>" alt="shoes" style="border-radius: 20px;width: 170px;height: 150px;">
+                            <div class="thumbnail" style="background-color: #eee; border-radius: 20px; width: 170px; max-height:330px;">
+                                <img src="<%=sz.getStock().getImage()%>" alt="shoes" style="border-radius: 20px;width: 170px;height: 150px;">
                                 <div class="caption">
                                     <h3 id="pname"><%=sz.getStock().getProductName()%></h3>
                                     <p><%=sz.getStock().getDiscription()%></p>
-                                    <p><a  class="btn btn-success" role="button" id="adcrt" onclick="addtocart()">Buy Now</a></p>
+                                    <p><a  class="btn btn-success" role="button" id="adcrt" onclick="addtocart(<%=sz.getStock().getStid() %>)">Buy Now</a></p>
                                 </div>
                             </div>
                         </div> 
                         <%}
-                                }
-                            
+                            }
+
                         %>
-                        
-                        
-                        
-                        <%
-                            if (request.getParameter("map") != null && request.getParameter("map").equals("43")) {
+
+
+
+                        <%                            if (request.getParameter("map") != null && request.getParameter("map").equals("43")) {
 
                                 Session ses = NewHibernateUtil.getSessionFactory().openSession();
                                 Criteria cr1 = ses.createCriteria(DB.Size.class);
                                 cr1.add(Restrictions.eq("size", 43));
                                 List<DB.Size> li = cr1.list();
                                 for (Size sz : li) {
-                                   
+
                         %>
                         <div class="col-sm-6 col-md-3" style="text-align: center">
-                             <div class="thumbnail" style="background-color: #eee; border-radius: 20px; width: 170px; max-height:330px;">
-                                <img src="<%=sz.getStock().getImage() %>" alt="shoes" style="border-radius: 20px;width: 170px;height: 150px;">
+                            <div class="thumbnail" style="background-color: #eee; border-radius: 20px; width: 170px; max-height:330px;">
+                                <img src="<%=sz.getStock().getImage()%>" alt="shoes" style="border-radius: 20px;width: 170px;height: 150px;">
                                 <div class="caption">
                                     <h3 id="pname"><%=sz.getStock().getProductName()%></h3>
                                     <p><%=sz.getStock().getDiscription()%></p>
-                                    <p><a  class="btn btn-success" role="button" id="adcrt" onclick="addtocart()">Buy Now</a></p>
+                                    <p><a  class="btn btn-success" role="button" id="adcrt" onclick="addtocart(<%=sz.getStock().getStid() %>)">Buy Now</a></p>
                                 </div>
                             </div>
                         </div> 
                         <%}
-                                }
-                            
+                            }
+
                         %>
-                        
-                        
-                        
-                        <%
-                            if (request.getParameter("map") != null && request.getParameter("map").equals("44")) {
+
+
+
+                        <%                            if (request.getParameter("map") != null && request.getParameter("map").equals("44")) {
 
                                 Session ses = NewHibernateUtil.getSessionFactory().openSession();
                                 Criteria cr1 = ses.createCriteria(DB.Size.class);
                                 cr1.add(Restrictions.eq("size", 44));
                                 List<DB.Size> li = cr1.list();
                                 for (Size sz : li) {
-                                   
+
                         %>
                         <div class="col-sm-6 col-md-3" style="text-align: center">
-                             <div class="thumbnail" style="background-color: #eee; border-radius: 20px; width: 170px; max-height:330px;">
-                                <img src="<%=sz.getStock().getImage() %>" alt="shoes" style="border-radius: 20px;width: 170px;height: 150px;">
+                            <div class="thumbnail" style="background-color: #eee; border-radius: 20px; width: 170px; max-height:330px;">
+                                <img src="<%=sz.getStock().getImage()%>" alt="shoes" style="border-radius: 20px;width: 170px;height: 150px;">
                                 <div class="caption">
                                     <h3 id="pname"><%=sz.getStock().getProductName()%></h3>
                                     <p><%=sz.getStock().getDiscription()%></p>
-                                    <p><a  class="btn btn-success" role="button" id="adcrt" onclick="addtocart()">Buy Now</a></p>
+                                    <p><a  class="btn btn-success" role="button" id="adcrt" onclick="addtocart(<%=sz.getStock().getStid() %>)">Buy Now</a></p>
                                 </div>
                             </div>
                         </div> 
                         <%}
-                                }
-                            
+                            }
+
                         %>
-                        
+
                     </div>
                 </div>
 
             </div>
             <div class="col-md-1"></div>
-            
-                <div class="col-md-12">
-                    <%@include file="footer.jsp" %>                   
-                
+
+            <div class="col-md-12">
+                <%@include file="footer.jsp" %>                   
+
             </div>
     </body>
 </html>

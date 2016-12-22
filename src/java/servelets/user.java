@@ -7,6 +7,7 @@ package servelets;
 
 import DB.User;
 import DB.UserType;
+import SizePojo.SendEmail;
 import connection.NewHibernateUtil;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -41,7 +42,7 @@ public class user extends HttpServlet {
         response.setContentType("text/html;charset=UTF-8");
         try (PrintWriter out = response.getWriter()) {
             System.out.println("awa");
-            
+
             String fname = request.getParameter("fname");
             String lname = request.getParameter("lname");
             String email = request.getParameter("email");
@@ -71,12 +72,23 @@ public class user extends HttpServlet {
                         UserType ut = (UserType) cr1.uniqueResult();
                         u.setUserType(ut);
                     }
-                    u.setStatus(1);
-                    s.save(u);
-                    s.beginTransaction().commit();
-                    
-                    response.sendRedirect("login.jsp");
 
+//                    Criteria cr = s.createCriteria(DB.User.class);
+//                    cr.add(Restrictions.eq("email", email));
+//                    DB.User us = (DB.User) cr.uniqueResult();
+//                    if (us.getEmail().equals(email)) {
+//                        response.sendRedirect("createAnAccount.jsp?user=emailexsist");
+//                    } else {
+                        u.setStatus(0);
+                        s.save(u);
+                        s.beginTransaction().commit();
+
+                        String sendLink = "http://localhost:8080/OnlineShoeStore/useremailconfig?email=" + email;
+                        String emailContent = "Hello...! without this e-mail verification you cannot loginto your account in Shostore.lk ... Please click this link to verify your identity :-" + sendLink;
+                        SendEmail.sendmail("shoemartlk@gmail.com", "applesoney", emailContent, new String[]{email}, "Verification of your account in Shostore.lk");
+
+                        response.sendRedirect("login.jsp");
+//                    }
                 } else {
                     response.sendRedirect("createAnAccount.jsp");
                 }

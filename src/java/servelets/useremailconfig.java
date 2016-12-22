@@ -3,24 +3,26 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package servelets;
 
+import connection.NewHibernateUtil;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.util.ArrayList;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import org.hibernate.Criteria;
+import org.hibernate.Session;
+import org.hibernate.criterion.Restrictions;
 
 /**
  *
  * @author Shanaka
  */
-@WebServlet(name = "checkoutone", urlPatterns = {"/checkoutone"})
-public class checkoutone extends HttpServlet {
+@WebServlet(name = "useremailconfig", urlPatterns = {"/useremailconfig"})
+public class useremailconfig extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -35,16 +37,23 @@ public class checkoutone extends HttpServlet {
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         PrintWriter out = response.getWriter();
-        
+
         try {
-            String name ="";
-            String pass="";
+            String email = request.getParameter("email");
             
-            ArrayList ar = new ArrayList();
-            ar.add(name+"-"+pass+"1");
+            Session ses = NewHibernateUtil.getSessionFactory().openSession();
+            Criteria cr = ses.createCriteria(DB.User.class);
+            cr.add(Restrictions.eq("email", email));
+            DB.User us = (DB.User) cr.uniqueResult();
+            us.setStatus(1);
+            ses.update(us);
+            ses.beginTransaction().commit();
+            
+            response.sendRedirect("login.jsp");
         } catch (Exception e) {
             e.printStackTrace();
         }
+
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

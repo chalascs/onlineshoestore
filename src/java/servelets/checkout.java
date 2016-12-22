@@ -7,6 +7,7 @@ package servelets;
 
 import DB.Invoice;
 import DB.InvoiceItems;
+import DB.Orders;
 import DB.Stock;
 import connection.NewHibernateUtil;
 import java.io.IOException;
@@ -55,6 +56,7 @@ public class checkout extends HttpServlet {
 
                 //objects of the table are created here.... 
                 DB.Invoice inv = new Invoice();
+                DB.Orders or = new Orders();
 
                 int tot = 0;
 
@@ -93,6 +95,9 @@ public class checkout extends HttpServlet {
 
                 ses.save(inv);
 
+                or.setUser(u);
+                
+
                 // invoice items table
                 for (DB.Stock sttk : st) {
 
@@ -108,6 +113,19 @@ public class checkout extends HttpServlet {
                     ini.setQty(Integer.parseInt((String) hm1.get(i)));
                     ini.setPrice(sttk.getPrice());
                     ses.save(ini);
+                    
+                    // saving to order table
+                    HashMap hm = (HashMap) request.getSession().getAttribute("selectedsize");
+                    String ii = sttk.getStid().toString();
+                    System.out.println(ii);
+                    or.setDate("");
+                    or.setStatus(0);
+                    or.setStock(sttk);
+                    or.setQty(Integer.parseInt((String) hm1.get(i)));
+                    or.setSize(Integer.parseInt((String) hm.get(ii)));
+                    
+                    ses.save(or);
+                    
                 }
                 ses.beginTransaction().commit();
                 response.sendRedirect("invoice.jsp");

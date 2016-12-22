@@ -4,23 +4,25 @@
     Author     : Shanaka
 --%>
 
+<%@page import="org.hibernate.criterion.Order"%>
+<%@page import="connection.NewHibernateUtil"%>
+<%@page import="DB.User"%>
+<%@page import="org.hibernate.criterion.Restrictions"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>JSP Page</title>
-        <script>
-            function ad(){
-                var as = document.getElementById("as").value;
-                alert(as);
+        <script type="text/javascript">
+            function ad() {
+              alert("adf");
             }
-            
+
         </script>
     </head>
+
     <body>
-        <h1>Hello World!</h1>
-        <input type="password" id="as">
-        <button onclick="ad()">asd</button>
+        <button onclick="ad()"></button>
     </body>
 </html>

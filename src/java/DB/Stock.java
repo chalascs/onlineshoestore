@@ -1,5 +1,5 @@
 package DB;
-// Generated Dec 13, 2016 4:10:11 AM by Hibernate Tools 3.6.0
+// Generated Dec 21, 2016 2:58:47 AM by Hibernate Tools 3.6.0
 
 
 import java.util.HashSet;
@@ -24,6 +24,7 @@ public class Stock  implements java.io.Serializable {
      private String image;
      private String discription;
      private Set wishlists = new HashSet(0);
+     private Set orderses = new HashSet(0);
      private Set invoiceItemses = new HashSet(0);
      private Set sizes = new HashSet(0);
      private Set stockHasCarts = new HashSet(0);
@@ -36,7 +37,7 @@ public class Stock  implements java.io.Serializable {
         this.user = user;
         this.catagory = catagory;
     }
-    public Stock(User user, Catagory catagory, String productName, Double price, String targetpop, Double discount, String date, Integer status, String code, String image, String discription, Set wishlists, Set invoiceItemses, Set sizes, Set stockHasCarts) {
+    public Stock(User user, Catagory catagory, String productName, Double price, String targetpop, Double discount, String date, Integer status, String code, String image, String discription, Set wishlists, Set orderses, Set invoiceItemses, Set sizes, Set stockHasCarts) {
        this.user = user;
        this.catagory = catagory;
        this.productName = productName;
@@ -49,6 +50,7 @@ public class Stock  implements java.io.Serializable {
        this.image = image;
        this.discription = discription;
        this.wishlists = wishlists;
+       this.orderses = orderses;
        this.invoiceItemses = invoiceItemses;
        this.sizes = sizes;
        this.stockHasCarts = stockHasCarts;
@@ -144,6 +146,13 @@ public class Stock  implements java.io.Serializable {
     
     public void setWishlists(Set wishlists) {
         this.wishlists = wishlists;
+    }
+    public Set getOrderses() {
+        return this.orderses;
+    }
+    
+    public void setOrderses(Set orderses) {
+        this.orderses = orderses;
     }
     public Set getInvoiceItemses() {
         return this.invoiceItemses;
